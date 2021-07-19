@@ -1,0 +1,313 @@
+﻿@model List<RSPP.Models.DocUpload>
+
+@{
+    int counter = 0;
+    ViewBag.Title = "Document Upload";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
+}
+
+
+<div class="row" style="height: 10%">
+    <div class="pageTitle bg1" style="background: url('/images/bgblue11.jpg'); width: 100%; background-repeat:no-repeat; background-size:cover ">
+        <h2>Document Upload</h2>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<div class="padd-t form-horizontal">
+    @using (Html.BeginForm("DocumentUpload", "Company", FormMethod.Post, new { @id = "frmUpload", @enctype = "multipart/form-data", role = "form", @class = "form-horizontal" }))
+    {
+        
+        <table class="table-bordered table-condensed table-active comfacdoc">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Document Name</th>
+                    <th>Select file (Max 4MB)</th>
+                    <th>File Name</th>
+                    <th>File Image</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (RSPP.Models.DocUpload item in Model)
+                {
+                    <tr>
+                        <td>@(counter +=1)</td>
+                        <td>
+
+                            <input type="hidden" name="txtApplicationId" id="txtApplicationId" value="@ViewBag.MyApplicationID" />
+                            <input type="hidden" name="txtDocumentId[]" id="@("docid_"+item.DocId)" value="@item.DocId" />
+                            <input type="hidden" name="txtDocumentName" id="txtDocumentName" value="@item.DocumentName" />
+                            <input type="text" class="docsource" name="txtDocumentsource" id=@("txtDocumentsource-"+item.DocId) />
+
+                            @item.DocumentName
+                        </td>
+                        <td>
+
+                            @*@if (item.IsMandatory == "Y")
+                                {*@
+                            <label for="@("filebtn"+item.DocId)" id="MyFile" class="custom-file-upload btn btn-info">
+                                <span class="glyphicon glyphicon-cloud-upload"></span> Upload File
+                            </label>
+
+                            <input type="file" name="MyFile" id="@("filebtn"+ item.DocId)" style="display: none;" multiple class="docUpload" required="required" accept="image/gif, image/png, image/jpeg, application/pdf" data-i="@(item.DocId)" onchange="ValidateSingleInput(this);" />
+                            <div id="@("extFileName-"+item.DocId)" class="File"></div>
+
+
+
+                            @*}*@
+                            @*@if(item.IsMandatory == "N")
+                                {
+
+
+                                    <label for="@("filebtn"+item.DocId)" id="File" class="custom-file-upload btn btn-info">
+                                        <span class="glyphicon glyphicon-cloud-upload"></span> Upload File
+                                    </label>
+
+                                    <input type="file" name="MyFile" multiple for="imgInp" id="@("filebtn"+item.DocId)" style="display: none;" class="docUpload"
+                                           accept="image/gif, image/png, image/jpeg, application/pdf" data-i="@(item.DocId)" onchange="ValidateSingleInput(this);" />
+                                    <div id="@("extFileName-"+item.DocId)" class="File"></div>
+                                }*@
+
+                        </td>
+
+
+                        <td>
+                            <div>
+                                <b><label id="@("imagename-"+item.DocId)"></label></b>
+                            </div>
+                        </td>
+                        <td>
+                            <a id='@("url-"+item.DocId)' href="" target="_blank" title="">
+                                <img id="@("fileuploaded-"+item.DocId)" src="" alt="File image" class="center-cropped" style="border:groove; height:90px; width:90px" /><br />
+                            </a>
+
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table><br />
+        <button type="submit" class="btn btn-primary btn-default round" id="submitbtn" style="margin-left:550px">Submit Document</button>
+    }
+
+
+    <div style="display:none" id="loadingImage" class="loadingImage">
+        <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
+            <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
+        </div>
+    </div>
+
+
+
+</div>
+
+@section scripts{
+
+
+    <script type="text/javascript">
+            var _validFileExtensions = [".jpg", ".pdf", ".png", ".gif", ".jpeg"];
+
+            $(document).ready(function () {
+
+
+                $(".comfacdoc").dataTable({
+                    "aLengthMenu": [10, 25, 50, 75, 100, 200],
+                    'iDisplayLength': 10,
+                    columnDefs: [{ orderable: false, "targets": [0, -1] }],
+                    "language": {
+                        "lengthMenu": "Display  _MENU_ records",
+                        "zeroRecords": "No record found",
+                        "info": "Showing page _PAGE_ of _PAGES_",
+                        "infoEmpty": "No Record to Display Currently",
+                        "infoFiltered": "(filtered from _MAX_ total records)"
+                    },
+                    "order": [[1, "desc"]]
+                });
+
+
+
+
+
+
+                //$('#submitbtn').click(function (e) {
+
+                //    e.preventDefault();
+                //    if ($("#frmUpload").valid()) {
+
+                //        debugger;
+                //        //var data = new FormData();
+                //        //$("input[name='File']").each(function () {
+                //        //    var ReadyToUpload = $(this)[0].files;
+                //        //    if (ReadyToUpload.length > 0) {
+                //        //        $.each(ReadyToUpload, function (i, file) {
+                //        //            data.append("File", file);
+                //        //        });
+                //        //    }
+                //        //});
+                //        //var input = $("input[name='File']").files;
+                //        //var files = $("input[name='File'")[0].files; //input.File;
+                //        //var formData = new FormData();
+
+                //        //for (var i = 0; i != files.length; i++) {
+                //        //    formData.append("File", files[i]);
+                //        //}
+
+                //        var AppID = document.getElementsByName('txtApplicationId[]');
+                //        var DocID = document.getElementsByName('txtDocumentId[]');
+                //        var DocName = document.getElementsByName('txtDocumentName[]');
+                //        var DocSource = document.getElementsByName('txtDocumentsource[]');
+
+                //        var AppDocuments = [];
+
+                //        if (DocSource.length !== 0) {
+
+                //            for (var j = 0; j < DocID.length; j++) {
+
+
+
+
+                //                AppDocuments.push({
+                //                    "ApplicationId": AppID[j].value.trim(),
+                //                    "DocId": DocID[j].value.trim(),
+                //                    "DocumentSource": DocSource[j].value.trim(),
+                //                    "DocumentName": DocName[j].value.trim(),
+                //                    "MyFile": Myfile[0]
+                //                });
+                //            }
+                //        }
+
+
+
+
+
+
+                //        var r = confirm("Are you Sure the Documents Provided are Correct?");
+                //        if (r == true) {
+                //            $("#loadingImage").show('fast');
+                //            $.post($("#frmUpload").attr('action'), $("#frmUpload").serialize() + '&' + $.param({ "MyApplicationDocs": AppDocuments })).done(function (data) {
+
+
+                //                var status = data.Status;
+                //                if (status != 'success') {
+                //                    $("#loadingImage").hide('fast');
+                //                    alert(data.Message);
+                //                }
+                //                else {
+                //                    $("#loadingImage").hide('fast');
+                //                    alert(data.Message);
+                //                    window.location.href = "/Company/MyApplications";
+                //                }
+                //            })
+                //                .fail(function (data) {
+                //                    $("#loadingImage").hide('fast');
+                //                    alert('Network Communication Error, Restore Connection and Try again');
+                //                })
+                //                .always(function (data) {
+                //                    $("#loadingImage").hide('fast');
+                //                });
+                //        }
+                //    }
+                //});
+
+
+
+
+
+
+
+
+
+
+
+
+                $(document.body).on("click", '.btnEdit', function (e) {
+                    debugger;
+                    var i = $(this).attr("data-i");
+                    e.preventDefault();
+                    $('#editDoc' + i).css("display", "block");
+                    $(this).css("display", "none");
+                });
+
+
+
+
+                //$("#imgInp").change(function () {
+                //    readURL(this);
+                //});
+
+            });
+
+                function ValidateSingleInput(oInput) {
+                    var filesize = oInput.files[0].size;
+                   var extension = oInput.value.split('.').pop();
+
+                    var i = $(oInput).attr("data-i");
+                    if (filesize > 4194304) {
+
+                        $('<p style="color: red; font-style: italics; font-size: 12px;">Upload file error: Max. File size (4MB) Exceeded OR Invalid file type was selected (only pdf, jpg or png)<i class="elusive-remove" style="padding-left:10px;" /></p>').appendTo('#extFileName-' + i);
+                        var progBox = '#extProgress-' + $(this).attr("data-i") + ' .progress-bar';
+                        $(progBox).css(
+                            'width',
+                            0 + '%'
+                        ).text("");
+
+                        return false;
+                    }
+                    if (oInput.type == "file") {
+                        var sFileName = oInput.value;
+
+                        $("#txtDocumentsource-" + i).val(oInput.value.replace(/C:\\fakepath\\/i, ''));
+                        $("#imagename-" + i).text(oInput.value.replace(/C:\\fakepath\\/i, ''));
+                        readURL(oInput, i, extension);
+
+
+                        if (sFileName.length > 0) {
+                            var blnValid = false;
+                            for (var j = 0; j < _validFileExtensions.length; j++) {
+                                var sCurExtension = _validFileExtensions[j];
+                                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                    blnValid = true;
+                                    break;
+                                }
+                            }
+
+                            if (!blnValid) {
+                                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                                oInput.value = "";
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+
+            function readURL(input, fileid, extensions) {
+
+                if (input.files && input.files[0]) {
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        if (extensions === "pdf") {
+                            $('#fileuploaded-' + fileid).attr('src', '@Url.Content("~/images/pdficon.png")');
+                        } else {
+                            $('#fileuploaded-' + fileid).attr('src', e.target.result);
+                            $('#url-' + fileid).attr('href', e.target.result);
+
+                        }
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+    </script>
+
+}
+
+
+

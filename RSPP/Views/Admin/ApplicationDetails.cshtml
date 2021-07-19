@@ -1,0 +1,297 @@
+﻿@model List<RSPP.Models.DB.ApplicationRequestForm>
+
+@{
+    ViewBag.Title = "Application Details";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+
+    //ApplicationRequest br = Model;
+    //LpgRetailerDBEntities dbCtxt = new LpgRetailerDBEntities();
+    //ViewBag.Date = appt == null ? null : appt.AppointmentDateStamp == null ? null : appt.AppointmentDateStamp.Value.ToString("dd-MMM-yyyy");
+    //ViewBag.TimeStamp = appt == null ? null : appt.AppointmentDateStamp == null ? null : appt.AppointmentDateStamp.Value.ToString("HH:mm:ss");
+    //string description = (br.IsLegacy == "NO") ? dbCtxt.LicenseTypes.Where(l => l.LicenseTypeId == br.LicenseTypeId).FirstOrDefault().Description : "LPG Retailer (Category-D) Legacy License";
+
+}
+
+
+<div class="content">
+    <h3 class="lefty">Application Information For Application with Reference Number: @Model.FirstOrDefault()?.ApplicationId</h3>
+    <div class="righty">
+        <a href="@Url.Action("ViewApplication", new { applicationId = Model.FirstOrDefault()?.ApplicationId })" class="btn btn-default">Back <i class="icon-arrow-left"></i></a>
+    </div>
+    <hr class="clear" />
+    <div class="row">
+        <input type="hidden" id="maplocation" name="maplocation" value="@Model.FirstOrDefault()?.CompanyAddress" />
+    </div>
+
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Company Information</legend>
+        <table class="table table-striped table-condensed table-responsive table-bordered CompanyInfoDT" id="mytable">
+            <thead>
+                <tr>
+                    <th><strong>Application Reference No.</strong></th>
+                    <th><strong>Agency Name</strong> </th>
+                    <th><strong>Action Role</strong></th>
+                    <th><strong>Company Address</strong></th>
+                    <th><strong>Company Email</strong></th>
+                    <th><strong>Company Website</strong></th>
+                    <th><strong>Date of Establishment</strong></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (RSPP.Models.DB.ApplicationRequestForm n in Model)
+                {
+                    <tr>
+                        <td>@n.ApplicationId</td>
+                        <td>@n.AgencyName</td>
+                        <td>@n.CompanyAddress</td>
+                        <td>@n.CompanyEmail</td>
+                        <td>@n.CompanyWebsite</td>
+                        <td>@n.DateofEstablishment</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+
+    </fieldset><br /><br />
+
+
+
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Application Details</legend>
+
+        <table class="table table-striped table-condensed table-responsive table-bordered AppInfoDT" id="mytable">
+            <thead>
+                <tr>
+                    @if (ViewBag.MyAgencyId == 1)
+                    {
+
+                        <th><strong>Services Provided in Port</strong></th>
+                        <th><strong>Any Other Relevant Info</strong> </th>
+                    }
+                    else if (ViewBag.MyAgencyId == 2)
+                    {
+                        <th><strong>CRFFN Registration No.</strong></th>
+                        <th><strong>CRFFN Registraton Expiry Date</strong> </th>
+                        <th><strong>Custom License Expiry Date</strong></th>
+                        <th><strong>Custom License No.</strong> </th>
+                        <th><strong>Line of Business</strong></th>
+                        <th><strong>Other License</strong> </th>
+                        <th><strong>Other License Expiry Date</strong></th>
+                        <th><strong>Any Other Info</strong></th>
+                    }
+                    else if (ViewBag.MyAgencyId == 3)
+                    {
+                        <th><strong>Cargo Type</strong></th>
+                        <th><strong>Line of Business</strong> </th>
+                        <th><strong>Name of Terminal</strong></th>
+                        <th><strong>Status of Terminal</strong> </th>
+                        <th><strong>Location of Terminal</strong> </th>
+                        <th><strong>Any Other Info</strong></th>
+                    }
+                    else if (ViewBag.MyAgencyId == 4)
+                    {
+                        <th><strong>Cargo Type</strong></th>
+                        <th><strong>Line of Business</strong> </th>
+                        <th><strong>Vessel Lines Represented in Nigeria</strong></th>
+                        <th><strong>Any Other Info</strong></th>
+                    }
+                    else if (ViewBag.MyAgencyId == 5)
+                    {
+                        <th><strong>Line of Business</strong> </th>
+                        <th><strong>Any Other Info</strong></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.MyAgencyId == 1)
+                {
+                    foreach (RSPP.Models.DB.GovernmentAgency g in ViewBag.Governmentagency)
+                    {
+                        <tr>
+                            <td>@g.ServicesProvidedInPort</td>
+                            <td>@g.AnyOtherRelevantInfo</td>
+                        </tr>
+                    }
+                }
+                else if (ViewBag.MyAgencyId == 2)
+                {
+                    @foreach (RSPP.Models.DB.LogisticsServiceProvider l in ViewBag.LogisticsServiceProvider)
+                    {
+                        <tr>
+                            <td>@l.CrffnRegistrationNum</td>
+                            <td>@l.CrffnRegistratonExpiryDate</td>
+                            <td>@l.CustomLicenseExpiryDate</td>
+                            <td>@l.CustomLicenseNum</td>
+                            <td>@l.LineOfBusiness</td>
+                            <td>@l.OtherLicense</td>
+                            <td>@l.OtherLicenseExpiryDate</td>
+                            <td>@l.AnyOtherInfo</td>
+                        </tr>
+                    }
+                }
+                else if (ViewBag.MyAgencyId == 3)
+                {
+                    @foreach (RSPP.Models.DB.PortOffDockTerminalOperator p in ViewBag.PortOffDockTerminalOperator)
+                    {
+
+                        <tr>
+                            <td>@p.CargoType</td>
+                            <td>@p.LineOfBusiness</td>
+                            <td>@p.NameOfTerminal</td>
+                            <td>@p.StatusOfTerminal</td>
+                            <td>@p.LocationOfTerminal</td>
+                            <td>@p.AnyOtherInfo</td>
+                        </tr>
+
+                    }
+                }
+                else if (ViewBag.MyAgencyId == 4)
+                {
+                    @foreach (RSPP.Models.DB.ShippingAgency s in ViewBag.ShippingAgency)
+                    {
+                        <tr>
+                            <td>@s.CargoType</td>
+                            <td>@s.LineOfBusiness</td>
+                            <td>@s.VesselLinesRepresentedInNigeria</td>
+                            <td>@s.AnyOtherInfo</td>
+                        </tr>
+
+
+                    }
+                }
+                else if (ViewBag.MyAgencyId == 5)
+                {
+                    @foreach (RSPP.Models.DB.OtherPortServiceProvider o in ViewBag.OtherPortServiceProvider)
+                    {
+                        <tr>
+                            <td>@o.LineOfBusiness</td>
+                            <td>@o.LineOfBusiness</td>
+                        </tr>
+
+
+                    }
+                }
+
+
+            </tbody>
+        </table>
+
+    </fieldset>
+
+    <div class="form-group" id="maps_container" style="height:350px; width:100%;"></div>
+
+
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2df9i_A809q2eQQizBb7UqSGXASsQHVQ&libraries=places"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".CompanyInfoDT").dataTable({
+                "aLengthMenu": [10, 25, 50, 75, 100, 200],
+                'iDisplayLength': 10,
+                columnDefs: [{ orderable: false, "targets": [0, -1] }],
+                "language": {
+                    "lengthMenu": "Display  _MENU_ records",
+                    "zeroRecords": "No record found",
+                    "info": "Showing page _PAGE_ of _PAGES_",
+                    "infoEmpty": "No Record to Display Currently",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                },
+                "order": [[1, "desc"]]
+            });
+
+
+
+            $(".AppInfoDT").dataTable({
+                "aLengthMenu": [10, 25, 50, 75, 100, 200],
+                'iDisplayLength': 10,
+                columnDefs: [{ orderable: false, "targets": [0, -1] }],
+                "language": {
+                    "lengthMenu": "Display  _MENU_ records",
+                    "zeroRecords": "No record found",
+                    "info": "Showing page _PAGE_ of _PAGES_",
+                    "infoEmpty": "No Record to Display Currently",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                },
+                "order": [[1, "desc"]]
+            });
+
+        });
+
+        function loadMap() {
+            var mapDiv = document.getElementById("maps_container");
+
+            var gpsCordinates = $("#GPS").val();
+            console.log('Gps Cordinates = ' + gpsCordinates);
+            var locationaddress = $("#maplocation").val();
+            console.log('LocationAddress = ' + locationaddress);
+
+
+            if (gpsCordinates != null || gpsCordinates != ' ') {
+
+                google.maps.visualRefresh = true;
+
+                var array = gpsCordinates.split(',')
+
+                var latitude = array[0];
+                console.log('latitude = ' + latitude);
+                var longitude = array[1];
+                console.log('longitude = ' + longitude);
+                var myCenter = new google.maps.LatLng(latitude, longitude);
+
+                var mapOptions = {
+                    center: myCenter,
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    panControl: true,
+                    zoomControl: true,
+                    mapTypeControl: true,
+                    scaleControl: true,
+                    streetViewControl: true,
+                    overviewMapControl: true,
+                    rotateControl: true,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        style: google.maps.ZoomControlStyle.SMALL
+                    },
+                    mapTypeControl: true,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                        mapTypeIds: [
+                            google.maps.MapTypeId.ROADMAP,
+                            google.maps.MapTypeId.TERRAIN,
+                            google.maps.MapTypeId.SATELLITE,
+                            google.maps.MapTypeId.HYBRID
+                        ]
+                    }
+                };
+
+                var map = new google.maps.Map(mapDiv, mapOptions);
+                var marker = new google.maps.Marker({ position: myCenter, animation: google.maps.Animation.BOUNCE });
+                marker.setMap(map);
+
+
+                var infowindow = new google.maps.InfoWindow({ content: locationaddress });
+                infowindow.open(map, marker);
+
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    map.setZoom(13);
+                    map.setCenter(marker.getPosition());
+                });
+
+
+            }
+
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            loadMap();
+        });
+    </script>
+}

@@ -1,0 +1,197 @@
+﻿@using RSPP.Helpers;
+@using Microsoft.AspNetCore.Http;
+@{
+    GeneralClass generalClass = new GeneralClass();
+    string background = "";
+
+    
+}
+
+
+    <div class="left-sidebar" style="background:@background">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+            <!-- Sidebar navigation-->
+            <nav class="sidebar-nav">
+                <ul id="sidebarnav">
+                    <li class="nav-devider"></li>
+
+                    <li class="nav-label"> Dashboard </li>
+
+                    <li class="@Html.(controller: "Staffs")">
+                        <a class="@Html.IsSelected(controller: "Staffs", action: "Dashboard")" href="@Url.Action("Dashboard", "Admin")" aria-expanded="false"><i class="fas fa-tachometer-alt text-primary"></i><span class="hide-menu"> Dashboard </span></a>
+
+                    </li>
+
+
+
+
+                    <li class="@Html.IsSelected(controller: "Applications")">
+                        <a class="@Html.IsSelected(controller: "Admin", action: "MyDesk") has-arrow" href="@Url.Action("MyDesk", "Admin")" aria-expanded="false">
+                            <i class="fas fa-clipboard-list"></i><span class="hide-menu">
+                                My Desk  <span class="label label-rouded label-danger pull-right" id="MyDeskCount" style="font-weight:bolder">
+
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+
+
+
+                    <hr />
+
+                    @*<li class="nav-label">Proposal Request</li>
+                    <li class="@Html.IsSelected(controller: "RequestProposals")">
+                        <a class="has-arrow text-white" href="#" aria-expanded="false">
+                            <i class="far fa-clock-o"> </i><span class="hide-menu">
+                                Request Proposal
+                            </span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse">
+
+                            <li class="@Html.IsSelected(controller: "RequestProposals", action: "RequestDuration")">
+                                <a class="@Html.IsSelected(controller: "RequestProposals", action: "RequestDuration")" href="/RequestProposals/RequestDuration"><i class="far fa-clock"> </i> Create Duration</a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "RequestProposals", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "RequestProposals", action: "Index")" href="/RequestProposals/Index/"><i class="fas fa-business-time"></i> Current Requests</a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "RequestProposals", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "RequestProposals", action: "Index")" href="/RequestProposals/Index/_all"><i class="fas fa-business-time"></i> All Requests</a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+
+                    <hr />*@
+
+
+                    <li class="nav-label">Applications</li>
+
+                    <li class="@Html.IsSelected(controller: "Applications") ">
+                        <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="far fa-folder-open text-warning"> </i><span class="hide-menu">Applications</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li class="@Html.IsSelected(controller: "Admin", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "Admin", action: "Index")" href="/Applications/Index"><i class="far fa-clone"> </i> All Applications</a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Admin", action: "AllCompanies")">
+                                <a class="@Html.IsSelected(controller: "Admin", action: "AllCompanies")" href="/Applications/AllCompanies"><i class="far fa-building"> </i> All Companies</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <hr />
+
+
+                   
+
+                    <li class="nav-label">Schedules</li>
+                    <li class="@Html.IsSelected(controller: "Schdules") ">
+                        <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="fas fa-clock text-danger"></i><span class="hide-menu">Schedules</span></a>
+                        <ul aria-expanded="false" class="collapse">
+
+                            <li class="@Html.IsSelected(controller: "Admin", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "Admin", action: "Index")" href="/Schdules/"> <i class="fas fa-user-clock"> </i> All Schedule(s)</a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Admin", action: "Index")">
+                                @*<a class="@Html.IsSelected(controller: "Admin", action: "Index")" href="/Schdules/Index/@Context.Session.GetString(AuthController.sessionUserID)"> <i class="fas fa-user-injured"> </i> My Schedule(s)</a>*@
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <hr />
+
+                    <li class="nav-label"> Out Of Office </li>
+
+                    <li class="@Html.IsSelected(controller: "Admin")">
+                        <a class="has-arrow  text-white" href="#" aria-expanded="false">
+                            <i class="fas fa-route"></i><span class="hide-menu">
+                                Out of Office
+                                <span class="label label-rouded label-danger pull-right" id="OutOfOfficeCout1" style="font-weight:bolder">
+
+                                </span>
+                            </span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse">
+
+                            <li class="@Html.IsSelected(controller: "Admin", action: "OutOfOffices")">
+                                <a class="@Html.IsSelected(controller: "Admin", action: "OutOfOffices")" href="/OutOfOffices/OutOfOffice">
+                                    Create Out Of Office
+                                </a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Admin", action: "RelieveStaff")">
+                                <a class="@Html.IsSelected(controller: "Admin", action: "RelieveStaff")" href="/OutOfOffices/RelieveStaff">
+                                    Staff To Relieve
+                                    <span class="label label-rouded label-danger pull-right" id="OutOfOfficeCout2" style="font-weight:bolder">
+
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Admin", action: "AllOutOfOffice")">
+                                <a class="@Html.IsSelected(controller: "Admin", action: "AllOutOfOffice")" href="/OutOfOffices/AllOutOfOffice">All Out Of Office</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+
+                    <hr />
+
+                    <li class="nav-label">Permits</li>
+                    <li class="@Html.IsSelected(controller: "Permits") ">
+                        <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="far fa-file-powerpoint text-success"></i><span class="hide-menu">Permits</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li class="@Html.IsSelected(controller: "Permits", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "Permits", action: "Index")" href="/Permits/Index/_all"><i class="far fa-copy"> </i> All Permits</a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Permits", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "Permits", action: "Index")" href="/Permits/Index/_printed"><i class="fas fa-file"> </i> All Printed Permits</a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Permits", action: "Index")">
+                                <a class="@Html.IsSelected(controller: "Permits", action: "Index")" href="/Permits/Index/_notPrinted"> <i class="far fa-file"> </i> All Non Printed Permits</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <hr />
+
+                    <li class="nav-label">Transactions</li>
+                    <li class="@Html.IsSelected(controller: "Transactions") ">
+                        <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="far fa-money-bill-alt text-warning"></i><span class="hide-menu">Transactions</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li class="@Html.IsSelected(controller: "Transactions", action: "Payments")">
+                                <a class="@Html.IsSelected(controller: "Transactions", action: "Payments")" href="/Transactions/Payments/"><i class="far fa-money-bill-alt"> </i> All Payments</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <hr />
+
+                    <li class="nav-label">Configurations</li>
+                    <li class="@Html.IsSelected(controller: "Configuration")">
+                        <a class="has-arrow text-white" href="#" aria-expanded="false"><i class="fa fa-cog text-danger"></i><span class="hide-menu">Settings</span></a>
+                    </li>
+
+
+
+
+                </ul>
+            </nav>
+            <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+    </div>
