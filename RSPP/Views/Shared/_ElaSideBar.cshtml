@@ -18,7 +18,7 @@
 
                     <li class="nav-label"> Dashboard </li>
 
-                    <li class="@Html.(controller: "Staffs")">
+                    <li class="@Html.(controller: "Admin")">
                         <a class="@Html.IsSelected(controller: "Staffs", action: "Dashboard")" href="@Url.Action("Dashboard", "Admin")" aria-expanded="false"><i class="fas fa-tachometer-alt text-primary"></i><span class="hide-menu"> Dashboard </span></a>
 
                     </li>
@@ -26,7 +26,7 @@
 
 
 
-                    <li class="@Html.IsSelected(controller: "Applications")">
+                    <li class="@Html.IsSelected(controller: "Admin")">
                         <a class="@Html.IsSelected(controller: "Admin", action: "MyDesk") has-arrow" href="@Url.Action("MyDesk", "Admin")" aria-expanded="false">
                             <i class="fas fa-clipboard-list"></i><span class="hide-menu">
                                 My Desk  <span class="label label-rouded label-danger pull-right" id="MyDeskCount" style="font-weight:bolder">
@@ -70,7 +70,7 @@
 
                     <li class="nav-label">Applications</li>
 
-                    <li class="@Html.IsSelected(controller: "Applications") ">
+                    <li class="@Html.IsSelected(controller: "Admin") ">
                         <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="far fa-folder-open text-warning"> </i><span class="hide-menu">Applications</span></a>
                         <ul aria-expanded="false" class="collapse">
                             <li class="@Html.IsSelected(controller: "Admin", action: "Index")">
@@ -90,23 +90,7 @@
 
                    
 
-                    <li class="nav-label">Schedules</li>
-                    <li class="@Html.IsSelected(controller: "Schdules") ">
-                        <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="fas fa-clock text-danger"></i><span class="hide-menu">Schedules</span></a>
-                        <ul aria-expanded="false" class="collapse">
-
-                            <li class="@Html.IsSelected(controller: "Admin", action: "Index")">
-                                <a class="@Html.IsSelected(controller: "Admin", action: "Index")" href="/Schdules/"> <i class="fas fa-user-clock"> </i> All Schedule(s)</a>
-                            </li>
-
-                            <li class="@Html.IsSelected(controller: "Admin", action: "Index")">
-                                @*<a class="@Html.IsSelected(controller: "Admin", action: "Index")" href="/Schdules/Index/@Context.Session.GetString(AuthController.sessionUserID)"> <i class="fas fa-user-injured"> </i> My Schedule(s)</a>*@
-                            </li>
-
-                        </ul>
-                    </li>
-
-                    <hr />
+                    
 
                     <li class="nav-label"> Out Of Office </li>
 
@@ -148,7 +132,7 @@
                     <hr />
 
                     <li class="nav-label">Permits</li>
-                    <li class="@Html.IsSelected(controller: "Permits") ">
+                    <li class="@Html.IsSelected(controller: "Admin") ">
                         <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="far fa-file-powerpoint text-success"></i><span class="hide-menu">Permits</span></a>
                         <ul aria-expanded="false" class="collapse">
                             <li class="@Html.IsSelected(controller: "Permits", action: "Index")">
@@ -169,7 +153,7 @@
                     <hr />
 
                     <li class="nav-label">Transactions</li>
-                    <li class="@Html.IsSelected(controller: "Transactions") ">
+                    <li class="@Html.IsSelected(controller: "Admin") ">
                         <a class="has-arrow  text-white" href="#" aria-expanded="false"><i class="far fa-money-bill-alt text-warning"></i><span class="hide-menu">Transactions</span></a>
                         <ul aria-expanded="false" class="collapse">
                             <li class="@Html.IsSelected(controller: "Transactions", action: "Payments")">
@@ -182,7 +166,7 @@
                     <hr />
 
                     <li class="nav-label">Configurations</li>
-                    <li class="@Html.IsSelected(controller: "Configuration")">
+                    <li class="@Html.IsSelected(controller: "Admin")">
                         <a class="has-arrow text-white" href="#" aria-expanded="false"><i class="fa fa-cog text-danger"></i><span class="hide-menu">Settings</span></a>
                     </li>
 

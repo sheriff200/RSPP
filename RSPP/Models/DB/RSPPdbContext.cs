@@ -18,6 +18,7 @@ namespace RSPP.Models.DB
         public virtual DbSet<ActionHistory> ActionHistory { get; set; }
         public virtual DbSet<Agency> Agency { get; set; }
         public virtual DbSet<ApplicationRequestForm> ApplicationRequestForm { get; set; }
+        public virtual DbSet<CertificateSerialNumber> CertificateSerialNumber { get; set; }
         public virtual DbSet<Configuration> Configuration { get; set; }
         public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<ExtraPayment> ExtraPayment { get; set; }
@@ -43,7 +44,6 @@ namespace RSPP.Models.DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True;");
             }
         }
@@ -153,6 +153,10 @@ namespace RSPP.Models.DB
                     .IsUnicode(false);
 
                 entity.Property(e => e.PostalAddress).IsUnicode(false);
+
+                entity.Property(e => e.PrintedStatus)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.SignatureId).HasColumnName("SignatureID");
 
@@ -683,7 +687,12 @@ namespace RSPP.Models.DB
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.SignatureImage).ValueGeneratedOnAdd();
+                entity.Property(e => e.SignatureId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.SignatureImage)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(10)

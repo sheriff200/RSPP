@@ -1,28 +1,9 @@
-﻿@using LPGRetailerLicense.DbEntities
-@model LPGRetailerLicense.DbEntities.ApplicationRequest
+﻿@model RSPP.Models.DB.ApplicationRequestForm
 @{
     ViewBag.Title = "View Application";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
     bool showPart = true;
-    var dbCtxt = new LpgRetailerDBEntities();
-    string userRole = ((LPGRetailerLicense.DbEntities.UserMaster)(Session["UserID"])).UserRoles;
-    string signatureImage = ((LPGRetailerLicense.DbEntities.UserMaster)(Session["UserID"])).SignatureImage;
-    string fieldType = ViewBag.FieldType;
-    //LpgLicense.Helper.CommonHelper commonHelper = new LpgLicense.Helper.CommonHelper();
-    string appid = ViewBag.AppliId;
-    ViewBag.Role = userRole;
-    string Lcode = ViewBag.LicenceCode;
-    ViewBag.AppType = (from a in dbCtxt.ApplicationRequests where a.ApplicationId == appid select a.ApplicationTypeId).FirstOrDefault();
-    var statecode = (from s in dbCtxt.ApplicationRequests where s.ApplicationId == appid select s.StateCode).FirstOrDefault();
-    ApplicationRequest appmaster = dbCtxt.ApplicationRequests.Where(c => c.ApplicationId.Trim() == appid).FirstOrDefault();
-    WorkFlowNavigation currentStageID = dbCtxt.WorkFlowNavigations.Where(c => c.CurrentStageID == appmaster.CurrentStageID).FirstOrDefault();
-    var AppointmentDateTime = dbCtxt.Appointments.Where(a => a.ApplicationId == appmaster.ApplicationId).Select(a => a.AppointmentDate).ToList().LastOrDefault();
-    if (AppointmentDateTime != null)
-    {
-        var date = AppointmentDateTime.Value.ToLongDateString();
-        var time = AppointmentDateTime.Value.ToShortTimeString();
-        ViewBag.AppointmentDateTime = date + ", " + time;
-    }
+    
 }
 <div class="content">
     <h3 class="lefty">Application Reference No: @ViewBag.ApplicationId </h3>
@@ -37,7 +18,7 @@
                 <div class="alert alert-danger alert-dismissible center-block" role="alert" id="welcomealert" align="center">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <i class="fa fa-exclamation-triangle fa-2x fa-border fa-spin " aria-hidden="true"></i>
-                    <strong>@MvcHtmlString.Create(ViewBag.ErrorMessage)</strong>
+                    ViewBag.ErrorMessage
                 </div>
             </div>
         }
@@ -48,28 +29,16 @@
                     <div class="left-side">
                         <div class="padd">
                             <dl class="dl-horizontal lt">
-                                <dt>Company Name</dt>
-                                <dd><a href="/Admin/CompanyProfile?ApplicationId=@ViewBag.ApplicationId">@ViewBag.AppRequest.ApplicantName</a></dd>
-                                <dt title="Approval/License Name">Approval/License Name </dt>
-                                <dd>
-                                    @*@ViewBag.appRequest.LicenseType.Description*@
-                                    @{
-                                        string linkref = ViewBag.appRequest.LinkedReference;
-                                        var appname = (from a in dbCtxt.LicenseTypes where a.LicenseTypeId == linkref select a.Description).FirstOrDefault();
-                                    }
-                                    <div class="text-danger">@appname (@ViewBag.appRequest.LicenseTypeId)</div>
-                                </dd>
+                                <dt>Company Email</dt>
+                                <dd><a href="/Admin/CompanyProfile?ApplicationId=@ViewBag.ApplicationId">@ViewBag.AppRequest.CompanyEmail</a></dd>
+                                
                                 <dt>Type</dt>
                                 <dd>@ViewBag.appRequest.ApplicationTypeId</dd>
                                 <dt>Application Date</dt>
                                 <dd>@ViewBag.appRequest.AddedDate.ToString("dd-MMM-yyyy HH:mm")</dd>
-                                <dt>Statutory Fee</dt>
-                                <dd class="">₦ @ViewBag.LicenseFee</dd>
-                                <dt>Processing Fee</dt>
-                                <dd class="">₦ @ViewBag.ServiceFee</dd>
                                 <dt>Arrears</dt>
                                 <dd class="">₦ @ViewBag.Arrears</dd>
-                                <dt>Total Amount</dt>
+                                <dt>Total Amount Paid</dt>
                                 <dd class="">₦ @ViewBag.TotalAmount</dd>
                                 <dt>Current Stage</dt>
                                 <dd>
@@ -111,31 +80,14 @@
                                 </dt>
                                 <dd>
                                     <div class="list-group">
-                                        @foreach (LPGRetailerLicense.Models.DocumentModel doc in ViewBag.DocumentList)
+                                        @foreach (RSPP.Models.DB.UploadedDocuments doc in ViewBag.CompanyUploadedDocument)
                                         {
-                                            <a href="@doc.Source" target="_blank" class="list-group-item">@doc.DocumentName<i class="og-icon og-pdf righty"></i></a>
+                                            <a href="@doc.DocumentSource" target="_blank" class="list-group-item">@doc.DocumentName<i class="og-icon og-pdf righty"></i></a>
                                         }
                                     </div>
                                 </dd>
 
-                                @*@if (ViewBag.OtherDocList.Count > 0)
-                                    {
-                                        <dt>
-                                            Other Documents
-                                        </dt>
-                                        <dd>
-                                            <div class="list-group">
-                                                @foreach (LpgLicense.Models.DocumentModel doc in ViewBag.OtherDocList)
-                                                {
-                                                    if (doc.Source != null)
-                                                    {
-                                                        <a href="@doc.Source" target="_blank" class="list-group-item">@doc.DocumentTypeName<i class="og-icon og-pdf righty"></i></a>
-                                                    }
-                                                }
-                                            </div>
-                                        </dd>
-
-                                    }*@
+                               
 
                             </dl>
                         </div>
@@ -221,12 +173,12 @@
                                         <td>Comment</td>
                                     </tr>
                                     @{int i = 1;}
-                                    @foreach (LPGRetailerLicense.DbEntities.ActionHistory n in ViewBag.ActionHistoryList)
+                                    @foreach (RSPP.Models.DB.ActionHistory n in ViewBag.ActionHistoryList)
                                     {
                                         <tr>
                                             <td>@(i++)</td>
                                             <td>@n.ActionDate</td>
-                                            <td>@n.MESSAGE</td>
+                                            <td>@n.Message</td>
                                         </tr>
                                     }
                                     <tr>
@@ -277,486 +229,57 @@
             </div>
             <div class="col-md-3">
                 <div class="pad">
-                    @if (userRole == "ZOPSCON")
+                    @if (ViewBag.LoggedInUserRole == "OFFICER")
                     {
 
-                        if (ViewBag.AppRequest.CurrentStageID == 13)//14
+                        if (ViewBag.AppRequest.CurrentStageId == 4)//14
                         {
-
-                            <h3>Actions</h3>
-                            <div>
-                                <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                            </div>
-
-                            <br />
-
-                            <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                            </div>
-                            if ((statecode.Contains("ABU") || statecode.Contains("IMO") || statecode.Contains("DEL") || statecode.Contains("RIV") || statecode.Contains("BOR") || statecode.Contains("KAD") || statecode.Contains("LAG")) && (Lcode == "SUI" || Lcode == "PT"))
-                            {
-                                <br />
-                                if (Lcode == "SUI")
-                                {
-                                    <div>
-                                        <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company Site Suitability Letter')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Suitability Letter</a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div>
-                                        <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Approve Company Pressure Test')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Approve Pressure Test</a>
-                                    </div>
-                                }
-                            }
-                            if (Lcode == "ATC")
-                            {
-                                <br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company ATC Letter')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue ATC Letter</a>
-                                </div>
-                            }
-                            if (Lcode == "LTO")//LTO
-                            {
-                                <br /><div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
-                                </div>
-                            }
-
-                        }
-
-                    }
-                    @if (userRole == "OPSCON")
-                    {
-
-                        if (ViewBag.AppRequest.CurrentStageID == 11 && Lcode != "SUI" && Lcode != "PT")//14
-                        {
-
-                            <h3>Actions</h3>
-                            <div>
-                                <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                            </div><br />
                             <div>
                                 <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Marketer</a>
                             </div>
-
                         }
-                        if (ViewBag.AppRequest.CurrentStageID == 11 && (Lcode == "SUI" || Lcode == "PT"))//14
+
+                    }
+
+                    else if (ViewBag.LoggedInUserRole == "SUPERVISOR")
+                    {
+
+                        if (ViewBag.AppRequest.CurrentStageId == 5)
                         {
+
                             <h3>Actions</h3>
-                            <div>
-                                <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inpection Report</a>
-                            </div><br />
-                            <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                            </div><br />
-                            if (Lcode == "SUI")
-                            {
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company Site Suitability Letter')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Suitability Letter</a>
-                                </div>
-                            }
-                            else
-                            {
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Approve Company Pressure Test')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Approve Pressure Test</a>
-                                </div>
-                            }
-                        }
-                    }
-                    @if (userRole.Contains("SUPERVISOR"))
-                    {
-
-                        if (fieldType == "FD" || fieldType == "ZN" || fieldType == "HQ")
-                        {
-                            if (ViewBag.AppRequest.CurrentStageID == 5)//7
-                            {
-                                <h3>Actions</h3>
-                                if (ViewBag.InspectorSchedule != null && ViewBag.CheckinpectionRole != null)
-                                {
-                                    if (ViewBag.InspectorSchedule.TriggeredByRole == "INSPECTOR")
-                                    {
-                                        if (ViewBag.CheckinpectionRole == "INSPECTOR" && ViewBag.CheckinpectionAction == "ScheduleInspection")
-                                        {
-                                            <div>
-                                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','AcceptInspection','Accept Inspection Date & Time from Inspector')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Accept Inspection Date</a>
-                                            </div><br />
-                                            <div>
-                                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','RejectInspection','Reject Inspection Date & Time from Inspector')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Inspection Date</a>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div>
-                                                <a class="btn btn-info btn-block" href="javascript:InspectionSchedule('@ViewBag.ApplicationId','ScheduleInspection')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Schedule Inspection</a>
-                                            </div><br />
-                                            <div>
-                                                <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','SUPERVISOR','INSPECTOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign To Inspector</a>
-                                            </div>
-                                            <br />
-                                            <div>
-                                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','This application will be rejected one step back (reject until it gets to the marketer)')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                            </div>
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    <div>
-                                        <a class="btn btn-info btn-block" href="javascript:scheduleInspection('@ViewBag.ApplicationId','ScheduleInspection')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Schedule Inspection</a>
-                                    </div>
-                                    <br />
-                                    <div>
-                                        <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject',' Send Application Back to inspector for Correction')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                    </div><br />
-                                    <div>
-                                        <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','SUPERVISOR','INSPECTOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign To Inspector</a>
-                                    </div>
-
-                                }
-                            }
-                            else if (ViewBag.AppRequest.CurrentStageID == 8)//9
-                            {
-                                <h3> Actions </h3>
-                                if (ViewBag.CheckAppointmentApprovalByMarketer != null)
-                                {
-                                    <div>
-                                        <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Inspection CheckList</a>
-                                    </div><br />
-                                    <div>
-                                        <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject',' Send Application Back to Company for Correction')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                    </div>
-                                    <div>
-                                        <br />
-                                        <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','SUPERVISOR','INSPECTOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assgin To Inspector</a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col-md-12">
-                                        <div class="alert alert-info  alert-mini alert-dismissable text-center col-md-12" role="alert">
-                                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                            Your Inspection Schedule has not been approved by the Marketer yet.
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true" style="margin-left:-50px">&times;</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                }
-                            }
-
-                            else if (ViewBag.AppRequest.CurrentStageID == 10)
-                            {
-                                <h3>Actions</h3>
-                                <div>
-                                    <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Endorse</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','This application will be rejected back to the marketer')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-                                if (ViewBag.ApplicationSupervisorDelegation != null)
-                                {
-                                    <br />
-                                    <div>
-                                        <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','SUPERVISOR','INSPECTOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Re-assgin To Inspector</a>
-                                    </div>
-                                }
-                            }
-                            else if (ViewBag.AppRequest.CurrentStageID == 21)//InspectionReport
-                            {
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','LSaccept','Accept Legacy License')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Accept Legacy</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','LSreject','Send Application Back to Marketer for Correction')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Legacy</a>
-                                </div>@*<br />
-                    <div>
-                        <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','LSIreject','Send Legacy Application Back to Inspector for Correction')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Internal Rejection</a>
-                    </div>*@
-                            }
-                            else if (ViewBag.AppRequest.CurrentStageID == 16)
-                            {
-
-                                <h3>Actions</h3>
-
-                                <div>
-                                    <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Endorse</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','SUPERVISOR','INSPECTOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign To Inspector</a>
-                                </div>
-                            }
-
-                            @* else
-                {
-
-                   if (ViewBag.AppRequest.CurrentStageID == 16)//17
-                    {
-                        <h3>Actions</h3>
-
-                        <div>
-                            <a href="@Url.Action("InspectionReport", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Recommendations/Inspection</a>
-                        </div><br />
-                        <div>
-                            <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Approve Application</a>
-                        </div><br />
-                        <div>
-                            <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                        </div><br />
-                        <div>
-                            <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','SUPERVISOR','INSPECTOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign To Inspector</a>
-                        </div>
-
-                        }*@
-
-                        }
-
-
-                    }
-                    @if (userRole.Contains("ADOPERATIONS"))
-                    {
-                        if (fieldType == "FD" || fieldType == "ZN")
-                        {
-                            if (ViewBag.AppRequest.CurrentStageID == 12)
-                            {
-                                <h3>Actions</h3>
-                                <div>
-                                    <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-
-                            }
-                        }
-                    }
-                    @if (userRole.Contains("INSPECTOR"))
-                    {
-                        if (fieldType == "FD" || fieldType == "ZN" || fieldType == "HQ")
-                        {
-
-
-                            if (ViewBag.AppRequest.CurrentStageID == 7)//5
-                            {
-                                <h3>Actions</h3>
-
-                                <div>
-                                    <a class="btn btn-info btn-block" href="javascript:scheduleInspection('@ViewBag.ApplicationId','ScheduleInspection')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Schedule Inspection</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Application to Supervisor')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','INSPECTOR','CHECKER')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign to Reviewer</a>
-                                </div>
-                            }
-
-                            else if (ViewBag.AppRequest.CurrentStageID == 9)//10
-                            {
-                                <h3>Actions</h3>
-                                if (ViewBag.CheckAppointmentApprovalByMarketer != null)
-                                {
-                                    <div>
-                                        <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Inspection CheckList</a>
-                                    </div>
-                                    <br />
-                                    <div>
-                                        <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col-md-12">
-                                        <div class="alert alert-info  alert-mini alert-dismissable text-center col-md-12" role="alert">
-                                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                            Your Inspection Schedule has not been approved by either the Supervisor or Marketer.
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true" style="margin-left:-50px">&times;</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                }
-                            }
-
-                            else if (ViewBag.AppRequest.CurrentStageID == 33)
-                            {
-                                <div>
-                                    <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inpection Report</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Application to Marketer')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-                            }
-
-                            if (ViewBag.AppRequest.CurrentStageID == 20)
-                            {
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','LIaccept','Accept Legacy License')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Approve Legacy</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','LIreject','Reject Legacy License')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Legacy</a>
-                                </div>
-                            }
-
-                        }
-
-                        if (ViewBag.AppRequest.CurrentStageID == 17)//18
-                        {
-                            <h3>Actions</h3>
-                            <div>
-                                <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                            </div><br />
                             <div>
                                 <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','INSPECTOR','CHECKER')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign to Reviewer</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Officer')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Officer</a>
+                            </div>
+
+                        }
+                    }
+
+
+                    else if (ViewBag.LoggedInUserRole == "REGISTRAR")
+                    {
+
+                        if (ViewBag.AppRequest.CurrentStageId == 6)
+                        {
+
+                            <h3>Actions</h3>
+                            <div>
+                                <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company Certificate')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Certificate</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Supervisor')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Supervisor</a>
                             </div>
 
                         }
-                    }
-                    @if (ViewBag.AppRequest.CurrentStageID == 25 || ViewBag.AppRequest.CurrentStageID == 26)//18
-                    {
-                        if (userRole.Contains("CHECKER"))
-                        {
-                            <h3>Actions</h3>
-                            if (fieldType == "FD")
-                            {
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-
-                            }
-                            if (fieldType == "HQ")
-                            {
-                                <div>
-                                    <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
-                                </div>
-                                <br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-
-                            }
-                        }
-                    }
-                    @if (ViewBag.AppRequest.CurrentStageID == 15)//18
-                    {
-                        <h3>Actions</h3>
-                        <div>
-                            <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                        </div><br />
-                        <div>
-                            <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
-                        </div>
-                        <br />
-
-                        <div>
-                            <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                        </div>
-
-                    }
-                    @if (ViewBag.AppRequest.CurrentStageID == 29)//16
-                    {
-                        if (userRole.Contains("HOOD"))
-                        {
-                            if (fieldType == "HQ")
-                            {
-
-                                <h3>Actions</h3>
-                                <div>
-                                    <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue License For Company')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue License</a>
-                                </div><br />
-                                <div>
-                                    <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-                                </div>
-                            }
-                        }
-                    }
-                    @if (ViewBag.AppRequest.CurrentStageID == 14)//13
-                    {
-                        if (userRole.Contains("ADGAS"))
-                        {
-                            if (fieldType == "HQ" || fieldType == "ZN")
-                            {
-                                <h3>Actions</h3>
-
-                                if (ViewBag.ApplicationDelegation != null)
-                                {
-                                    if (ViewBag.ApplicationDelegation.TriggeredByRole == "ADGAS")
-                                    {
-
-                                        <div>
-                                            <a href="@Url.Action("LPGInspectionMaintenance", new { applicationId = ViewBag.ApplicationId })" class="btn btn-info btn-block"><i class="fa fa-book fa-border" aria-hidden="true"></i>&nbsp;&nbsp;View Inspection Report</a>
-                                        </div><br />
-                                        <div>
-                                            <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Approve Application</a>
-                                        </div><br />
-                                        <div>
-                                            <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@Model.ApplicationId','ADGAS','SUPERVISOR')"><i class="fa fa-clock-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Re-assign To Supervisor</a>
-                                        </div><br />
-
-                                        <div>
-                                            <a id="reject" class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@Model.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject Application</a>
-
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    <div>
-                                        <a class="btn btn-warning btn-block" href="javascript:DelegateInspection('@ViewBag.ApplicationId','ADGAS','SUPERVISOR')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Assign to Supervisor</a>
-                                    </div>
-                                }
-                            }
-                        }
-                    }
-
-                    @if (Lcode == "LTO")//LTO
-                    {
-                        <br />
-                        <div>
-                            <a class="btn btn-info btn-block" href="/Admin/ViewLTO?id=@Model.ApplicationId"><i class="fa fa-download fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Preview License</a>
-                        </div>
                     }
 
 
@@ -766,31 +289,11 @@
     </div>
     <div style="display:none" class="loadingImage">
         <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
-            <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/Images/spinning.gif" />
+            <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
         </div>
     </div>
 </div>
-<div style="display:none">
-    <div class="content">
-        <div class="container">
-            <h2> SendEmail</h2> <br /> <br />
-            @if (ViewBag.Error != null)
-            {
-                <h2> @ViewBag.Error </h2>
-            }
-            <form method="get" action="SendEmail">
 
-                <span class="form-control-static"> Receiver: </span> <input class="form-control receiver" id="receiver" type="text" name="receiver" />
-                <br />
-                <span class="form-control-static"> Subject: </span> <input class="form-control subject" id="subject" type="text" name="subject" />
-                <br />
-                <span class="form-control-static">  Message: </span> <input class="form-control message" id="message" type="text" name="message" />
-                <br />
-                <input class="btn btn-primary submitmail" type="submit" id="submitmail" value="Send" />
-            </form>
-        </div>
-    </div>
-</div>
 <div class="modal fade adminPopup" id="modalPopup">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -886,13 +389,7 @@
                 <div class="form-horizontal">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="ApplicationId" id="ApplicationId" value="@ViewBag.ApplicationId" />
-                    <div class="form-group">
-                        <label class="control-label col-md-3">License Type</label>
-                        <div class="col-md-9">
-                            <input type="hidden" class="actions" />
-                            <input type="text" class="form-control" id="apprvLicenseType" name="apprvLicenseType" readonly style="border: 0px;">
-                        </div>
-                    </div>
+                    
 
                     <div class="form-group">
                         <label class="control-label col-md-3">Application Reference</label>
@@ -914,26 +411,9 @@
                                 <input type="text" class="form-control inspectiondate" value="@ViewBag.AppointmentDateTime" id="inspectiondate" name="inspectiondate" readonly style="border: 0px;">
                             </div>
                         </div>
-                        @*<div class="form-group">
-                                <label class="control-label col-md-3">Comment</label>
-                                <div class="col-md-9">
-                                    <textarea class="form-control comment" rows="3" id="comment" style="resize:none" name="comment"></textarea>
-                                </div>
-                            </div>*@
+                       
                     </div>
-                    <div class="alldocument">
-                        <div style="display:none">
-                            <div id="text" name="text" type="hidden"></div>
-                            <div id="textvalue" name="text" type="hidden"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Missing Document(s)</label>
-
-                            <div class="col-md-9">
-                                <select class="form-control ui-multiselect alldoc example-getting-started" id="alldoc" name="alldoc" multiple="multiple"></select>
-                            </div>
-                        </div>
-                    </div>
+                   
                     <div class="commentDivRej">
                         <div class="form-group">
                             <label class="control-label col-md-3">Comment</label>
@@ -950,18 +430,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" aria-label="Close" data-dismiss="modal">Close</button>
                         <button type="button" value="Accept" id="apprvAcceptBtn" class="btn btn-success approvalBtn apprvAcceptBtn">Accept</button>
-                        <button type="button" value="LIaccept" id="apprvAcceptBtn" class="btn btn-success approvalBtn apprvLegacyIAcceptBtn">Accept</button>
-                        <button type="button" value="LIreject" id="apprvRejectBtn" class="btn btn-danger approvalBtn apprvLegacyIRejectBtn">Reject</button>
-
-                        <button type="button" value="LSaccept" id="apprvAcceptBtn" class="btn btn-success approvalBtn apprvLegacyLSAcceptBtn">Accept</button>
-                        <button type="button" value="LSreject" id="apprvRejectBtn" class="btn btn-danger approvalBtn apprvLegacyLSRejectBtn">Reject</button>
-                        <button type="button" value="LSIreject" id="apprvRejectBtn" class="btn btn-danger approvalBtn apprvLegacyLSIRejectBtn">Reject</button>
-
                         <button type="button" value="Reject" id="apprvRejectBtn" class="btn btn-danger approvalBtn apprvRejectBtn">Reject</button>
-                        <button type="button" value="InternalReject" id="apprvInternalReject" class="btn btn-danger approvalBtn apprvInternalReject">Reject</button>
 
-                        <button type="button" value="AcceptInspection" id="apprvInspectionBtn" class="btn btn-success approvalBtn apprvInspectionBtn">Accept Inspection Date & Time</button>
-                        <button type="button" value="RejectInspection" id="RejectInspectionBtn" class="btn btn-danger approvalBtn RejectInspectionBtn">Reject Inspection Date & Time</button>
 
                     </div>
                 </div>
@@ -971,92 +441,6 @@
     </div>
 </div>
 
-<div class="modal fade scheduleModal" id="scheduleModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title text-center">
-                    Schedule Inspection
-                </h4>
-            </div>
-            <div class="modal-body">
-                @*Url.Action("ScheduleAppointment")method="post" *@
-                <div class="form-horizontal">
-                    <input type="hidden" name="ApplicationId" id="ApplicationId" value="@ViewBag.ApplicationId" />
-                    <input type="hidden" name="AppointmentType" id="AppointmentType" value="@ViewBag.AppointmentType" />
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">License Type</label>
-                        <div class="col-md-9">
-                            <input type="hidden" class="actions" />
-                            <input type="text" class="form-control" id="licensetype" value="@ViewBag.AppDescription" readonly style="border: 0px;">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Application Reference</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" id="appid" name="appid" value="@ViewBag.ApplicationId" readonly style="border: 0px;">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Application Type</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" id="apptype" name="apptype" value="@ViewBag.ApplicationType" readonly style="border: 0px;">
-                        </div>
-                    </div>
-
-
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Joint Inspection</label>
-                        <div class="col-md-9">
-                            <select class="form-control" id="inspectiontype" name="inspectiontype" required="required">
-                                <option></option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div style="display:none" id="shownominee">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Nominate Opscon/Zopscon</label>
-                            <div class="col-md-9">
-                                <input type="email" class="form-control" id="nominatedstaffs" placeholder="Enter Email Address" name="nominatedstaffs">
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Proposed Date & Time</label>
-                        <div class="col-md-9">
-                            <input class="form-control divDOB" type="text" id="divDOB" name="divDOB" autocomplete="off" required="" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Comment</label>
-                        <div class="col-md-9">
-                            <textarea id="comment" name="comment" rows="3" class="schcomment form-control" style="resize:none"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="clear"></div>
-                    <div class="modal-footer">
-                        <button class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button value="ScheduleInspection" id="savebtn" type="submit" class="btn btn-success round savebtn">Schedule Inspection</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="modal fade ApproveLicenseModal" id="ApproveLicenseModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1072,12 +456,6 @@
                 <form action="@Url.Action("ApproveLicense")" method="post" class="form-horizontal">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="ApplicationId" id="ApplicationId" class="ApplicationId" value="@ViewBag.ApplicationId" />
-                    <div class="form-group">
-                        <label class="control-label col-md-3">License Type</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control apprvLicenseType" id="apprvLicenseType" name="apprvLicenseType" readonly style="border: 0px;">
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3">Application Reference</label>
@@ -1136,57 +514,21 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-        $(".savebtn").click(function () {//Schedule inspection
-            debugger;
-            $(".loadingImage").show('fast');
-            $(".scheduleModal").modal('hide');
-            var date = $("#divDOB").val();
-             var action = $(".actions").val();
-            var comment = $(".schcomment").val();
-            var Nominatestaff = $("#nominatedstaffs").val();
-             if (date === null || date === "") { console.log("Please Enter Inspection Date & Time"); $(".loadingImage").hide('fast'); }
-             else {
-                 $.get('@Url.Action("ScheduleAppointment")', { applicationId: $("#appid").val(), useraction: action, reason: comment, proposeddate: $("#divDOB").val(), "Nominee": Nominatestaff }, function (data) {
-                    var status = data.status;
-                    console.log(status);
-
-                    hideAndResetModals('.scheduleModal');
-                    if (status == 'success') {
-                        debugger;
-                        $(".loadingImage").hide('fast');
-
-                        bootbox.alert({
-                            message: data.Message,
-                            size: 'small',
-                            className: 'bb-alternate-modal',
-                            callback: function () {
-                                window.location.href = "/Admin/MyDesk";
-                            }
-                        });
-                        $(".scheduleModal").modal('hide');
-                    }
-                    else {
-                        alert(data.Message);
-                        $(".loadingImage").hide('fast');
-                    }
-                });
-            }
-        });
 
 
         $('.approvalBtn').click(function () {//Approve or Reject Application
             var action = $(".actions").val();
             $(".loadingImage").show('fast');
             $(".approvalModal").modal('hide');
-            if ((action == "Reject" || action == "LIreject" || action == "LSIreject" || action == "RejectInspection" || action == "LSreject") && $.trim($('.comment').val()) == "") {
+            if ((action == "Reject" && $.trim($('.comment').val()) == "") {
                 $(".loadingImage").hide('fast');
                 alert("Kindly state Reason for Rejection");
                 $(".comment").focus();
             }
             else {
 
-                var selectedtext = $("#text").text();;
-                var selectedvalue = $("#textvalue").text();
+                //var selectedtext = $("#text").text();;
+                //var selectedvalue = $("#textvalue").text();
                 var comments = "";
                 var docval = "";
                 if (selectedtext === "" || selectedtext === null)
@@ -1195,9 +537,9 @@
                 }
                 else {
                     comments = $(".comment").val() + " => " + selectedtext;
-                     docval = selectedvalue;
+                   // docval = selectedvalue; DocId: docval 
                 }
-                $.post('@Url.Action("ApplicationAcceptDecline")', { applicationId: $(".ApplicationId").val(), myaction: action, mycomment: comments, DocId: docval }, function (data) {
+                $.post('@Url.Action("ApplicationAcceptDecline")', { applicationId: $(".ApplicationId").val(), myaction: action, mycomment: comments}, function (data) {
                         console.log('before console');
                         var status = data.status;
                         console.log(status);
@@ -1274,91 +616,14 @@
             });
         }
 
-            var date = new Date();
-            date.setDate(date.getDate());
-            $(".divDOB").datetimepicker({
-                minDate: 0,
-                startDate: date,
-                step: 1,
-                autoclose: true,
-                daysOfWeekDisabled: [0, 6],
-                onGenerate: function (ct) {
-                    jQuery(this).find('.xdsoft_date.xdsoft_weekend')
-                        .addClass('xdsoft_disabled');
-                },
-                onSelect: function (selected_date) {
-                }
-            });
+          
 
 
 
 
 
-        $("#lnk-Applications > a").addClass("selected").find(".act").addClass("selected");
-        $(".zPix").click(function (e) {
-            $("#myModalBody").html(Loading());
-            e.preventDefault();
-            var src = $(this).attr("data-url");
-            var name = $(this).text();
-            var md = $("#imgModal").html();
-            $("#myModalBody").html(md);
-            $("#modalBody").html("<img src=\"" + src + "\" alt=\"\" />");
-            $("#myModalLabel").text(name);
-        });
 
-        $(function () {
-
-            $('.alldoc').select2({
-                placeholder: "Select",
-                width: '100%'
-            });
-
-            $('.alldoc').on('change', function () {
-                debugger;
-                var datatext = $(".alldoc option:selected").text();
-                var datavalue = $(".alldoc").select2("val");
-                $("#text").text(datatext);
-                $("#textvalue").text(datavalue);
-            })
-
-
-
-            $('#inspectiontype').on('change', function () {
-                debugger;
-                var datatext = $("#inspectiontype option:selected").text();
-                if (datatext === "YES") {
-                    $("#shownominee").show();
-                    $("#nominatedstaffs").attr("required", true);
-                } else {
-                    $("#shownominee").hide();
-                    $("#nominatedstaffs").attr("required", false);
-                }
-            })
-
-
-
-
-            $('body').on('focus', '.dateTimePicker', function () {
-                $(this).datetimepicker({
-                    pickTime: true,
-                    beforeShowDay: function (date) {
-                        return date.valueOf() >= now.valueOf();
-                    },
-                    autoclose: true,
-                    minDate: new Date
-                });
-            });
-
-            $(document).on('focus', '#ScheduleTime', function () {
-                $('#ScheduleTime').timepicker({ 'scrollDefault': 'now' });
-            });
-            $(document).on('focus', '#ScheduleDate', function () {
-                $('#ScheduleDate').datepicker({
-                    format: 'dd/mm/yyyy',
-                    startDate: '-3d'
-                });
-            });
-        });
+        
     });
     </script>
 
@@ -1392,123 +657,11 @@
            if (checkextrapayment !== null || checkextrapayment !== "") { var amount = '@ViewBag.Amount'; }
              $('.apprvheader').text(reason);
              $(".actions").val(useraction);
-            $('#apprvLicenseType').val('@Model.LicenseType.Description');
             $('#apprvAppId').val('@Model.ApplicationId');
             $('#apprvAppType').val('@Model.ApplicationTypeId');
             $("#comment").val("");
-            if (useraction === "AcceptInspection") {
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvRejectBtn').hide();
-                //$('.apprvDenyBtn').hide();
-                $('.apprvInternalReject').hide();
-                $(".alldocument").hide("fast");
-                $('.apprvAcceptBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').show();
-                $('.apprvInspectionBtn').show();
-            }
-            if (useraction === "RejectInspection") {
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvRejectBtn').hide();
-                //$('.apprvDenyBtn').hide();
-                $('.apprvInternalReject').hide();
-                $(".alldocument").hide("fast");
-                $('.apprvAcceptBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.RejectInspectionBtn').show();
-                $('.inspectiondiv').show();
-            }
-            if (useraction === "LIreject") {
-                $('.commentDivRej').show();
-                $('.apprvLegacyIRejectBtn').show();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.apprvRejectBtn').hide();
-                $('.apprvInternalReject').hide();
-                $('.apprvAcceptBtn').hide();
-                $(".alldocument").show("fast");
-               // $('.apprvDenyBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').hide();
-            }
-            if (useraction === "LIaccept") {
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvRejectBtn').hide();
-                //$('.apprvDenyBtn').hide();
-                $('.apprvInternalReject').hide();
-                $(".alldocument").hide("fast");
-                $('.apprvAcceptBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').hide();
-                $('.apprvLegacyIAcceptBtn').show();
-            }
-            if (useraction === "LSreject") {
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvRejectBtn').hide();
-                $('.apprvInternalReject').hide();
-                $('.apprvAcceptBtn').hide();
-                $(".alldocument").show("fast");
-                //$('.apprvDenyBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').hide();
-                $('.apprvLegacyLSRejectBtn').show();
-            }
-            if (useraction === "LSIreject") {
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvRejectBtn').hide();
-                $('.apprvInternalReject').hide();
-                $('.apprvAcceptBtn').hide();
-                $(".alldocument").show("fast");
-                //$('.apprvDenyBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').hide();
-                $('.apprvLegacyLSIRejectBtn').show();
-            }
-            if (useraction === "LSaccept") {
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvRejectBtn').hide();
-                //$('.apprvDenyBtn').hide();
-                $('.apprvInternalReject').hide();
-                $(".alldocument").hide("fast");
-                $('.apprvAcceptBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').hide();
-                $('.apprvLegacyLSAcceptBtn').show();
-            }
+            
+            
             if (useraction === "Reject") {
                 $('.apprvLegacyLSAcceptBtn').hide();
                 $('.apprvLegacyIRejectBtn').hide();
@@ -1522,23 +675,7 @@
                 $('.apprvInspectionBtn').hide();
                 $('.RejectInspectionBtn').hide();
                 $('.inspectiondiv').hide();
-                $(".alldocument").show("fast");
-                //$('.apprvDenyBtn').hide();
-            }
-            if (useraction === "InternalReject") {
-                $('.apprvLegacyLSAcceptBtn').hide();
-                $('.apprvLegacyIRejectBtn').hide();
-                $('.apprvLegacyIAcceptBtn').hide();
-                $('.apprvLegacyLSRejectBtn').hide();
-                $('.apprvLegacyLSIRejectBtn').hide();
-                $('.commentDivRej').show();
-                $('.apprvRejectBtn').hide();
-                $('.apprvInspectionBtn').hide();
-                $('.apprvInternalReject').show();
-                $('.apprvAcceptBtn').hide();
-                $('.RejectInspectionBtn').hide();
-                $('.inspectiondiv').hide();
-                $(".alldocument").show("fast");
+                //$(".alldocument").show("fast");
                 //$('.apprvDenyBtn').hide();
             }
             else if (useraction === "Accept") {
@@ -1553,7 +690,7 @@
                 //$('.apprvDenyBtn').hide();
                 $('.apprvInternalReject').hide();
                 $('.inspectiondiv').hide();
-                $(".alldocument").hide("fast");
+                //$(".alldocument").hide("fast");
                 $('.RejectInspectionBtn').hide();
                 $('.apprvAcceptBtn').show();
             }
@@ -1569,43 +706,16 @@
             }
         }
 
-        $(".alldoc").ready(function () {//get all Document names populated in the dropdownlist
-            $.getJSON("/Admin/GetAllElpsDocTypes",
-                {},
-                function (datas) {
-                    $.each(datas,
-                        function (key, val) {
-                            $(".alldoc").append('<option value="' + val.docid + '">' + val.docname+' , '+ '</option>');
-
-                        });
-                });
-        });
+       
 
         function GenerateLicense(applicationId, useraction, reason) {
             debugger;
-            var AppCode = '@ViewBag.LicenceCode';
             var checkextrapayment = '@ViewBag.ExtraPayment';
             var paymentstatus = '@ViewBag.PaymentStatus';
-            var role = '@ViewBag.Role'; var expiredate = '@ViewBag.ExpiredDate'; var todaydate = '@ViewBag.TodayDate'; var apptype = '@ViewBag.AppType'; var signature = '@signatureImage';
 
-            //if ((role === "HOOD" && apptype === "RENEW") && (new Date(expiredate) > new Date(todaydate))) { alert("Previous License is Not Yet Expired (Please wait until previous license expires)") }
-            //else if ((role === "OPSCON" || role === "ZOPSCON") && apptype === "RENEW" && (new Date(expiredate) > new Date(todaydate))) {
-            //    if (AppCode === "ATC") {
-            //        alert("Previous ATC Letter is Not Yet Expired (Please wait until previous ATC Letter expires)");
-            //    }
-            //    else if (AppCode === "PT") {
-            //        alert("Previous Pressure Test Certificate is Not Yet Expired (Please wait until previous Pressure Test Certificate expires)");
-            //    }
-            //    else {
-            //        alert("Previous Site Suitability Letter is Not Yet Expired (Please wait until previous Site Suitability Letter expires)");
-            //    }
-            //}
-             if (useraction == "Accept" && (signature === null || signature === '')) { alert("Your Electronic Signature is Unavailable for this Approval.") }
-            else {
                 if (checkextrapayment !== null || paymentstatus === "AUTH" || checkextrapayment !== "") { var amount = '@ViewBag.Amount'; }
                 $(".actions").val(useraction);
                 $('.apprvheader').text(reason);
-                $('.apprvLicenseType').val('@Model.LicenseType.Description');
                 $('.apprvAppId').val('@Model.ApplicationId');
                 $('.apprvAppType').val('@Model.ApplicationTypeId');
                 $("#comment").val("");
@@ -1613,85 +723,29 @@
                 if (useraction == "Reject") {
                     $('.commentDivRej').show();
                     $('.apprvRejectBtn').show();
-                    $(".alldocument").show("fast");
+                    //$(".alldocument").show("fast");
                     $('.apprvAcceptBtn').hide();
                     $('.apprvDenyBtn').hide();
                 }
                 else if (useraction == "Accept") {
                     $('.commentDivRej').show();
-                    $(".alldocument").hide("fast");
+                    //$(".alldocument").hide("fast");
                     $('.apprvRejectBtn').hide();
                     $('.apprvDenyBtn').hide();
                     $('.apprvAcceptBtn').show();
                 }
-                else if (useraction == "Deny") {
-                    $('.commentDivRej').show();
-                    $('.apprvRejectBtn').hide();
-                    $('.apprvAcceptBtn').hide();
-                    $(".alldocument").show("fast");
-                    $('.apprvDenyBtn').show();
-                };
                 if (checkextrapayment === null || paymentstatus === "AUTH" || checkextrapayment === "") {
                     $(".ApproveLicenseModal").modal('show');
                 }
                 else {
-                    var answer = confirm("Extra Payment of " + amount + " Naira Has Been Attached to This Application. Do You Want to Proceed?");
-                    if (answer === true) {
-                        $(".ApproveLicenseModal").modal('show');
-                    }
+                    alert("Extra Payment of " + amount + " Naira Has Been Attached to This Application. Do You Want to Proceed?");
+                    //var answer = if (answer === true) {
+                    //    $(".ApproveLicenseModal").modal('show');
+                    //}
                 }
-            }
               };
-        function scheduleInspection(applicationId, useraction, comment) {
-            var checkextrapayment = '@ViewBag.ExtraPayment';
-            var paymentstatus = '@ViewBag.PaymentStatus';
-            if (checkextrapayment !== null || checkextrapayment !== "") { var amount = '@ViewBag.Amount'; }
-            $('.apprvheader').text(comment);
-            $('.actions').val(useraction);
-            $('#licensetype').val('@Model.LicenseType.Description');
-            $('#appid').val('@Model.ApplicationId');
-            $('#apptype').val('@Model.ApplicationTypeId');
-            $("#comment").val("");
-            if (checkextrapayment === null || paymentstatus === "AUTH" || checkextrapayment === "") {
-                $(".scheduleModal").modal('show');
-            }
-            else {
-                var answer = confirm("Extra Payment of " + amount + " Naira Has Been Attached to This Application. Do You Want to Proceed?");
-                if (answer === true) {
-                    $(".scheduleModal").modal('show');
-                }
-            }
-            };
 
 
-        function DelegateInspection(applicationId, fromRole, toRole) {
-            debugger;
-            var checkextrapayment = '@ViewBag.ExtraPayment';
-            var paymentstatus = '@ViewBag.PaymentStatus';
-            if (checkextrapayment !== null || checkextrapayment !== "") { var amount = '@ViewBag.Amount'; }
-            var url = '@Url.Action("ApplicationAssign")';
-            console.debug(url);
-            console.debug(applicationId + " " + fromRole + " " + toRole);
-            $(".loadingImage").show('fast');
-            $.get(url, { applicationId: applicationId, fromRole: fromRole, toRole: toRole}, function (data) {
-                $(".adminModal").on('show.bs.modal', function () {
-                    var modal = $(this);
-                    console.debug('here');
-                    modal.find('.modal-content').html(data);
-                });
-                if (checkextrapayment === null || paymentstatus === "AUTH" || checkextrapayment === "") {
-                    $(".loadingImage").hide('fast');
-                    $(".adminModal").modal('show');
-                }
-                else {
-                    var answer = confirm("Extra Payment of " + amount + " Naira Has Been Attached to This Application. Do You Want to Proceed?");
-                    if (answer === true) {
-                        $(".loadingImage").hide('fast');
-                        $(".adminModal").modal('show');
-                    } else { $(".loadingImage").hide('fast'); }
-                }
-            });
-        }
        
 
     </script>

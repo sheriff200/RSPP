@@ -5,21 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Admin\MyDesk.cshtml" />
-    <Content Remove="Views\Admin\NonPrintedLicense.cshtml" />
-    <Content Remove="Views\Admin\OutOfOffice.cshtml" />
-    <Content Remove="Views\Admin\PaymentList.cshtml" />
-    <Content Remove="Views\Admin\PrintedLicense.cshtml" />
-    <Content Remove="Views\Admin\StaffDesk.cshtml" />
-    <Content Remove="Views\Admin\StaffMaintenance.cshtml" />
-    <Content Remove="Views\Admin\StaffReport.cshtml" />
-    <Content Remove="Views\Admin\TaskAssignment.cshtml" />
     <Content Remove="Views\Admin\TaskDelegation.cshtml" />
-    <Content Remove="Views\Admin\TransitionHistory.cshtml" />
-    <Content Remove="Views\Admin\UpdateFacilityInfo.cshtml" />
-    <Content Remove="Views\Admin\VerifyPermitQrCode.cshtml" />
-    <Content Remove="Views\Admin\ViewApplication.cshtml" />
-    <Content Remove="Views\Admin\WorkFlow.cshtml" />
+    <Content Remove="wwwroot\js\buttons.html5.min.js" />
+    <Content Remove="wwwroot\js\buttons.print.min.js" />
+    <Content Remove="wwwroot\js\dataTables.buttons.min.js" />
+    <Content Remove="wwwroot\js\jszip.min.js" />
+    <Content Remove="wwwroot\js\pdfmake.min.js" />
+    <Content Remove="wwwroot\js\vfs_fonts.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -537,6 +529,12 @@
     <None Include="wwwroot\ela\js\sidebarmenu.js" />
     <None Include="wwwroot\ela\LICENSE" />
     <None Include="wwwroot\ela\README.md" />
+    <None Include="wwwroot\js\buttons.html5.min.js" />
+    <None Include="wwwroot\js\buttons.print.min.js" />
+    <None Include="wwwroot\js\dataTables.buttons.min.js" />
+    <None Include="wwwroot\js\jszip.min.js" />
+    <None Include="wwwroot\js\pdfmake.min.js" />
+    <None Include="wwwroot\js\vfs_fonts.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />

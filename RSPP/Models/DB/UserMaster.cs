@@ -22,6 +22,7 @@ namespace RSPP.Models.DB
         public string LastComment { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int SignatureImage { get; set; }
+        public string SignatureImage { get; set; }
+        public int SignatureId { get; set; }
     }
 }

@@ -1,10 +1,8 @@
-﻿@model LPGRetailerLicense.DbEntities.OutofOffice
-@using LPGRetailerLicense.DbEntities
+﻿@model RSPP.Models.DB.OutofOffice
 @{
     /**/
     ViewBag.Title = "Out Of Office";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    UserMaster userMaster = (UserMaster)Session["UserID"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 
 <div class="content">
@@ -323,28 +321,28 @@
                 ],
                 columns: [
                     {
-                        data: "Reliever"
+                        data: "reliever"
                     },
                     {
-                        data: "Relieved"
+                        data: "relieved"
 
                     },
                     {
-                        data: "StartDate"
+                        data: "startDate"
                     },
                     {
-                        data: "EndDate"
+                        data: "endDate"
                     },
                     {
-                        data: "Comment"
+                        data: "comment"
                     },
                     {
-                        data: "Status",
+                        data: "status",
                         render: function (data, type, user) {
                             //var name = appointment.fullname;
-                            if (user.Status === "Starting") {
+                            if (user.status === "Starting") {
                                 return '<strong class="badge" style="background-color:orange; font-size:bold"> Starting</strong>';
-                            } else if (user.Status === "Started") {
+                            } else if (user.status === "Started") {
                                 return '<strong class="badge" style="background-color:green; font-size:bold"> Started</strong>';
                             } else {
                                 return '<strong class="badge" style="background-color:red; font-size:bold"> Finished</strong>';
@@ -362,7 +360,7 @@
                         "targets": 6,
                         "data": null,
                         render: function (data, type, user) {
-                            if (user.Status == "Starting") {
+                            if (user.status == "Starting") {
                                 return '<button id="EditUsers" class="btn btn-xs btn-warning EditUsers"><span class="glyphicon glyphicon-edit"></span>  Edit</button>';
                             } else {
                                 return '';
@@ -374,7 +372,7 @@
                         "targets": 7,
                         "data": null,
                         render: function (data, type, user) {
-                            if (user.Status == "Starting") {
+                            if (user.status == "Starting") {
                                 return '<span id="endLeave" class="btn btn-xs btn-danger endLeave"><span class="glyphicon glyphicon-remove"></span>  End This</span>';
                             } else {
                                 return '';
@@ -385,7 +383,7 @@
                         "targets": 8,
                         "data": null,
                         render: function (data, type, user) {
-                            if (user.Status == "Starting") {
+                            if (user.status == "Starting") {
                                 return '<p id="DeleteUsers" class="btn btn-xs btn-danger DeleteUsers"><span class="glyphicon glyphicon-trash"></span>  Delete</p>';
                             } else {
                                 return '';
@@ -402,7 +400,7 @@
                 $(".EditUsermodal").modal('hide');
                 $(".Endleave").modal('hide');
                 var data = table.row($(this).parents('tr')).data();
-                $(".Relieved").val(data.Relieved);
+                $(".Relieved").val(data.relieved);
             });
             $('#staff').on('click', 'button', function () {
                 debugger;
@@ -410,11 +408,11 @@
                 $(".Endleave").modal('hide');
                 $(".DeleteUser").modal('hide');
                 var data = table.row($(this).parents('tr')).data();
-                $(".Relieved").val(data.Relieved);
-                $(".Reliever").val(data.Reliever);
-                $(".StartDate").val(data.StartDate);
-                $(".EndDate").val(data.EndDate);
-                $(".Comment").val(data.Comment);
+                $(".Relieved").val(data.relieved);
+                $(".Reliever").val(data.reliever);
+                $(".StartDate").val(data.startDate);
+                $(".EndDate").val(data.endDate);
+                $(".Comment").val(data.comment);
             });
             $('#staff').on('click', 'span', function () {
                 debugger;
@@ -422,7 +420,7 @@
                 $(".EditUsermodal").modal('hide');
                 $(".DeleteUser").modal('hide');
                 var data = table.row($(this).parents('tr')).data();
-                $(".Relieved").val(data.Relieved);
+                $(".Relieved").val(data.relieved);
             });
 
             $(".Reliever").autocomplete({
@@ -440,9 +438,7 @@
                                     return {
                                         label: val.userid,
                                         value: val.userid,
-                                        locationid: val.id,
                                         staffFullName: val.name,
-                                        UserLocation: val.fieldlocation,
                                         roleuser: val.role
                                     }
 
@@ -455,7 +451,6 @@
 
                 select: function (event, ui) {
                     debugger;
-                    $("#locationid").val(ui.item.locationid);
                     $("#roleuser").val(ui.item.roleuser);
                     $("#staffFullName").val(ui.item.staffFullName);
                     var userid = $(".Reliever").val();

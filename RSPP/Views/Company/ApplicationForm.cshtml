@@ -18,10 +18,39 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ApplicationTypeId)
+
+
+
 
 
 
     <div class="form-group">
+
+
+
+        <div class="row form-group">
+            <label class="control-label col-md-2">Application Type</label>
+            <div class="col-md-4">
+                <select class="form-control" id="AppType" name="AppType">
+                    <option></option>
+                    <option>NEW</option>
+                    <option>RENEW</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display:none" id="hidecertnum">
+            <div class="row form-group">
+                <label class="control-label col-md-2">Renewal Certificate Number </label>
+                <div class="col-md-4">
+                    <select class="form-control txtcertnum" id="txtcertnum" name="txtcertnum"></select>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="row form-group">
             <label class="control-label col-md-2">Agencies</label>
             <div class="col-md-4">
@@ -33,7 +62,7 @@
             <label class="control-label col-md-2">Date of Establishment(with CAC)</label>
             <div class="col-md-4">
                 @Html.TextBoxFor(model => model.ApplicationId, new { @type = "hidden", @value = ViewBag.ApplicationId })
-                @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", required = "required", @readonly= "readonly" })
+                @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", required = "required", @readonly = "readonly" })
             </div>
 
 
@@ -64,7 +93,7 @@
         <div class="row form-group">
             <label class="control-label col-md-2">Company Email</label>
             <div class="col-md-4">
-                @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", required = "required", @type="email" })
+                @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", required = "required", @type = "email" })
             </div>
 
 
@@ -111,7 +140,7 @@
                 <div class="col-md-10">
                     <textarea class="form-control" id="LogisticsLineOfBusiness" style="display:none;margin-left:230px" name="LogisticsLineOfBusiness">@ViewBag.LineOfBusiness</textarea>
                 </div>
-               
+
             </div>
 
 
@@ -215,7 +244,7 @@
 
 
             @*<div class="row" style="margin-left:5px; margin-right:5px">
-        <div class="col-md-12" style="min-width:100%">class="table table-condensed table-bordered table-striped table-hover table-responsive" id="mytable"*@
+            <div class="col-md-12" style="min-width:100%">class="table table-condensed table-bordered table-striped table-hover table-responsive" id="mytable"*@
             <table class="table table-bordered table-striped" id="mytable" style="width:100%">
 
                 <thead>
@@ -247,7 +276,7 @@
             </table>
             @*</div>
 
-        </div>*@
+            </div>*@
 
             <div class="row form-group">
                 <label class="control-label col-md-1">Any Other Relevant Info</label>
@@ -258,7 +287,7 @@
         </div>
 
 
-             <div id="Agencyid4" style="display:none">
+        <div id="Agencyid4" style="display:none">
             <div class="row form-group">
                 <label class="control-label col-md-2"></label>
                 <div class="col-md-4">
@@ -293,32 +322,32 @@
 
             </div>
 
-             </div>
+        </div>
 
-             <div id="Agencyid5" style="display:none">
-                 <div class="row form-group">
-                     <label class="control-label col-md-2">Line of Business</label>
-                     <div class="col-md-4">
-                         <textarea class="form-control" id="otherportLineOfBusiness" name="otherportLineOfBusiness" cols="3" rows="3">@ViewBag.otherportLineOfBusiness</textarea>
-                     </div>
+        <div id="Agencyid5" style="display:none">
+            <div class="row form-group">
+                <label class="control-label col-md-2">Line of Business</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" id="otherportLineOfBusiness" name="otherportLineOfBusiness" cols="3" rows="3">@ViewBag.otherportLineOfBusiness</textarea>
+                </div>
 
-                     <label class="control-label col-md-2">Any Other Relevant Info</label>
-                     <div class="col-md-4">
-                         <textarea class="form-control" id="otherportAnyOtherInfo" name="otherportAnyOtherInfo" cols="3" rows="3">@ViewBag.otherportAnyOtherInfo</textarea>
-                     </div>
+                <label class="control-label col-md-2">Any Other Relevant Info</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" id="otherportAnyOtherInfo" name="otherportAnyOtherInfo" cols="3" rows="3">@ViewBag.otherportAnyOtherInfo</textarea>
+                </div>
 
-                 </div>
-                 </div>
+            </div>
+        </div>
 
-                 
-                 <br />
-                 <div class="col-xs-12 col-md-offset-12 text-md-center">
-                     <button type="submit" class="btn btn-primary btn-default round" id="addbtn">Submit and Continue</button>
-                 </div>
 
-             </div>
-        }
+        <br />
+        <div class="col-xs-12 col-md-offset-12 text-md-center">
+            <button type="submit" class="btn btn-primary btn-default round" id="addbtn">Submit and Continue</button>
+        </div>
+
     </div>
+    }
+</div>
 <div style="display:none" id="loadingImage" class="loadingImage">
     <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
         <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
@@ -489,6 +518,134 @@
         $(document).ready(function () {
 
             getPlace();
+
+
+            $("#AppType").change(function () {
+                var selectedvalue = $("#AppType option:selected").text();
+
+                if (selectedvalue === "RENEW") {
+                    $("#ApplicationTypeId").val('RENEW');
+                    $("#hidecertnum").show();
+                    $("#txtcertnum").attr("required", true);
+                } else {
+                    $("#ApplicationTypeId").val('NEW');
+                    $("#hidecertnum").hide();
+                    $("#txtcertnum").attr("required", false);
+                }
+            });
+
+
+            $("#txtcertnum").change(function () {
+
+                var selectedvalue = $("#txtcertnum option:selected").text();
+
+                $.post("/Company/CertificateRenewal", { "CertificateNumber": selectedvalue }, function (response) {
+
+                    if (response != null) {
+                        $("#txtagency").html("");
+
+                        $.each(response, function (key, data) {
+                            if (data.agencyId === 1) {
+                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
+                                $("#DateofEstablishment").val(data.dateofEstablishment);
+                                $("#CompanyAddress").val(data.companyAddress);
+                                $("#PostalAddress").val(data.postalAddress);
+                                $("#PhoneNum").val(data.phoneNum);
+                                $("#CompanyEmail").val(data.companyEmail);
+                                $("#CompanyWebsite").val(data.companyWebsite);
+                                $("#ServicesProvidedInPort").val(data.servicesProvidedInPort);
+                                $("#AnyOtherRelevantInfo").val(data.anyOtherRelevantInfo);
+
+
+                            } else if (data.agencyId === 2) {
+
+                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
+                                $("#DateofEstablishment").val(data.dateofEstablishment);
+                                $("#CompanyAddress").val(data.companyAddress);
+                                $("#PostalAddress").val(data.postalAddress);
+                                $("#PhoneNum").val(data.phoneNum);
+                                $("#CompanyEmail").val(data.companyEmail);
+                                $("#CompanyWebsite").val(data.companyWebsite);
+                                $("#LogisticsLineOfBusiness").val(data.logisticsLineOfBusiness);
+                                $("#CustomLicenseNum").val(data.customLicenseNum);
+                                $("#CustomLicenseExpiryDate").val(data.customLicenseExpiryDate);
+                                $("#CrffnRegistrationNum").val(data.crffnRegistrationNum);
+                                $("#CrffnRegistratonExpiryDate").val(data.crffnRegistratonExpiryDate);
+                                $("#OtherLicense").val(data.otherLicense);
+                                $("#OtherLicenseExpiryDate").val(data.otherLicenseExpiryDate);
+                                $("#LogisticsAnyOtherRelevantInfo").val(data.anyOtherInfo);
+
+
+                            } else if (data.agencyId === 3) {
+                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
+                                $("#DateofEstablishment").val(data.dateofEstablishment);
+                                $("#CompanyAddress").val(data.companyAddress);
+                                $("#PostalAddress").val(data.postalAddress);
+                                $("#PhoneNum").val(data.phoneNum);
+                                $("#CompanyEmail").val(data.companyEmail);
+                                $("#CompanyWebsite").val(data.companyWebsite);
+                                $("#portoffdockLineOfBusiness").val(data.lineOfBusiness);
+                                $("#StatusOfTerminal").val(data.statusOfTerminal);
+                                $("#portoffdockCargoType").val(data.cargoType);
+                                $("#portoffdockAnyOtherInfo").val(data.anyOtherInfo);
+                                $.each(val.Tanks, function (keys, vals) {
+                                    html += "<tr><td>" + vals.nameOfTerminal + "</td> <td>" + vals.locationOfTerminal + "</td></tr>";
+                                });
+                                $("#AppendTerminals").html(html);
+
+                            } else if (data.agencyId === 4) {
+                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
+                                $("#DateofEstablishment").val(data.dateofEstablishment);
+                                $("#CompanyAddress").val(data.companyAddress);
+                                $("#PostalAddress").val(data.postalAddress);
+                                $("#PhoneNum").val(data.phoneNum);
+                                $("#CompanyEmail").val(data.companyEmail);
+                                $("#CompanyWebsite").val(data.companyWebsite);
+                                $("#ShippingagencyCargoType").val(data.cargoType);
+                                $("#ShippingagencyLineOfBusiness").val(data.lineOfBusiness);
+                                $("#VesselLinesRepresentedInNigeria").val(data.vesselLinesRepresentedInNigeria);
+                                $("#ShippingagencyAnyOtherInfo").val(data.anyOtherInfo);
+                                
+                            } else if (data.agencyId === 5) {
+
+                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
+                                $("#DateofEstablishment").val(data.dateofEstablishment);
+                                $("#CompanyAddress").val(data.companyAddress);
+                                $("#PostalAddress").val(data.postalAddress);
+                                $("#PhoneNum").val(data.phoneNum);
+                                $("#CompanyEmail").val(data.companyEmail);
+                                $("#CompanyWebsite").val(data.companyWebsite);
+                                $("#otherportLineOfBusiness").val(data.lineOfBusiness);
+                                $("#otherportAnyOtherInfo").val(data.anyOtherInfo);
+                            }
+                        });
+                    };
+                });
+            });
+
+
+
+
+            $(".txtcertnum").ready(function () {//get all Suitability Rference Number in the dropdownlist
+                var html = "";
+                $(".txtcertnum").html("");
+
+                $.post("/Company/GetCertificateNumber",
+                    {},
+                    function (datas) {
+                        debugger;
+                        $(".txtcertnum").append("<option></option>");
+                        $.each(datas, function (key, val) {
+                            html += "<option value=" + val.licenseReference + ">" + val.licenseReference + "</option>";
+                        });
+                        $(".txtcertnum").append(html);
+                    });
+            });
+
+
+
+
+
             $(".agency").ready(function () {//get all Suitability Rference Number in the dropdownlist
                 var html = "";
                 $(".agency").html("");

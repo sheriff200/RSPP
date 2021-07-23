@@ -29,6 +29,60 @@ namespace RSPP.Models
         public string TerminalLocation { get; set; }
     }
 
+
+
+    public class StaffDeskModel
+    {
+        public List<StaffDesk> StaffDeskList { get; set; }
+    }
+
+    public class StaffDesk
+    {
+        public string StaffEmail { get; set; }
+        public string StaffName { get; set; }
+        public string BranchName { get; set; }
+        public string Department { get; set; }
+        public string Role { get; set; }
+        public int OnDesk { get; set; }
+        public string status { get; set; }
+    }
+
+
+    public class StaffJson
+    {
+        public string userid { get; set; }
+        public string name { get; set; }
+    }
+
+    public class Staff
+    {
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string userId { get; set; }
+        public string email { get; set; }
+    }
+
+
+
+    public class FacilityInfo
+    {
+        public string CompanyEmail { get; set; }
+        public string AgencyName { get; set; }
+        public string ApplicationID { get; set; }
+        public string FacilityName { get; set; }
+        public string CompanyAddress { get; set; }
+        public string ApplicationTypeId { get; set; }
+        public string AppliedDate { get; set; }
+        public string AplicationCodeType { get; set; }
+        public int CurrentStageId { get; set; }
+        public string LastAssignedUser { get; set; }
+        public string GPS { get; set; }
+
+    }
+
+
+
+
     public class ApplicationRatio
     {
         public int totalapplication { get; set; }

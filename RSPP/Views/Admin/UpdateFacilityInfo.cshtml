@@ -1,7 +1,7 @@
-﻿@Model List<LPGRetailerLicense.Models.FacilityInfo>
+﻿@model List<RSPP.Models.FacilityInfo>
     @{
-        ViewBag.Title = "UpdateFacilityInfo";
-        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        ViewBag.Title = "Update Facility Info";
+        Layout = "~/Views/Shared/_ElaLayout.cshtml";
 
     }
 
@@ -23,128 +23,60 @@
                             <div class="row">
                                 <div class="col-md-12">
 
-                                    <div class="col-sm-6">
-                                        <label>Company Name</label>
-                                        <div class="form-group">
-                                            <div class="col-sm-10">
-                                                <input id="CompanyName" name="CompanyName" type="text" readonly />
-                                                <input id="FacilityId" name="FacilityId" type="hidden" />
-                                            </div>
+                                    <div><label class="control-label">Application Ref</label></div>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" id="ApplicationId" name="ApplicationId" readonly class="form-control" />
+
                                         </div>
-
-                                        <label>Company Email</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="CompanyEmail" readonly name="CompanyEmail" class="form-control" />
-                                            </div>
-                                        </div>
-
-                                        <label>Facility Address</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="Facaddress" name="Facaddress" class="form-control" />
-                                            </div>
-                                        </div>
-
-
-
-                                        @*<label>Company Email</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="CompanyEmail" readonly name="CompanyEmail" class="form-control" />
-                                            </div>
-                                        </div>*@
-
-                                        <label>Staff Location Id</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="stafflocationid" name="stafflocationid" class="form-control" />
-                                            </div>
-                                        </div>
-
-
-
                                     </div>
-                                    <div class="col-sm-6">
 
+                                    <label>Agency Name</label>
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <input id="AgencyName" name="AgencyName" type="text" class="form-control" />
 
-                                        <label>Facility Name</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="FacilityName" name="FacilityName" class="form-control" />
-                                            </div>
                                         </div>
+                                    </div>
 
-                                        <div><label class="control-label">Application Ref</label></div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="ApplicationId" name="ApplicationId" readonly class="form-control" />
-
-                                            </div>
+                                    <label>Company Email</label>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" id="CompanyEmail" name="CompanyEmail" class="form-control" />
                                         </div>
+                                    </div>
 
-
-                                        <label>GPS Coordinate</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="Gps" name="Gps" class="form-control" />
-                                            </div>
+                                    <label>Application Type</label>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" id="ApplicationType" name="ApplicationType" class="form-control" />
                                         </div>
-
-                                        <label>Current Assigned User</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="currentassigneduser" name="currentassigneduser" class="form-control" />
-                                            </div>
-                                        </div>
-
-
-                                        <label>Current Stage Id</label>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="currentstageid" name="currentstageid" class="form-control" />
-                                            </div>
-                                        </div>
-
                                     </div>
 
 
 
-                                    @*</div>*@
-                                </div>
-                            </div>
-                        </div>
-                        <div id="hidetanktable">
-                            <div class="alert-info alert-mini" style="font-size:20px"><span class="glyphicon glyphicon-hand-down"></span> Tank Details</div>
-                            <div style="float:right">
-                                <span class="btn btn-info btn-sm" onclick="AddTanks()"> <i class="fa fa-plus"> </i> Add More Tanks </span>
-                            </div><br />
-                            <div class="row">
-                                <div class="col-md-12">
-
-                                    <table class="table table-condensed table-bordered table-striped table-hover" id="tanktable">
-
-                                        <thead>
-                                            <tr>
-                                                <th> Tank Name</th>
-                                                <th>Storage Capacity </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody class="AppendTanks">
-
-                                            <tr>
-                                            </tr>
-
-                                        </tbody>
-
-
-                                    </table>
+                                    <label>Company Address</label>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" id="CompanyAddress" name="CompanyAddress" class="form-control" />
+                                        </div>
+                                    </div>
 
 
 
+                                    <label>Current Stage Id</label>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" id="CurrentStageId" name="CurrentStageId" class="form-control" />
+                                        </div>
+                                    </div>
 
-
+                                    <label>Last Assigned User</label>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" id="LastAssignedUser" name="LastAssignedUser" class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -168,48 +100,35 @@
                     <table class="table table-striped table-condensed table-responsive table-bordered customDT" id="mytable">
                         <thead>
                             <tr>
+
+                                
+
                                 <th><strong>Application Ref</strong>
-                                <th><strong>Company Name</strong> </th>
-                                <th><strong>Facility Name</strong></th>
+                                <th><strong>Agency Name</strong> </th>
                                 <th><strong>Company Email</strong></th>
-                                <th><strong>Category</strong></th>
-                                <th><strong>Description</strong></th>
+                                <th><strong>Application Type</strong></th>
+                                <th><strong>Company Address</strong></th>
+                                <th><strong>Current Assigned User</strong></th>
                                 <th><strong>Applied Date</strong></th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (LPGRetailerLicense.Models.FacilityInfo n in Model)
+                            @foreach (RSPP.Models.FacilityInfo n in Model)
                             {
-                                <tr id="@("refresh_" + n.ApplicationID)">
+                                <tr>
                                     <td>@n.ApplicationID</td>
-                                    <td>@n.CompanyName</td>
-                                    <td>@n.FacilityName</td>
+                                    <td>@n.AgencyName</td>
                                     <td>@n.CompanyEmail</td>
-                                    <td>@n.Category</td>
-                                    <td>@n.Description</td>
+                                    <td>@n.ApplicationTypeId</td>
+                                    <td>@n.CompanyAddress</td>
+                                    <td>@n.LastAssignedUser</td>
                                     <td>@n.AppliedDate</td>
-                                    <td><button class="btn btn-success btn-xs" onclick="FacilityJs('@n.ApplicationID', '@n.CompanyEmail', '@n.CompanyName', '@n.FacilityName', '@n.FacilityId', '@n.AplicationCodeType', '@n.LocationAddress', '@n.GPS','@n.FacilitylocationId', '@n.CurrentStageId', '@n.LastAssignedUser')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
+                                    <td><button class="btn btn-success btn-xs" onclick="CompanyJs('@n.ApplicationID', '@n.AgencyName', '@n.CompanyEmail', '@n.ApplicationTypeId', '@n.CompanyAddress', '@n.LastAssignedUser')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
                                 </tr>
                             }
 
-                                @*@if (ViewBag.AllFacInformation != null)
-            {
-                foreach (var up in ViewBag.AllFacInformation)
-                {
-
-                    <tr id="@("refresh_"+up.ApplicationID)">
-                        <td>@up.ApplicationID</td>
-                        <td>@up.CompanyName</td>
-                        <td>@up.FacilityName</td>
-                        <td>@up.CompanyEmail</td>
-                        <td>@up.Category</td>
-                        <td>@up.Description</td>
-                        <td>@up.AppliedDate</td>
-                        <td><button class="btn btn-success btn-xs" onclick="Javascript:FacilityJs('@up.ApplicationID', '@up.CompanyEmail', '@up.CompanyName', '@up.FacilityName', '@up.FacilityId', '@up.AplicationCodeType', '@up.LocationAddress', '@up.GPS')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
-                    </tr>
-                }
-            }*@
+                     
                             </tbody>
                     </table>
                 </fieldset>
@@ -218,7 +137,7 @@
 
         <div style="display:none" class="loadingImage">
             <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
-                <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/Images/spinning.gif" />
+                <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
             </div>
         </div>
 
@@ -245,7 +164,7 @@
                 var options = {
                     componentRestrictions: { country: "ng" }
                 };
-                var places = new google.maps.places.Autocomplete(document.getElementById('Facaddress'), options);
+                var places = new google.maps.places.Autocomplete(document.getElementById('CompanyAddress'), options);
                 google.maps.event.addListener(places, 'place_changed', function () {
                     var place = places.getPlace();
                     var address = place.formatted_address;
@@ -338,42 +257,20 @@
                     var msg = confirm("Are you sure you want to update this record?");
                     $(".updaterecordmodal").modal("hide");
                     debugger;
-                    var CompanyName = $("#CompanyName").val();
-                    var ApplicationID = $("#ApplicationId").val();
+                    var AgencyName = $("#AgencyName").val();
+                    var ApplicationId = $("#ApplicationId").val();
                     var CompanyEmail = $("#CompanyEmail").val();
-                    var FacilityName = $("#FacilityName").val();
-                    var FacilityId = $("#FacilityId").val();
-                    var GPS = $("#Gps").val();
-                    var FacilityAddress = $("#Facaddress").val();
-                    var FacilitylocationId = $("#stafflocationid").val();
-                    var CurrentStageId = $("#currentstageid").val();
-                    var LastAssignedUser = $("#currentassigneduser").val();
+                    var ApplicationType = $("#ApplicationType").val();
+                    var CompanyAddress = $("#CompanyAddress").val();
+                    var currentStageId = $("#CurrentStageId").val();
+                    var LastAssignedUser = $("#LastAssignedUser").val();
+                    
 
-                    var Tanks = [];
-
-                    var TankName = document.getElementsByName('txtTankName[]');
-                    var TankCapacity = document.getElementsByName('txtTankCapacity[]');
-                    var TankId = document.getElementsByName('txtTankId[]');
-
-                    for (var i = 0; i < TankName.length; i++) {
-                        debugger;
-
-                        var tks = TankId[i] == "" || TankId[i] == null ? 0 : TankId[i].value.trim();
-
-
-                        Tanks.push({
-
-                            "Capacity": TankCapacity[i].value.trim(),
-                            "TankName": TankName[i].value.trim().toUpperCase(),
-                            "TankId": tks,
-                        });
-
-                    }
-
+                   
 
                     if (msg === true) {
                     $(".loadingImage").show('fast');
-                        $.post("/Admin/UpdateFacilityRecord", { "facilitylocationId": FacilitylocationId, currentStageId: CurrentStageId, "lastAssignedUser": LastAssignedUser, "ApplicationId": ApplicationID, "Companyemail": CompanyEmail, "Companyname": CompanyName, "Facilityname": FacilityName, Facilityid: FacilityId, "FacAddress": FacilityAddress, "Gps": GPS, "MyTanks": Tanks }, function (res) {
+                        $.post("/Admin/UpdateFacilityRecord", { "ApplicationId": ApplicationId, "AgencyName": AgencyName, CurrentStageId: currentStageId, "lastAssignedUser": LastAssignedUser, "ApplicationType": ApplicationType, "Companyemail": CompanyEmail, "CompanyAddress": CompanyAddress}, function (res) {
                         if (res === "success") {
                             alert("Update was successful");
 
@@ -409,74 +306,20 @@
                     "order": [[1, "desc"]]
                 });
             });
-            function FacilityJs(ApplicationID, CompanyEmail, CompanyName, FacilityName, FacilityId, Appcodetype, FacAddress, GPSCordinates, FacilitylocationId, CurrentStageId, LastAssignedUser) {
+            function CompanyJs(ApplicationId, AgencyName, CurrentStageId, lastAssignedUser, ApplicationType, Companyemail, CompanyAddress) {
                 debugger;
                 $(".loadingImage").show('fast');
-                var html = "";
-                $("#CompanyName").val(CompanyName);
-                $("#ApplicationId").val(ApplicationID);
-                $("#CompanyEmail").val(CompanyEmail);
-                $("#FacilityName").val(FacilityName);
-                $("#FacilityId").val(FacilityId);
-                $("#Facaddress").val(FacAddress);
-                $("#Gps").val(GPSCordinates);
-                $("#stafflocationid").val(FacilitylocationId);
-                $("#currentstageid").val(CurrentStageId);
-                $("#currentassigneduser").val(LastAssignedUser);
-                if (Appcodetype === "SUI" || Appcodetype === "PT") {
-                    $("#hidetanktable").hide('fast');
-                } else {
-                    $("#hidetanktable").show('fast');
-                }
-
-
-                $.post("/Admin/GetTanks", { "Facilityid": FacilityId }, function (res) {
-                    debugger;
-                    if (res.data === "success" && res.FacTank.length !== 0) {
-
-                        $.each(res.FacTank, function (keys, vals) {
-
-                            html += "<tr id='RemoveExistTank" + vals.TankId + "'><td><input class='form-control' name='txtTankName[]'  value='" + vals.TankName + "' > </input></td> <td><input class='form-control' name='txtTankCapacity[]' value='" + vals.Capacity + "'></input></td><td style='display:none'><input class='form-control' type='hidden' name='txtTankId[]' value='" + vals.TankId + "'></input></td><td><button class='btn btn-danger btn-xs' onclick='RemoveMyTanks(" + vals.TankId + ");'> <span class='glyphicon glyphicon-trash'> </span>  Delete</button> </td></tr>";
-                        });
-                        $(".AppendTanks").show('fast');
-                        $(".AppendTanks").html(html);
-                        $(".loadingImage").hide('fast');
-
-                    } else {
-                        $(".AppendTanks").hide('fast');
-                        console.log("No tank was configured for facility with the reference number " + ApplicationID);
-                        $(".loadingImage").hide('fast');
-                    }
-
-                });
+                $("#AgencyName").val(AgencyName);
+                $("#ApplicationId").val(ApplicationId);
+                $("#CompanyEmail").val(Companyemail);
+                $("#ApplicationType").val(ApplicationType);
+                $("#CompanyAddress").val(CompanyAddress);
+                $("#CurrentStageId").val(CurrentStageId);
+                $("#LastAssignedUser").val(lastAssignedUser);
                 $(".updaterecordmodal").modal('show');
+                $(".loadingImage").hide('fast');
+
             };
-
-
-
-            var Tanks_i = 1;
-
-            function AddTanks() {
-                $(".AppendTanks").show('fast');
-                debugger
-                Tanks_i++;
-
-                var html = "<tr id='Remove" + Tanks_i + "'>  <td> <input type='text' required class='form-control' id='txtTankName[]' name='txtTankName[]' /> </td>";
-                html += "<td> <input type='number' class='form-control' placeholder='KG'  id='txtTankCapacity[]'required name='txtTankCapacity[]' /> </td>";
-                html += " <td> <button class='btn btn-danger btn-xs' onclick='RemoveTank();'> <span class='glyphicon glyphicon-trash'> </span>  Delete</button> </td> </tr>";
-                $(".AppendTanks tr:last").after(html);
-            }
-            function RemoveTank() {
-                $("#Remove" + Tanks_i).remove();
-                Tanks_i--;
-            }
-
-
-
-            function RemoveMyTanks(removeid) {
-                debugger;
-                $("#RemoveExistTank" + removeid).remove();
-            }
 
         </script>
     }

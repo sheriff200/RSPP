@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Add Staff";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 
 
@@ -269,19 +269,7 @@
                                                 </div>
                                             </div>
                                             <br />
-                                            @*<div class="col-sm-4">
-
-                                                <div style="border:groove; height:120px; width:120px">
-                                                    <img id="signatureimg" src="" alt="Signature image" class="center-cropped" /><br />
-
-                                                </div>
-
-                                                <label for="imgInp" class="custom-file-upload">
-                                                    <i class="fa fa-cloud-upload"></i> Change Signature
-                                                </label>
-                                                <input id="imgInp" name="postedFile" type="file" style="display: none; width:120px"/>
-
-                                            </div>*@
+                                           
                                             </div>
                                     </div>
                                 </div>
@@ -336,7 +324,7 @@
                                 <table class="table table-striped" id="staff" style="font-size:small">
                                     <thead>
                                         <tr>
-                                            <th><strong>ID</strong>
+                                            <th><strong>Staff Email</strong>
                                             <th><strong>FullName</strong> </th>
                                             <th><strong>User Role</strong> </th>
                                             <th><strong>Status</strong> </th>
@@ -344,7 +332,6 @@
                                             <th style="width:5%"></th>
                                             <th style="width:5%"></th>
                                             <th style="width:5%"></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -377,26 +364,24 @@
                 ],
                 columns: [
                     {
-                        data: "UserEmail"
+                        data: "userEmail"
                     },
                     {
                         data: "fullname"
 
                     },
                     {
-                        data: "UserRole"
+                        data: "userRole"
                     },
                     
                     {
-                        data: "Status",
+                        data: "status",
                         render: function (data, type, user) {
-                            //var name = appointment.fullname;
-                            if (user.Status === "ACTIVE") {
+                            if (user.status === "ACTIVE") {
                                 return '<strong class="badge" style="background-color:green"><span class="glyphicon glyphicon-ok"></span> Active</strong>';
                             } else {
                                 return '<strong class="badge" style="background-color:red"><span class="glyphicon glyphicon-ban-circle"></span> DeActivated</strong>';
                             }
-                            //return appointment.ApprovedStatus == true ? '<span class="label label-success"><span class="glyphicon glyphicon-ok" style="margin-top:-2px"></span> Approved</span>' : '<a href="#" class="btn btn-danger btn-xs" onclick="SetValue(\'' + Id + '\')">Approve Me</a>';
                         }
 
                     },
@@ -405,27 +390,26 @@
 
                 "columnDefs": [
                     {
-                        "targets": 5,
+                        "targets": 4,
                         "data": null,
 
                         "render": function (data, type, row) {
-                            if (row.Status === "ACTIVE") {
+                            if (row.status === "ACTIVE") {
                                 return '<div id="deactive" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-ban-circle"></span> Deactivate</div>';
                             }
                             else {
                                 return '<span id="active" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-check"></span> Activate</span>';
 
                             }
-                            //return '<a href="' + data + '">Download</a>';
                         }
                     },
 
 
                     {
-                        "targets": 6,
+                        "targets": 5,
                         "data": null,
                         "render": function (data, type, row) {
-                            return  (row.UserRoles === "OPSCON" || row.UserRoles === "ZOPSCON" || row.UserRoles === "HOOD") ?  '<button id="EditUsers" class="btn btn-xs btn-warning EditUsers"><span class="glyphicon glyphicon-edit"></span>  Edit/Change Signature</button>' : '<button id="EditUsers" class="btn btn-xs btn-primary EditUsers"><span class="glyphicon glyphicon-edit"></span>  Edit</button>';
+                            return  '<button id="EditUsers" class="btn btn-xs btn-primary EditUsers"><span class="glyphicon glyphicon-edit"></span>  Edit</button>';
                            
                             }
                         },
@@ -433,14 +417,14 @@
 
                    
                     {
-                        "targets": 7,
+                        "targets": 6,
                         "data": null,
                         "defaultContent":
                             '<p id="DeleteUsers" class="btn btn-xs btn-danger DeleteUsers"><span class="glyphicon glyphicon-trash"></span>  Delete</p>'
                     },
 
                     {
-                        "targets": 8,
+                        "targets": 7,
                         "data": "SignatureImage",
                         "visible": false,
                         "searchable": false,
@@ -456,7 +440,7 @@
                     $(".DeactivateUser").modal('hide');
                     $(".ActivateUser").modal('hide');
                     var data = table.row($(this).parents('tr')).data();
-                    $(".useremail").val(data.UserId);
+                    $(".useremail").val(data.userEmail);
 
                 });
             $('#staff').on('click',
@@ -475,16 +459,8 @@
                     fullname = full.val().split(' ')
                     $("#FirstName").val(fullname[0]);
                     $("#LastName").val(fullname[1]);
-                    $("#UserLocation").val(data.FieldLocation);
-                    $(".UserLocationid").val(data.UserLocation);
-                    $(".roleuser").val(data.UserRoles);
-                    var str = data.SignatureImage;
-                    if (str !== null) {
-                        var signturesplit = str.split("~");
-                        $('#signatureimg').attr('src', signturesplit[1]);
-                    } else {
-                        $('#signatureimg').attr('src', "");
-                    }
+                    
+                    $(".roleuser").val(data.userRoles);
                 }); 
 
 
@@ -497,8 +473,7 @@
                     $(".ActivateUser").modal('hide');
                     var data = table.row($(this).parents('tr')).data();
                     $("#fullName").val(data.fullname);
-                    $("#userid").val(data.UserId);
-                    $("#userlocationDeactivate").val(data.UserLocation);
+                    $("#userid").val(data.userEmail);
 
                 });
             $('#staff').on('click',
@@ -509,8 +484,7 @@
                     $(".DeactivateUser").modal('hide');
                     var data = table.row($(this).parents('tr')).data();
                     $("#userfullName").val(data.fullname);
-                    $("#userID").val(data.UserId);
-                    $("#UserLocationActivate").val(data.UserLocation);
+                    $("#userID").val(data.userEmail);
                 });
 
             $(".roleuser").ready(function () {//get all user role populated in the dropdownlist
@@ -531,87 +505,45 @@
             });
 
 
-            //$(".UserLocation").ready(function () {//get all user role populated in the dropdownlist
-
-            //    var html = "";
-
-            //    $(".UserLocation").html("");
-
-            //    $.getJSON("/Admin/GetUserLocation", {
-            //    },
-
-            //        function (datas) {
-            //            $(".UserLocation").append("<option disabled selected>--Select Location--</option>");
-            //            $.each(datas,
-            //                function (key, val) {
-            //                    html += "<option value=" + val.Fieldlocationid + ">" + val.Description + "</option>";
-            //                });
-            //            $(".UserLocation").append(html);
-            //        });
-            //});
 
 
-            //$("#UserId").autocomplete({
-            //    source: function (request, response) {
-            //        debugger;
-            //        $.ajax({
-            //            url: '/Admin/UserIdAutosearch',
-            //            type: "GET",
-            //            datatype: "json",
-            //            data: {
-            //                term: request.term
-            //            },
-            //            success: function (data) {
-            //                response($.map(data,
-            //                    function (val, item) {
-            //                        return {
-            //                            label: val.userid,
-            //                            value: val.userid,
-            //                            locationid: val.id,
-            //                            staffFullName: val.name,
-            //                            UserLocation: val.fieldlocation,
-            //                            roleuser: val.role
-            //                        }
 
-            //                    }));
+            $("#UserEmail").autocomplete({
+                source: function (request, response) {
+                    debugger;
+                    $.ajax({
+                        url: '/Admin/UserIdAutosearch',
+                        type: "GET",
+                        datatype: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data,
+                                function (val, item) {
+                                    return {
+                                        label: val.userid,
+                                        value: val.userid,
+                                        staffFullName: val.name,
+                                    }
 
-            //            }
+                                }));
 
-            //        });
-            //    },
+                        }
 
-            //    select: function (event, ui) {
-            //        debugger;
-            //        $("#locationid").val(ui.item.locationid);
-            //        $("#roleuser").val(ui.item.roleuser);
-            //        $("#staffFullName").val(ui.item.staffFullName);
-            //        var userid = $("#UserId").val();
+                    });
+                },
 
-            //    }
-            //});
+                select: function (event, ui) {
+                    debugger;
+                    $("#staffFullName").val(ui.item.staffFullName);
+                    var userid = $("#UserId").val();
 
+                }
+            });
 
-            //$("#imgInp").change(function () {
-            //    readURL(this);
-            //});
 
         });
-
-
-        //function readURL(input) {
-        //    debugger;
-        //    if (input.files && input.files[0]) {
-        //        var reader = new FileReader();
-
-        //        reader.onload = function (e) {
-        //            $('#signatureimg').attr('src', e.target.result);
-        //        }
-
-        //        reader.readAsDataURL(input.files[0]);
-        //    }
-        //}
-
-
 
     </script>
 }

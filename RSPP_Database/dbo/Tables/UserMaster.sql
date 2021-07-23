@@ -16,7 +16,8 @@
     [LastComment]    VARCHAR (MAX) NULL,
     [FirstName]      VARCHAR (30)  NULL,
     [LastName]       VARCHAR (30)  NULL,
-    [SignatureImage] INT NOT NULL IDENTITY, 
+    [SignatureImage] VARCHAR(300) NOT NULL, 
+    [SignatureId] INT NOT NULL IDENTITY, 
     CONSTRAINT [PK_UserMaster] PRIMARY KEY CLUSTERED ([UserMasterId] ASC)
 );
 

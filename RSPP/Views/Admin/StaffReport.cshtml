@@ -1,10 +1,8 @@
-﻿@model IEnumerable<LPGRetailerLicense.DbEntities.UserMaster>
-@*@model IEnumerable<LpgLicense.Models.StaffReport>*@
+﻿@model IEnumerable<RSPP.Models.DB.UserMaster>
 
 @{
     ViewBag.Title = "Staff Report";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    LPGRetailerLicense.DbEntities.LpgRetailerDBEntities dbCtxt = new LPGRetailerLicense.DbEntities.LpgRetailerDBEntities();
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 
 <div class="content">
@@ -42,7 +40,6 @@
                         <th>Email</th>
                         <th>Full Name</th>
                         <th>Roles</th>
-                        <th>Location</th>
                         <th width="10">Status</th>
                     </tr>
                 </thead>
@@ -61,19 +58,11 @@
     @section Scripts {
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#Userroles, #zone, #Userlocation").change(function () {
+                $("#Userroles").change(function () {
                     table.search(this.value).draw();
                     table.ajax.reload();
-                    debugger;
-                    var rolevalue = $("#Userroles").find(":selected").text();
-                    var fieldvalue = $("#Userlocation").find(":selected").text();
-                    var zonevalue = $("#zone").find(":selected").text();
-                    //table.draw();
-                    $.getJSON("/Admin/StaffReport", { "role": rolevalue, "field": fieldvalue, "zone": zonevalue }, function (data) {
-
-                    })
-
                 });
+
                 $(".roleuser").ready(function () {//get all user role populated in the dropdownlist
                     var html = "";
 
@@ -82,7 +71,6 @@
                     $.getJSON("/Admin/GetUserRole",
                         {},
                         function (datas) {
-                            //$(".roleuser").append("<option disabled >--Select Role--</option>");
                             $.each(datas,
                                 function (key, val) {
                                     html += "<option value=" + val.role + ">" + val.role + "</option>";
@@ -94,47 +82,7 @@
                 });
 
 
-                $(".UserLocation").ready(function () {//get all field Location populated in the dropdownlist
-
-                    var html = "";
-
-                    $(".UserLocation").html("");
-
-                    $.getJSON("/Admin/GetFieldLocation", {
-                    },
-
-                        function (datas) {
-                            $(".UserLocation").append("<option disabled selected>--Select Field Office--</option>");
-                            $.each(datas,
-                                function (key, val) {
-                                    html += "<option value=" + val.Fieldlocationid + ">" + val.Description + "</option>";
-                                });
-                            $(".UserLocation").append("<option value='ALLFields'>ALL</option>");
-
-                            $(".UserLocation").append(html);
-                        });
-                });
-                $(".zonalLocation").ready(function () {//get all zonal Location populated in the dropdownlist
-
-                    var html = "";
-
-                    $(".zonalLocation").html("");
-
-                    $.getJSON("/Admin/GetZonalLocation", {
-                    },
-
-                        function (datas) {
-                            $(".zonalLocation").append("<option disabled selected>--Select Zonal Office--</option>");
-                            $.each(datas,
-                                function (key, val) {
-                                    html += "<option value=" + val.Fieldlocationid + ">" + val.Description + "</option>";
-                                });
-                            $(".zonalLocation").append("<option value='ALLZones'>ALL</option>");
-
-                            $(".zonalLocation").append(html);
-                        });
-
-                });
+                
 
                 var table = $(".dataTable").DataTable({
 
@@ -146,8 +94,6 @@
                         type: "POST",
                         async: true,
                         "sDom": "rtipl",
-                        "deferRender": true,
-                        "deferLoading": 5,
                         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
                     },
                     //sDom: 'Blrtip',
@@ -156,134 +102,182 @@
                         'csv', 'excel', 'pdf', 'print'
                     ],
                     columns: [
-                        { data: "UserId" }, { data: "Fullname" }, { data: "UserRoles" }, { data: "Description" },
+                        { data: "userId" }, { data: "fullname" }, { data: "userRoles" }
                         {
-                            data: "Status",
+                            data: "status",
                             render: function (data, type, user) {
-                                return user.Status === "ACTIVE" ? '<strong class="badge" style="background-color:green">' + user.Status + '</strong>' : '<strong class="badge" style="background-color:red">' + user.Status + '</strong>';
+                                return user.status === "ACTIVE" ? '<strong class="badge" style="background-color:green">' + user.status + '</strong>' : '<strong class="badge" style="background-color:red">' + user.status + '</strong>';
                             }
                         },
                     ],
 
 
-                    "columnDefs": [
+                  });
+
+
+
+
+
+                var container = $('<div/>').insertBefore(table.table().container());
+
+                var chart = Highcharts.chart(container[0], {
+                    chart: {
+                        type: 'pie',
+                    },
+                    title: {
+                        text: 'Staff List',
+                    },
+                    series: [
                         {
-                            "targets": 5,
-                            "data": "UserLocation",
-                            "visible": false,
-                            "searchable": true,
+                            data: chartData(table),
                         },
                     ],
-                    "deferLoading": 5,
                 });
-                $.getJSON("/Admin/GetStaffChart", function (data) {
-                    table.draw();
-                    table.ajax.reload();
 
-
-                    var chart1 = Highcharts.chart({
-                        chart: {
-                            renderTo: 'container',
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false,
-                            type: 'pie',
-                            options3d: {
-                                enabled: true,
-                                alpha: 45,
-                                beta: 0
-                            }
-                        },
-                        title: {
-                            text: 'Staff Chart Ratio'
-                        },
-                        tooltip: {
-                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                        },
-                        plotOptions: {
-                            pie: {
-                                allowPointSelect: true,
-                                cursor: 'pointer',
-                                depth: 35,
-                                dataLabels: {
-                                    enabled: true,
-                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                    style: {
-                                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                    }
-                                }
-                            }
-                        },
-                        series: [{
-                            name: 'Ratio',
-                            colorByPoint: true,
-                            data: [
-                                { name: 'Total Staff', y: data.totalstaff },
-                                {
-                                    name: 'ADOPERATIONS', y: data.ADOPERATIONS, sliced: true, selected: true
-                                },
-                                { name: 'FIELDADMIN', y: data.FIELDADMIN },
-                                { name: 'HEADADMIN', y: data.HEADADMIN },
-                                { name: 'HEADGAS', y: data.HEADGAS },
-                                { name: 'OFFICER', y: data.OFFICER },
-                                { name: 'SUPERADMIN', y: data.SUPERADMIN },
-                                { name: 'SUPERVISOR', y: data.SUPERVISOR },
-                                { name: 'ZONALADMIN', y: data.ZONALADMIN },
-                                { name: 'OPSCON', y: data.ZOPSCON },
-                                { name: 'ZOPSCON', y: data.ZOPSCON },
-                            ],
-                            exporting: true
-                        }]
-                    });
-
-                    var chart2 = Highcharts.chart({
-                        chart: {
-                            renderTo: 'container1',
-                            type: 'column',
-                            margin: 75,
-                            options3d: {
-                                enabled: true,
-                                alpha: 15,
-                                beta: 15,
-                                depth: 50,
-                                viewDistance: 25
-                            }
-                        },
-                        title: {
-                            text: 'Staff Bar Chart'
-                        },
-                        xAxis: {
-                            categories: ['TOTAL STAFFS', 'ADOPERATIONS', 'FIELDADMIN', 'HEADADMIN', 'HEADGAS', 'OFFICER', 'SUPERADMIN', 'SUPERVISOR', 'ZONALADMIN', 'ZOPSCON']
-                        },
-                        plotOptions: {
-                            column: {
-                                depth: 25
-                            }
-                        },
-                        series: [{
-                            name: 'Total',
-                            colorByPoint: true,
-                            data: [
-                                [data.totalstaff],
-                                [data.ADOPERATIONS],
-                                [data.FIELDADMIN],
-                                [data.HEADADMIN],
-                                [data.HEADGAS],
-                                [data.OFFICER],
-                                [data.SUPERADMIN],
-                                [data.SUPERVISOR],
-                                [data.ZONALADMIN],
-                                [data.ZOPSCON]
-                            ]
-                        }]
-                    });
-
+                // On each draw, update the data in the chart
+                table.on('draw', function () {
+                    chart.series[0].setData(chartData(table));
                 });
+
+
+
+                //$.getJSON("/Admin/GetStaffChart", function (data) {
+                //    table.draw();
+                //    table.ajax.reload();
+
+
+                //    var chart1 = Highcharts.chart({
+                //        chart: {
+                //            renderTo: 'container',
+                //            plotBackgroundColor: null,
+                //            plotBorderWidth: null,
+                //            plotShadow: false,
+                //            type: 'pie',
+                //            options3d: {
+                //                enabled: true,
+                //                alpha: 45,
+                //                beta: 0
+                //            }
+                //        },
+                //        title: {
+                //            text: 'Staff Chart Ratio'
+                //        },
+                //        tooltip: {
+                //            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                //        },
+                //        plotOptions: {
+                //            pie: {
+                //                allowPointSelect: true,
+                //                cursor: 'pointer',
+                //                depth: 35,
+                //                dataLabels: {
+                //                    enabled: true,
+                //                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                //                    style: {
+                //                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                //                    }
+                //                }
+                //            }
+                //        },
+                //        series: [{
+                //            name: 'Ratio',
+                //            colorByPoint: true,
+                //            data: [
+                //                { name: 'Total Staff', y: data.totalstaff },
+                //                {
+                //                    name: 'ADOPERATIONS', y: data.ADOPERATIONS, sliced: true, selected: true
+                //                },
+                //                { name: 'FIELDADMIN', y: data.FIELDADMIN },
+                //                { name: 'HEADADMIN', y: data.HEADADMIN },
+                //                { name: 'HEADGAS', y: data.HEADGAS },
+                //                { name: 'OFFICER', y: data.OFFICER },
+                //                { name: 'SUPERADMIN', y: data.SUPERADMIN },
+                //                { name: 'SUPERVISOR', y: data.SUPERVISOR },
+                //                { name: 'ZONALADMIN', y: data.ZONALADMIN },
+                //                { name: 'OPSCON', y: data.ZOPSCON },
+                //                { name: 'ZOPSCON', y: data.ZOPSCON },
+                //            ],
+                //            exporting: true
+                //        }]
+                //    });
+
+
+
+
+                //    var chart2 = Highcharts.chart({
+                //        chart: {
+                //            renderTo: 'container1',
+                //            type: 'column',
+                //            margin: 75,
+                //            options3d: {
+                //                enabled: true,
+                //                alpha: 15,
+                //                beta: 15,
+                //                depth: 50,
+                //                viewDistance: 25
+                //            }
+                //        },
+                //        title: {
+                //            text: 'Staff Bar Chart'
+                //        },
+                //        xAxis: {
+                //            categories: ['TOTAL STAFFS', 'ADOPERATIONS', 'FIELDADMIN', 'HEADADMIN', 'HEADGAS', 'OFFICER', 'SUPERADMIN', 'SUPERVISOR', 'ZONALADMIN', 'ZOPSCON']
+                //        },
+                //        plotOptions: {
+                //            column: {
+                //                depth: 25
+                //            }
+                //        },
+                //        series: [{
+                //            name: 'Total',
+                //            colorByPoint: true,
+                //            data: [
+                //                [data.totalstaff],
+                //                [data.ADOPERATIONS],
+                //                [data.FIELDADMIN],
+                //                [data.HEADADMIN],
+                //                [data.HEADGAS],
+                //                [data.OFFICER],
+                //                [data.SUPERADMIN],
+                //                [data.SUPERVISOR],
+                //                [data.ZONALADMIN],
+                //                [data.ZOPSCON]
+                //            ]
+                //        }]
+                //    });
+
+                //});
 
 
 
 
             });
+
+
+            function chartData(table) {
+                var counts = {};
+
+                // Count the number of entries for each position
+                table
+                    .column(1, { search: 'applied' })
+                    .data()
+                    .each(function (val) {
+                        if (counts[val]) {
+                            counts[val] += 1;
+                        } else {
+                            counts[val] = 1;
+                        }
+                    });
+
+                // And map it to the format highcharts uses
+                return $.map(counts, function (val, key) {
+                    return {
+                        name: key,
+                        y: val,
+                    };
+                });
+            }
+
 
         </script>
     }

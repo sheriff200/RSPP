@@ -1,8 +1,8 @@
-﻿@model List<LPGRetailerLicense.DbEntities.WorkFlowNavigation>
+﻿@model List<RSPP.Models.DB.WorkFlowNavigation>
    
     @{
         ViewBag.Title = "WorkFlow";
-        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        Layout = "~/Views/Shared/_ElaLayout.cshtml";
     }
 
     <div class="content">
@@ -26,12 +26,7 @@
                                 <div class="col-md-12">
 
                                     <div class="col-sm-6">
-                                        <label>Application Type</label>
-                                        <div class="form-group">
-                                            <div class="col-sm-10">
-                                                <input class="form-control" id="txtApplicationType" required name="txtApplicationType" type="text" />
-                                            </div>
-                                        </div>
+                                        
 
                                         <label>Action</label>
                                         <div class="form-group">
@@ -108,14 +103,7 @@
                                 <div class="col-md-12">
 
                                     <div class="col-sm-6">
-                                        <label>Application Type</label>
-                                        <div class="form-group">
-                                            <div class="col-sm-10">
-                                                <input class="form-control" id="ApplicationType" name="ApplicationType" type="text" />
-                                                <input id="WorkFlowId" name="WorkFlowId" type="hidden" />
-                                            </div>
-                                        </div>
-
+                                        
                                         <label>Action</label>
                                         <div class="form-group">
                                             <div class="col-md-10">
@@ -155,15 +143,6 @@
                                             </div>
                                         </div>
 
-                                        <div><label class="control-label">Notify Action</label></div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" id="NotifyAction" name="NotifyAction" value="NONE" class="form-control" />
-
-                                            </div>
-                                        </div>
-
-
                                     </div>
 
                                 </div>
@@ -193,28 +172,24 @@
                     <table class="table table-striped table-condensed table-responsive table-bordered customDT" id="mytable">
                         <thead>
                             <tr>
-                                <th><strong>Application Type</strong>
                                 <th><strong>Action</strong> </th>
                                 <th><strong>Action Role</strong></th>
                                 <th><strong>Current StageID</strong></th>
                                 <th><strong>Next StateID</strong></th>
                                 <th><strong>Target Role</strong></th>
-                                <th><strong>Notify Action</strong></th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (LPGRetailerLicense.DbEntities.WorkFlowNavigation n in Model)
+                            @foreach (RSPP.Models.DB.WorkFlowNavigation n in Model)
                             {
                                 <tr>
-                                    <td>@n.ApplicationType</td>
                                     <td>@n.Action</td>
                                     <td>@n.ActionRole</td>
-                                    <td>@n.CurrentStageID</td>
-                                    <td>@n.NextStateID</td>
+                                    <td>@n.CurrentStageId</td>
+                                    <td>@n.NextStateId</td>
                                     <td>@n.TargetRole</td>
-                                    <td>@n.NotifyAction</td>
-                                    <td><button class="btn btn-success btn-xs" onclick="WorkFlowJs('@n.WorkFlowId', '@n.ApplicationType', '@n.Action', '@n.ActionRole', '@n.CurrentStageID', '@n.NextStateID', '@n.TargetRole', '@n.NotifyAction')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
+                                    <td><button class="btn btn-success btn-xs" onclick="WorkFlowJs('@n.WorkFlowId', '@n.Action', '@n.ActionRole', '@n.CurrentStageId', '@n.NextStateId', '@n.TargetRole')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
                                 </tr>
                             }
 
@@ -226,7 +201,7 @@
 
         <div style="display:none" class="loadingImage">
             <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
-                <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/Images/spinning.gif" />
+                <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
             </div>
         </div>
 
@@ -351,17 +326,15 @@
                     $(".updaterecordmodal").modal("hide");
                     debugger;
                     var workFlowId = $("#WorkFlowId").val();
-                    var ApplicationType = $("#ApplicationType").val();
                     var Action = $("#Action").val();
                     var ActionRole = $("#ActionRole").val();
                     var currentStageID = $("#CurrentStageID").val();
                     var nextStateID = $("#NextStateID").val();
                     var TargetRole = $("#TargetRole").val();
-                    var NotifyAction = $("#NotifyAction").val();
 
                     if (msg === true) {
                         $(".loadingImage").show('fast');
-                        $.post("/Admin/UpdateWorkFlowRecord", { WorkFlowId: workFlowId, "ApplicationType": ApplicationType, "Action": Action, "ActionRole": ActionRole, CurrentStageID: currentStageID, NextStateID: nextStateID, "TargetRole": TargetRole, "NotifyAction": NotifyAction }, function (res) {
+                        $.post("/Admin/UpdateWorkFlowRecord", { WorkFlowId: workFlowId, "Action": Action, "ActionRole": ActionRole, CurrentStageID: currentStageID, NextStateID: nextStateID, "TargetRole": TargetRole}, function (res) {
                             if (res === "success") {
                                 alert("Update was successful");
 
@@ -388,18 +361,16 @@
                 $("#workflowaddrecord").click(function () {
                     if ($("#formid").valid()) {
                         var msg = confirm("Are you sure you want to Add this record?");
-                        var ApplicationType = $("#txtApplicationType").val();
                         var Action = $("#txtAction").val();
                         var ActionRole = $("#txtActionRole").val();
                         var currentStageID = $("#txtCurrentStageID").val();
                         var nextStateID = $("#txtNextStateID").val();
                         var TargetRole = $("#txtTargetRole").val();
-                        var NotifyAction = $("#txtNotifyAction").val();
 
 
                         if (msg === true) {
                             $(".loadingImage").show('fast');
-                            $.post("/Admin/AddWorkFlowRecord", { "ApplicationType": ApplicationType, "Action": Action, "ActionRole": ActionRole, CurrentStageID: currentStageID, NextStateID: nextStateID, "TargetRole": TargetRole, "NotifyAction": NotifyAction }, function (res) {
+                            $.post("/Admin/AddWorkFlowRecord", {"Action": Action, "ActionRole": ActionRole, CurrentStageID: currentStageID, NextStateID: nextStateID, "TargetRole": TargetRole}, function (res) {
                                 if (res === "success") {
                                     alert("New record was successful");
 
@@ -446,17 +417,15 @@
                 });
             });
 
-            function WorkFlowJs(WorkFlowId, ApplicationType, Action, ActionRole, CurrentStageID, NextStateID, TargetRole, NotifyAction) {
+            function WorkFlowJs(WorkFlowId, Action, ActionRole, CurrentStageID, NextStateID, TargetRole) {
                 debugger;
                 $(".loadingImage").show('fast');
                 $("#WorkFlowId").val(WorkFlowId);
-                $("#ApplicationType").val(ApplicationType);
                 $("#Action").val(Action);
                 $("#ActionRole").val(ActionRole);
                 $("#CurrentStageID").val(CurrentStageID);
                 $("#NextStateID").val(NextStateID);
                 $("#TargetRole").val(TargetRole);
-                $("#NotifyAction").val(NotifyAction);
                 $(".updaterecordmodal").modal('show');
                 $(".loadingImage").hide('fast');
             };

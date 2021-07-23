@@ -1,8 +1,8 @@
-﻿@model List<LPGRetailerLicense.DbEntities.ActionHistory>
+﻿@model List<RSPP.Models.DB.ActionHistory>
 
 @{
     ViewBag.Title = "TransitionHistory";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 
 
@@ -18,8 +18,10 @@
                     <tr>
                         <th width="5%">#</th>
                         <th width="15%">Date</th>
-                        <th width="15%">Location</th>
+                        <th width="15%">Staff Role</th>
                         <th width="15%">Action</th>
+                        <th width="15%">Role Processed</th>
+                        <th width="15%">Role Received</th>
                         <th width="25%">ProcessedBy</th>
                         <th width="20%">ReceivedBy</th>
                         <th width="65%">Message</th>
@@ -28,17 +30,18 @@
                 <tbody>
                     @{int i = 1;}
 
-                    @foreach (LPGRetailerLicense.DbEntities.ActionHistory n in Model)
+                    @foreach (RSPP.Models.DB.ActionHistory n in Model)
                     {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@n.ActionDate.Value.ToString("yyyy-MMM-dd HH:mm")</td>
-                            <td>@( ((n.TriggeredByRole == n.TargetedToRole) && n.TriggeredByRole == "COMPANY")?"COMPANY":n.FieldLocation.Description)</td>
-                            <td>@n.Action</td>
-                            <td>@n.TriggeredBy</td>
-                            <td>@n.TargetedTo</td>
-                            <td>@n.MESSAGE</td>
-                        </tr>
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@n.ActionDate.Value.ToString("yyyy-MMM-dd HH:mm")</td>
+                        <td>@n.TriggeredBy</td>
+                        <td>@n.TargetedToRole</td>
+                        <td>@n.Action</td>
+                        <td>@n.TriggeredBy</td>
+                        <td>@n.TargetedTo</td>
+                        <td>@n.Message</td>
+                    </tr>
                     }
                 </tbody>
             </table>

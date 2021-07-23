@@ -7,6 +7,7 @@ using RSPP.Models;
 using RSPP.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -752,5 +753,45 @@ namespace RSPP.Configurations
             }
             return UploadedDocuments;
         }
+
+
+
+
+
+        public void GenerateCertificate(string applicationId, string staffemail)
+        {
+
+
+            decimal processFees = 0;
+            decimal statutoryFees = 0;
+            String errorMessage = null;
+            DateTime currentDateTime = DateTime.UtcNow.AddYears(1);
+            DateTime currentDate = DateTime.UtcNow;
+            try
+            {
+                Logger.Info("About to generate License");
+                string expiryDate = currentDateTime.ToString("yyyy") + "-12-31";
+                var Signatureid = (from u in _context.UserMaster where u.UserEmail == staffemail select u.SignatureId).FirstOrDefault();
+                ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == applicationId.Trim()).FirstOrDefault();
+                var isRenewed = appRequest.ApplicationTypeId == "NEW" ? "NO" : "YES";
+                appRequest.LicenseIssuedDate = appRequest.LicenseIssuedDate == null ? DateTime.UtcNow : appRequest.LicenseIssuedDate;
+                appRequest.LicenseExpiryDate = appRequest.LicenseExpiryDate == null ? DateTime.ParseExact(expiryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture) : appRequest.LicenseExpiryDate;
+                string LicenseRef = generalClass.GenerateCertificateNumber(_context);
+                Logger.Info("Generated License Num => " + LicenseRef);
+                appRequest.LicenseReference = appRequest.LicenseReference == null ? LicenseRef : appRequest.LicenseReference;
+                appRequest.SignatureId = Convert.ToInt32(Signatureid);
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.InnerException);
+            }
+        }
+
+
+
+
+
     }
 }

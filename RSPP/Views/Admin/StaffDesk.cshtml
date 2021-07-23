@@ -1,8 +1,8 @@
-﻿@model LPGRetailerLicense.Models.StaffDeskModel
+﻿@model RSPP.Models.StaffDeskModel
 
 @{
-    ViewBag.Title = "StaffDesk";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Staff Desk";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 
 
@@ -15,13 +15,11 @@
                 <th>#</th>
                 <th>Staff Email</th>
                 <th>Staff Name</th>
-                @* <th>Branch Name (Location)</th>
-                    <th>Department</th>*@
                 <th>Role</th>
                 <th>On Desk</th>
                 <th>Status</th>
                 <th></th>
-                @if (ViewBag.UserRole == "SUPPORT" || ViewBag.UserRole == "HEADGAS" || ViewBag.UserRole == "ADGAS" || ViewBag.UserRole == "OPSCON" || ViewBag.UserRole == "SUPERADMIN" || ViewBag.UserRole == "SUPERVISOR" || ViewBag.UserRole == "ADOPERATIONS" || ViewBag.UserRole == "ZOPSCON" || ViewBag.UserRole == "DIRECTOR" || ViewBag.UserRole == "ICT-ADMIN")
+                @if (ViewBag.UserRole == "SUPPORT" || ViewBag.UserRole == "ICT" || ViewBag.UserRole == "SUPERADMIN")
                 {
                     <th style="width:5px"></th>
                 }
@@ -29,15 +27,13 @@
         </thead>
         <tbody>
             @{int i = 1;}
-            @foreach (LPGRetailerLicense.Models.StaffDesk s in Model.StaffDeskList)
+            @foreach (RSPP.Models.StaffDesk s in Model.StaffDeskList)
             {
 
                 <tr>
                     <td>@(i++)</td>
                     <td>@s.StaffEmail</td>
                     <td>@s.StaffName </td>
-                    @*<td></td>
-                        <td></td>*@
                     <td>@s.Role</td>
                     <td>@s.OnDesk</td>
                     <td>@s.status</td>
@@ -45,7 +41,7 @@
                         <a href="#modalPopup" data-url="@Url.Action("ViewStaffDesk", new { userid = s.StaffEmail })"
                            data-name="@s.StaffName" class="popAlert btn btn-xs btn-info" data-toggle="modal">View Desk</a>
                     </td>
-                    @if (ViewBag.UserRole == "SUPPORT" || ViewBag.UserRole == "HEADGAS" || ViewBag.UserRole == "ADGAS" || ViewBag.UserRole == "OPSCON" || ViewBag.UserRole == "SUPERADMIN" || ViewBag.UserRole == "SUPERVISOR" || ViewBag.UserRole == "ADOPERATIONS" || ViewBag.UserRole == "ZOPSCON" || ViewBag.UserRole == "HOOD" || ViewBag.UserRole == "ICT-ADMIN")
+                    @if (ViewBag.UserRole == "SUPPORT" || ViewBag.UserRole == "ICT" || ViewBag.UserRole == "SUPERADMIN")
                     {
                         <td>
                             <a class="btn btn-success btn-xs btn-block appidlist" href="javascript:DelegateNewUser('@s.StaffEmail','@s.Role')"><span class="glyphicon glyphicon-transfer"></span> Re-Route</a>
@@ -63,7 +59,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
-                        <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100; width:100px; margin-top:-110px" src="~/Images/spinning.gif" />
+                        <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100; width:100px; margin-top:-110px" src="~/images/spinning.gif" />
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-success" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span>  Are you Sure You Want to Re-Assign User?</h4>
@@ -103,7 +99,6 @@
     <script type="text/javascript">
         $(function () {
 
-            $("#lnk-staff > a").addClass("selected").find(".act").addClass("selected");
             $("#assign").hide('fast');
             $("[rel='tooltip']").tooltip();
 

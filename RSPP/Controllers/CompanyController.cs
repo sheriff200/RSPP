@@ -129,14 +129,15 @@ namespace RSPP.Controllers
         }
 
 
-        public IActionResult ApplicationForm(string ApplicationId = null)
+        public IActionResult ApplicationForm(string ApplicationId)
         {
             ApplicationRequestForm appdetail = new ApplicationRequestForm();
             var agencyid = 2;//_helpersController.sessionAgencyId();
             var AgencyId = Convert.ToInt32(agencyid);
             ViewBag.AgencyID = AgencyId;
+
             var appdetails = (from a in _context.ApplicationRequestForm where a.ApplicationId == ApplicationId select a).FirstOrDefault();
-            var govagencydetails = (from a in _context.GovernmentAgency where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+            var govagencydetails =  (from a in _context.GovernmentAgency where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var logisticsserviceprovider = (from a in _context.LogisticsServiceProvider where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var otherportserviceprovider = (from a in _context.OtherPortServiceProvider where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var portoffdockserviceprovider = (from a in _context.PortOffDockTerminalOperator where a.ApplicationId == ApplicationId select a).FirstOrDefault();
@@ -254,7 +255,7 @@ namespace RSPP.Controllers
                 appdetails.CompanyWebsite = model.CompanyWebsite;
                 appdetails.AgencyId = agencyId;
                 appdetails.CurrentStageId = 1;
-
+                appdetails.PrintedStatus = "Not Printed";
                 if (checkappexist == null)
                 {
                     _context.Add(appdetails);
@@ -714,12 +715,125 @@ namespace RSPP.Controllers
         }
 
 
+        [HttpPost]
+
+        public JsonResult CertificateRenewal(string CertificateNumber)
+        {
+          // List<dynamic> appdetails = null;
+            var details = (from a in _context.ApplicationRequestForm where a.LicenseReference == CertificateNumber select a).FirstOrDefault();
+            if(details != null)
+            {
+                if(details.AgencyId == 1)
+                {
+                   var appdetails = (from a in _context.ApplicationRequestForm  join g in _context.GovernmentAgency on a.ApplicationId equals g.ApplicationId 
+                                     select new{
+                                     a.ApplicationId,
+                                     a.AgencyId,
+                                     a.DateofEstablishment,
+                                     a.CompanyEmail,
+                                     a.CompanyWebsite,
+                                     a.AgencyName,
+                                     a.PostalAddress,
+                                     a.CompanyAddress,
+                                     g.ServicesProvidedInPort,
+                                     g.AnyOtherRelevantInfo
+                                     }).ToList(); 
+                   
+                    return Json(appdetails);
+                }else if(details.AgencyId == 2)
+                {
+                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.LogisticsServiceProvider on a.ApplicationId equals g.ApplicationId 
+                                      select new {
+                                          a.ApplicationId,
+                                          a.AgencyId,
+                                          a.DateofEstablishment,
+                                          a.CompanyEmail,
+                                          a.CompanyWebsite,
+                                          a.AgencyName,
+                                          a.PostalAddress,
+                                          a.CompanyAddress,
+                                          g.AnyOtherInfo,
+                                          g.CrffnRegistrationNum,
+                                          g.CrffnRegistratonExpiryDate,
+                                          g.CustomLicenseExpiryDate,
+                                          g.CustomLicenseNum,
+                                          g.LineOfBusiness,
+                                          g.OtherLicense,
+                                          g.OtherLicenseExpiryDate
+                                      }).ToList();
+                    return Json(appdetails);
+                }
+                else if (details.AgencyId == 3)
+                {
+                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.PortOffDockTerminalOperator on a.ApplicationId equals g.ApplicationId
+                                      select new {
+                                          a.ApplicationId,
+                                          a.AgencyId,
+                                          a.DateofEstablishment,
+                                          a.CompanyEmail,
+                                          a.CompanyWebsite,
+                                          a.AgencyName,
+                                          a.PostalAddress,
+                                          a.CompanyAddress,
+                                          g.LineOfBusiness,
+                                          g.CargoType,
+                                          g.AnyOtherInfo,
+                                          //g.LocationOfTerminal,
+                                          // g.NameOfTerminal,
+                                          //g.StatusOfTerminal
+                                          Terminal = (from t in _context.ApplicationRequestForm where t.ApplicationId == a.ApplicationId select t).ToList()
+                                      }).ToList();
+                    return Json(appdetails);
+                }
+                else if (details.AgencyId == 4)
+                {
+                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.ShippingAgency on a.ApplicationId equals g.ApplicationId 
+                                      select new {
+                                          a.ApplicationId,
+                                          a.AgencyId,
+                                          a.DateofEstablishment,
+                                          a.CompanyEmail,
+                                          a.CompanyWebsite,
+                                          a.AgencyName,
+                                          a.PostalAddress,
+                                          a.CompanyAddress,
+                                          g.AnyOtherInfo,
+                                          g.CargoType,
+                                          g.LineOfBusiness,
+                                          g.VesselLinesRepresentedInNigeria
+
+                                      }).ToList();
+                    return Json(appdetails);
+                }
+                else if (details.AgencyId == 5)
+                {
+                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.OtherPortServiceProvider on a.ApplicationId equals g.ApplicationId 
+                                      select new {
+                                          a.ApplicationId,
+                                          a.AgencyId,
+                                          a.DateofEstablishment,
+                                          a.CompanyEmail,
+                                          a.CompanyWebsite,
+                                          a.AgencyName,
+                                          a.PostalAddress,
+                                          a.CompanyAddress,
+                                          g.AnyOtherInfo,
+                                          g.LineOfBusiness
+                                      }).ToList();
+                    return Json(appdetails);
+                }
+            }
+            return Json("");
+        }
 
 
 
-
-
-
+        [HttpPost]
+        public ActionResult GetCertificateNumber()
+        {
+            var certificatelist = (from a in _context.ApplicationRequestForm where a.LicenseReference != null && a.CompanyEmail == _helpersController.getSessionEmail() select new { a.LicenseReference }).ToList();
+            return Json(certificatelist);
+        }
 
 
 

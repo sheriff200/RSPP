@@ -2,7 +2,7 @@
 
     @{
         ViewBag.Title = "Companies";
-        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        Layout = "~/Views/Shared/_ElaLayout.cshtml";
     }
 
 
@@ -41,7 +41,6 @@
     @section scripts{
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#lnk-Applications > a").addClass("selected").find(".act").addClass("selected");
                 $(".customDT").dataTable({
                     "aLengthMenu": [25, 50, 75, 100, 200],
                     'iDisplayLength': 25,

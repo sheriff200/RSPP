@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Payment List";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 <div class="content">
     <div class="row">
@@ -90,11 +90,10 @@
                                         <tr>
                                             <th><strong>ApplicationID</strong> </th>
                                             <th><strong>Remita Ref</strong> </th>
-                                            <th><strong>Category</strong> </th>
+                                            <th><strong>Application Type</strong> </th>
                                             <th><strong>Status</strong> </th>
                                             <th><strong>Company Name</strong> </th>
                                             <th><strong>Company Email</strong> </th>
-                                            <th><strong>State Name</strong> </th>
                                             <th><strong>Total Amount</strong> </th>
                                             <th><strong>Transaction Date</strong> </th>
                                         </tr>
@@ -196,16 +195,16 @@
                 dom: 'Blfrtip',
                 columns: [
                     {
-                        data: "ApplicationID"
+                        data: "applicationID"
                     },
                     {
-                        data: "RRReference"
+                        data: "rrreference"
                     },
                     {
-                        data: "category"
+                        data: "applicationType"
                     },
                     {
-                        data: "Status"
+                        data: "status"
                     },
                     {
                         data: "companyname"
@@ -213,9 +212,7 @@
                     {
                         data: "companyemail"
                     },
-                    {
-                        data: "StateName"
-                    },
+                    
                     {
                         data: "amt",
 
@@ -239,7 +236,7 @@
 
                     // Total over this page
                     pageTotal = api
-                        .column(7, { filter: 'applied' })
+                        .column(6, { filter: 'applied' })
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
@@ -247,7 +244,7 @@
 
                     // Update footer
                     debugger;
-                    $(api.column(7).footer()).html(
+                    $(api.column(6).footer()).html(
                         'Total= ' + '₦' + pageTotal,
                         $("#totalsum").text(pageTotal),
                         $("#amtinword").text("(" + numberToWords(Number(pageTotal)) + ")"),

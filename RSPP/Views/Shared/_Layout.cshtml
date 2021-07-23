@@ -11,15 +11,15 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="icon" type="image/png" sizes="16x16" href="~/images/coa.png">
-
-
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.checkboxes.css" rel="stylesheet" />
+    <link href="~/css/jquery.multiselect.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
           asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
           asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-
     <link rel="stylesheet" href="~/lib/semantic ui/dist/semantic.css" />
-
     <link href="~/css/MainStyle.css" rel="stylesheet" />
     <link href="~/css/otherStyle.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -43,8 +43,14 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/semantic ui/dist/semantic.js"></script>
     <script src="~/js/highcharts.js"></script>
-
-
+    <script src="~/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.checkboxes.min.js"></script>
+    <script src="~/js/dataTables.buttons.min.js"></script>
+    <script src="~/js/jquery.multiselect.js"></script>
+    <script src="~/js/buttons.print.min.js"></script>
+    <script src="~/js/buttons.html5.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
             asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
             asp-fallback-test="window.jQuery"
@@ -59,12 +65,13 @@
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/lib/semantic ui/dist/semantic.js"></script>
-
+    @*<script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/semantic ui/dist/semantic.js"></script>*@
 
     @RenderSection("Scripts", required: false)
+
+
 </body>
 </html>
 
