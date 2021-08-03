@@ -14,7 +14,6 @@
     [CurrentStageID]      INT           NULL,
     [LastAssignedUser]    VARCHAR (50)  NULL,
     [AddedDate]           DATETIME      NULL,
-    [SignatureID]         INT           NULL,
     [Status]              VARCHAR (40)  NULL,
     [ModifiedDate] DATETIME NULL, 
     [ApplicationTypeId] VARCHAR(10) NULL, 

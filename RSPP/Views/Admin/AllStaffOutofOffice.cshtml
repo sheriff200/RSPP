@@ -3,12 +3,7 @@
     Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 <div class="content">
-    <div class="row" style="margin-top:-25px">
-        <div class="pageTitle bg1">
-            <h3 class="lefty">Staff(s) Out of Office</h3>
-            <div class="clear"></div>
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col-md-12" style="background-color:white">
             <fieldset class="scheduler-border">
@@ -29,22 +24,22 @@
                         {
                             foreach (var up in ViewBag.AllStaffOutofOfficeList)
                             {
-                        <tr>
-                            <td>@up.Reliever</td>
-                            <td>@up.Relieved</td>
-                            <td>@up.StartDate</td>
-                            <td>@up.EndDate</td>
-                            <td>@up.Comment</td>
-                            <td>
-                                @if (up.Status == "Finished")
-                                {<span class="label label-danger">@up.Status</span>}
-                            else if (up.Status == "Starting")
-                            {<span class="label label-warning">@up.Status</span>}
-                        else
-                        {<span class="label label-success">@up.Status</span>}
-                            </td>
+                                <tr>
+                                    <td>@up.Reliever</td>
+                                    <td>@up.Relieved</td>
+                                    <td>@up.StartDate</td>
+                                    <td>@up.EndDate</td>
+                                    <td>@up.Comment</td>
+                                    <td>
+                                        @if (up.Status == "Finished")
+                                        {<span class="label label-danger">@up.Status</span>}
+                                    else if (up.Status == "Starting")
+                                    {<span class="label label-warning">@up.Status</span>}
+                                else
+                                {<span class="label label-success">@up.Status</span>}
+                                    </td>
 
-                        </tr>
+                                </tr>
                             }
                         }
                     </tbody>

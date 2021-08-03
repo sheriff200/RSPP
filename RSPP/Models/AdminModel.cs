@@ -83,6 +83,53 @@ namespace RSPP.Models
 
 
 
+    public class Permitmodel
+    {
+        public string TelePhoneNumber { get; set; }
+        public string Fieldofficeaddress { get; set; }
+        public string Signature { get; set; }
+        public string PMB { get; set; }
+        public string Address { get; set; }
+        public string LGA { get; set; }
+        public string ApprefNo { get; set; }
+
+        public string CompanyName { get; set; }
+        public string State { get; set; }
+        public string RegisteredAddress { get; set; }
+        public string LocationAddress { get; set; }
+        public string IssuedDate { get; set; }
+        public string PermitNumber { get; set; }
+        public decimal Amountpaid { get; set; }
+        public string CompanyIdentity { get; set; }
+        public string LicenseNumber { get; set; }
+        public decimal Capacity { get; set; }
+        public string CapacityToWord { get; set; }
+        public string AmountToWord { get; set; }
+        public string IssuedDay { get; set; }
+        public DateTime DateIssued { get; set; }
+        public string IssuedMonth { get; set; }
+        public string ExpiryDay { get; set; }
+         public string AgencyName { get; set; }
+        public string ExpiryMonth { get; set; }
+        public string IssuedYear { get; set; }
+        public string ExpiryYear { get; set; }
+        public DateTime Expiry { get; set; }
+        public byte[] QrCode { get; internal set; }
+
+
+
+    }
+
+
+
+    public class PermitModels
+    {
+        public List<Permitmodel> permitmodels { get; set; }
+    }
+
+
+
+
     public class ApplicationRatio
     {
         public int totalapplication { get; set; }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using RSPP.Configurations;
 using RSPP.Helper;
@@ -20,7 +22,7 @@ namespace RSPP.Controllers
     public class AdminController : Controller
     {
 
-
+        
 
         public RSPPdbContext _context;
         private WorkFlowHelper workflowHelper;
@@ -142,7 +144,8 @@ namespace RSPP.Controllers
                 var checkexistence = (from u in _context.UserMaster where u.UserEmail == user.UserEmail select u).FirstOrDefault();
                 if (checkexistence != null)
                 {
-                    TempData["AlreadyExist"] = "User Already Exist";
+                   return Content("<html><head><script>alert('hghhghugygfyff')</script></head></html>");
+                   
                 }
                 else
                 {
@@ -538,8 +541,8 @@ namespace RSPP.Controllers
                              p.Status,
                              p.CompanyEmail,
                              p.AgencyName,
-                             issueddate = p.LicenseIssuedDate.ToString(),
-                             expirydate = p.LicenseExpiryDate.ToString(),
+                             LicenseIssuedDate = p.LicenseIssuedDate.ToString(),
+                             LicenseExpiryDate = p.LicenseExpiryDate.ToString(),
                              expiryDATE = p.LicenseExpiryDate,
                              issuedDATE = p.LicenseIssuedDate
                          });
@@ -558,7 +561,7 @@ namespace RSPP.Controllers
                 {
                     staff = staff.Where(a => a.ApplicationId.Contains(searchTxt) || a.CompanyEmail.Contains(searchTxt)
                    || a.Status.Contains(searchTxt) || a.AgencyName.Contains(searchTxt)
-                   || a.issueddate.Contains(searchTxt) || a.expirydate.Contains(searchTxt));
+                   || a.LicenseIssuedDate.Contains(searchTxt) || a.LicenseExpiryDate.Contains(searchTxt));
                 }
             }
             string firstdate = Request.Form["mymin"];
@@ -663,10 +666,10 @@ namespace RSPP.Controllers
 
 
         [HttpGet]
-        public ActionResult CompanyProfile(string ApplicationId, string CompanyEmail)
+        public ActionResult CompanyProfile(string CompanyEmail)
         {
 
-            var companydetails = (from a in _context.ApplicationRequestForm select a).ToList();
+            var companydetails = (from a in _context.UserMaster where a.UserEmail == CompanyEmail select a).ToList();
 
             ViewBag.AllCompanyDocument = _helpersController.CompanyDocument(CompanyEmail);
 
@@ -819,6 +822,89 @@ namespace RSPP.Controllers
             }
             return RedirectToAction("OutOfOffice", "Admin", "");
         }
+
+
+
+
+
+
+
+
+
+
+
+        public ActionResult ALLPermits()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult GetAllPermits()
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+
+            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDir = Request.Form["order[0][dir]"].FirstOrDefault();
+
+            var searchTxt = Request.Form["search[value]"][0];
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+            var today = DateTime.Now.Date;
+
+            var staff = (from p in _context.ApplicationRequestForm where p.LicenseReference != null
+                         
+                         select new
+                         {
+                             p.ApplicationId,
+                             p.LicenseReference,
+                             p.CompanyEmail,
+                             p.CompanyAddress,
+                             p.ApplicationTypeId,
+                             p.AgencyName
+                         });
+               
+
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                staff = staff.OrderBy(s => s.ApplicationId + " " + sortColumnDir);
+            }
+            if (!string.IsNullOrEmpty(searchTxt))
+            {
+                staff = staff.Where(a => a.ApplicationId.Contains(searchTxt) || a.AgencyName.Contains(searchTxt) || a.LicenseReference.Contains(searchTxt)
+               || a.CompanyEmail.Contains(searchTxt) || a.ApplicationTypeId.Contains(searchTxt) || a.CompanyAddress.Contains(searchTxt));
+            }
+            totalRecords = staff.Count();
+            var data = staff.Skip(skip).Take(pageSize).ToList();
+            switch (sortColumn)
+            {
+                case "0":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ApplicationId).ToList() : data.OrderBy(p => p.ApplicationId).ToList();
+                    break;
+                case "1":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.AgencyName).ToList() : data.OrderBy(p => p.AgencyName).ToList();
+                    break;
+                case "2":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ApplicationTypeId).ToList() : data.OrderBy(p => p.ApplicationTypeId).ToList();
+                    break;
+                case "3":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.CompanyEmail).ToList() : data.OrderBy(p => p.CompanyEmail).ToList();
+                    break;
+                case "4":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LicenseReference).ToList() : data.OrderBy(p => p.LicenseReference).ToList();
+                    break;
+                case "5":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.CompanyAddress).ToList() : data.OrderBy(p => p.CompanyAddress).ToList();
+                    break;
+            }
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data });
+
+        }
+
 
 
 
@@ -1196,8 +1282,8 @@ namespace RSPP.Controllers
                              p.CompanyEmail,
                              p.Status,
                              p.AgencyName,
-                             issuedDATE = p.LicenseIssuedDate,
-                             expiryDATE = p.LicenseExpiryDate,
+                             LicenseIssuedDate = p.LicenseIssuedDate,
+                             LicenseExpiryDate = p.LicenseExpiryDate,
                              issueddate = p.LicenseIssuedDate.ToString(),
                              expirydate = p.LicenseExpiryDate.ToString()
 
@@ -1226,7 +1312,7 @@ namespace RSPP.Controllers
             {
                 var mindate = Convert.ToDateTime(firstdate);
                 var maxdate = Convert.ToDateTime(lastdate);
-                staff = staff.Where(a => a.ApplicationId == a.ApplicationId && a.issuedDATE >= mindate && a.issuedDATE <= maxdate);
+                staff = staff.Where(a => a.ApplicationId == a.ApplicationId && a.LicenseIssuedDate >= mindate && a.LicenseIssuedDate <= maxdate);
             }
 
             totalRecords = staff.Count();
@@ -1272,7 +1358,7 @@ namespace RSPP.Controllers
         {
             return View();
         }
-        [HttpGet]
+
         public ActionResult NonPrintedLicense()
         {
             return View();
@@ -1351,8 +1437,8 @@ namespace RSPP.Controllers
 
 
 
-
-        public ActionResult GetNonPrintedLicense(FormCollection collection)
+        [HttpPost]
+        public ActionResult GetNonPrintedLicense()
         {
             var draw = Request.Form["draw"].FirstOrDefault();
             var start = Request.Form["start"].FirstOrDefault();
@@ -1574,15 +1660,15 @@ namespace RSPP.Controllers
         [HttpGet]
         public ActionResult UserIdAutosearch(string term = "")
         {
-            List<StaffJson> staffJsonList1 = new List<StaffJson>();
+            List<UserMaster> staffJsonList1 = new List<UserMaster>();
 
-            foreach (UserMaster staff in staffJsonList.Where(s => s.UserEmail.ToLower().Contains(term.ToLower())))
+            foreach (UserMaster staff in _context.UserMaster.Where(s => s.UserEmail.ToLower().Contains(term.ToLower())))
             {
-                staffJsonList1.Add(new StaffJson() { userid = staff.UserEmail, name = staff.FirstName + " " + staff.LastName });
+                staffJsonList1.Add(new UserMaster() { UserEmail = staff.UserEmail, FirstName = staff.FirstName + " " + staff.LastName });
             }
 
             log.Info("Fetched Staff Count =>" + staffJsonList.Count);
-            return Json(staffJsonList);
+            return Json(staffJsonList1);
 
         }
 
@@ -1649,13 +1735,13 @@ namespace RSPP.Controllers
                              p.ApplicationId,
                              p.Status,
                              p.Rrreference,
-                             pay = p.PaymentId.ToString(),
-                             amt = p.TxnAmount.ToString(),
-                             transdate = p.TransactionDate.ToString(),
+                             PaymentId = p.PaymentId.ToString(),
+                             TxnAmount = p.TxnAmount.ToString(),
+                             TransactionDate = p.TransactionDate.ToString(),
                              transDATE = p.TransactionDate,
                              r.ApplicationTypeId,
-                             companyname = r.AgencyName,
-                             companyemail = r.CompanyEmail
+                             AgencyName = r.AgencyName,
+                             CompanyEmail = r.CompanyEmail
 
                          });
 
@@ -1676,8 +1762,8 @@ namespace RSPP.Controllers
             else
             {
                 staff = staff.Where(a => a.ApplicationId.Contains(searchTxt) || a.Status.Contains(searchTxt) || a.Rrreference.Contains(searchTxt)
-               || a.Status.Contains(searchTxt) || a.ApplicationTypeId.Contains(searchTxt) || a.companyemail.Contains(searchTxt) || a.companyname.Contains(searchTxt) || a.pay.Contains(searchTxt) || a.amt.Contains(searchTxt)
-               || a.transdate.Contains(searchTxt));
+               || a.Status.Contains(searchTxt) || a.ApplicationTypeId.Contains(searchTxt) || a.CompanyEmail.Contains(searchTxt) || a.AgencyName.Contains(searchTxt) || a.PaymentId.Contains(searchTxt) || a.TxnAmount.Contains(searchTxt)
+               || a.TransactionDate.Contains(searchTxt));
             }
 
 
@@ -1820,7 +1906,7 @@ namespace RSPP.Controllers
         public ActionResult StaffMaintenance()
         {
 
-            staffJsonList = _context.UserMaster.Where(s => s.UserType != "COMPANY").ToList();
+            //staffJsonList = _context.UserMaster.Where(s => s.UserType != "COMPANY").ToList();
 
             return View();
         }
@@ -1981,6 +2067,23 @@ namespace RSPP.Controllers
 
 
         [HttpGet]
+        public ActionResult ViewStaffDesk(string userid)
+        {
+            string ErrorMessage = "";
+            ViewBag.UserId = userid;
+            List<ApplicationRequestForm> appRequestList;
+            UserMaster up = _context.UserMaster.Where(c => c.UserEmail.Trim() == userid.Trim()).FirstOrDefault();
+            appRequestList = _helpersController.GetApprovalRequests(up, out ErrorMessage);
+            ViewBag.ErrorMessage = ErrorMessage;
+
+            return PartialView("_StaffDesk", appRequestList);
+        }
+
+
+
+
+
+        [HttpGet]
         public ActionResult TransitionHistory(string applicationId)
         {
 
@@ -2122,7 +2225,7 @@ namespace RSPP.Controllers
 
                 }
 
-                ViewBag.CompanyUploadedDocument = _helpersController.CompanyDocument(appRequest.CompanyEmail);
+                ViewBag.CompanyUploadedDocument = _helpersController.UploadedCompanyDocument(appRequest.ApplicationId);
 
 
 
@@ -2218,6 +2321,13 @@ namespace RSPP.Controllers
 
 
 
+
+
+
+        //public ActionResult ViewCertificate(string id)
+        //{
+        //   // return _helpersController.ViewCertificate(id);
+        //}
 
 
 

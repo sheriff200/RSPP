@@ -7,7 +7,7 @@
 }
 <div class="content">
     <h3 class="lefty">Application Reference No: @ViewBag.ApplicationId </h3>
-    <div class="righty">
+    <div style="float:right">
         <a href='javascript:history.go(-1)' class="btn btn-default"> Back</a>
     </div>
     <hr class="clear" />
@@ -18,7 +18,7 @@
                 <div class="alert alert-danger alert-dismissible center-block" role="alert" id="welcomealert" align="center">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <i class="fa fa-exclamation-triangle fa-2x fa-border fa-spin " aria-hidden="true"></i>
-                    ViewBag.ErrorMessage
+                    @ViewBag.ErrorMessage
                 </div>
             </div>
         }
@@ -82,7 +82,8 @@
                                     <div class="list-group">
                                         @foreach (RSPP.Models.DB.UploadedDocuments doc in ViewBag.CompanyUploadedDocument)
                                         {
-                                            <a href="@doc.DocumentSource" target="_blank" class="list-group-item">@doc.DocumentName<i class="og-icon og-pdf righty"></i></a>
+                                            //~/ UploadedFiles / 072321144215_CNGD_LTO.PNG @("UploadedFiles/"+ doc.DocumentSource)
+                                            <a href="javascript:FileView('@doc.DocumentSource')" class="list-group-item">@doc.DocumentName<i class="og-icon og-pdf righty"></i></a>
                                         }
                                     </div>
                                 </dd>
@@ -95,7 +96,7 @@
 
 
                     <div class="right-side">
-                        <div class="pad">
+                        <div class="">
 
                             <table class="" style="width: 100%;">
                                 <tr>
@@ -128,16 +129,7 @@
                                         </ul>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td valign="top" class="pad"><b>Received Office</b></td>
-                                    <td>
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                @ViewBag.ReceivedOffice
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                               
                                 <tr>
                                     <td valign="top" class="pad"><b>Current Desk</b></td>
                                     <td>
@@ -520,7 +512,7 @@
             var action = $(".actions").val();
             $(".loadingImage").show('fast');
             $(".approvalModal").modal('hide');
-            if ((action == "Reject" && $.trim($('.comment').val()) == "") {
+            if ((action == "Reject" && $.trim($('.comment').val()) == "")) {
                 $(".loadingImage").hide('fast');
                 alert("Kindly state Reason for Rejection");
                 $(".comment").focus();
@@ -616,15 +608,18 @@
             });
         }
 
-          
 
-
-
-
-
-
-        
     });
+
+
+        function FileView(docname) {
+            debugger;
+            var url = window.location.origin + "/UploadedFiles/" + docname;
+            window.open(url, '_blank');
+        }
+
+
+
     </script>
 
     <script type="text/javascript">

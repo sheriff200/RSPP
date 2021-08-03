@@ -21,7 +21,7 @@
 
     <div class="row top_tiles">
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="panel short-states">
+            <div class="alert alert-info">
 
                 <div class="icon pull-right" style="font-size:xx-large"><i class="fa fa-briefcase" style="padding-right:5px"></i></div>
                 <div class="count" style="font-size:xx-large; font-weight:bolder; padding-left:5px">@ViewBag.OnMyDeskCount</div>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="panel short-states">
+            <div class="alert alert-primary">
                 <div class="icon pull-right" style="font-size:xx-large"><i class="fa fa-cog" style="padding-right:5px"></i></div>
                 <div class="count" style="font-size:xx-large; font-weight:bolder; padding-left:5px">@ViewBag.PermitCount</div>
                 <span style="font-size:18px">Total Applications Approved</span>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="panel short-states">
+            <div class="alert alert-danger">
                 <div class="icon pull-right" style="font-size:x-large"><span class="glyphicon glyphicon-envelope" style="padding-right:5px"></span></div>
                 <div class="count" style="font-size:xx-large; font-weight:bolder; padding-left:5px">@ViewBag.TotalRejection</div>
                 <span style="font-size:17px">Total Applications Rejected</span>
@@ -58,8 +58,8 @@
             </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="panel short-states">
-                <div class="icon  pull-right" style="font-size:xx-large"><i class="fa fa-check-square-o" style="padding-right:5px"></i></div>
+            <div class="alert alert-warning">
+                <div class="icon  pull-right" style="font-size:xx-large"><i class="fa fa-smile-o" style="padding-right:5px"></i></div>
                 <div class="count" style="font-size:xx-large; font-weight:bolder; padding-left:5px">@ViewBag.TotalApplicationWorkedOn</div>
                 <span style="font-size:18px">Total Applications in Process</span>
                 <p>
@@ -70,7 +70,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="display:none">
         <div class="col-md-5" style="background-color:white">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Apps in process for the past three weeks</legend>
@@ -103,8 +103,7 @@
         </div>
 
 
-
-        <div class="col-md-7" style="background-color:white">
+        <div class="col-md-7" style="background-color:white; display:none">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Applications on staff desk for the past five days</legend>
                 <table class="table table-striped table-condensed table-responsive customDT">
@@ -212,11 +211,11 @@
                         name: 'Ratio',
                         colorByPoint: true,
                         data: [
-                            { name: 'Approved Application', y: data.Approved },
-                            { name: 'Rejected Application', y: data.Rejected, sliced: true, selected: true },
-                            { name: 'Application On Desk', y: data.OnDesk },
-                            { name: 'Online App in Process', y: data.OnlineInProgress },
-                            { name: 'Application Completed', y: data.Processed },
+                            { name: 'Approved Application', y: data.approved },
+                            { name: 'Rejected Application', y: data.rejected, sliced: true, selected: true },
+                            { name: 'Application On Desk', y: data.onDesk },
+                            { name: 'Online App in Process', y: data.onlineInProgress },
+                            { name: 'Application Completed', y: data.processed },
                         ],
                         exporting: true
                     }]
@@ -242,7 +241,7 @@
                         labels: {
                             autoRotation: false
                         },
-                        categories: ['Approved App', 'Rejected App', 'Application On Desk', 'Online App in Process', 'Legacy App in Process', 'Application Completed']
+                        categories: ['Approved App', 'Rejected App', 'Application On Desk', 'Online App in Process', 'Application Completed']//'Legacy App in Process',
                     },
                     plotOptions: {
                         column: {
@@ -253,11 +252,11 @@
                         name: 'Total',
                         colorByPoint: true,
                         data: [
-                            [data.Approved],
-                            [data.Rejected],
-                            [data.OnDesk],
-                            [data.OnlineInProgress],
-                            [data.Processed],
+                            [data.approved],
+                            [data.rejected],
+                            [data.onDesk],
+                            [data.onlineInProgress],
+                            [data.processed],
 
                         ]
                     }]

@@ -35,10 +35,10 @@
                     <tr>
                         <td class="nr">@br.ApplicationId</td>
                         <td><a href="@Url.Action("ApplicationDetails", new { applicationId = br.ApplicationId })">@br.CompanyEmail</a></td>
-                        <td>@br.Agency.AgencyName</td>
+                        <td>@br.AgencyName</td>
 
                         <td>
-                            @{var amt = dbCtxt.PaymentLog.Where(w => w.ApplicationId == br.ApplicationId).FirstOrDefault().TxnAmount;}
+                            @{var amt = dbCtxt.PaymentLog.Where(w => w.ApplicationId == br.ApplicationId).FirstOrDefault()?.TxnAmount;}
                             <span>@amt</span>
                         </td>
 
@@ -110,13 +110,16 @@
                         "aLengthMenu": [25, 50, 75, 100, 200],
                         'iDisplayLength': 25,
                         columnDefs: [{ orderable: false, "targets": [-1, -3] }],
+                        buttons: ['csv', 'excel', 'pdf', 'print'],
                         "language": {
                             "lengthMenu": "Display  _MENU_ records per page",
                             "zeroRecords": "Nothing found - sorry",
                             "infoEmpty": "No records available",
                             "infoFiltered": "(filtered from _MAX_ total records)"
                         },
-                        "order": [[1, "desc"]]
+                        dom: 'Blfrtip',
+                        "order": [[1, "desc"]],
+                        
                     });
                     $(".use-address").click(function () {
                         // var item = $(this).closest("tr").find(".nr").text();

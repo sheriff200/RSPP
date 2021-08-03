@@ -47,12 +47,12 @@
             </table>
         </div>
         </div>
-        <hr style="border: 1px solid white" />
+        @*<hr style="border: 1px solid white" />
         <div class="jumbotron">
 
             <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
             <div id="container1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-        </div>
+        </div>*@
     </div>
 
     @section Scripts {
@@ -102,7 +102,7 @@
                         'csv', 'excel', 'pdf', 'print'
                     ],
                     columns: [
-                        { data: "userId" }, { data: "fullname" }, { data: "userRoles" }
+                        { data: "userEmail" }, { data: "fullname" }, { data: "userRole" },
                         {
                             data: "status",
                             render: function (data, type, user) {
@@ -118,7 +118,7 @@
 
 
 
-                var container = $('<div/>').insertBefore(table.table().container());
+                var container = $('<div/>').insertAfter(table.table().container());
 
                 var chart = Highcharts.chart(container[0], {
                     chart: {
@@ -127,6 +127,7 @@
                     title: {
                         text: 'Staff List',
                     },
+
                     series: [
                         {
                             data: chartData(table),
@@ -141,112 +142,7 @@
 
 
 
-                //$.getJSON("/Admin/GetStaffChart", function (data) {
-                //    table.draw();
-                //    table.ajax.reload();
-
-
-                //    var chart1 = Highcharts.chart({
-                //        chart: {
-                //            renderTo: 'container',
-                //            plotBackgroundColor: null,
-                //            plotBorderWidth: null,
-                //            plotShadow: false,
-                //            type: 'pie',
-                //            options3d: {
-                //                enabled: true,
-                //                alpha: 45,
-                //                beta: 0
-                //            }
-                //        },
-                //        title: {
-                //            text: 'Staff Chart Ratio'
-                //        },
-                //        tooltip: {
-                //            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                //        },
-                //        plotOptions: {
-                //            pie: {
-                //                allowPointSelect: true,
-                //                cursor: 'pointer',
-                //                depth: 35,
-                //                dataLabels: {
-                //                    enabled: true,
-                //                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                //                    style: {
-                //                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                //                    }
-                //                }
-                //            }
-                //        },
-                //        series: [{
-                //            name: 'Ratio',
-                //            colorByPoint: true,
-                //            data: [
-                //                { name: 'Total Staff', y: data.totalstaff },
-                //                {
-                //                    name: 'ADOPERATIONS', y: data.ADOPERATIONS, sliced: true, selected: true
-                //                },
-                //                { name: 'FIELDADMIN', y: data.FIELDADMIN },
-                //                { name: 'HEADADMIN', y: data.HEADADMIN },
-                //                { name: 'HEADGAS', y: data.HEADGAS },
-                //                { name: 'OFFICER', y: data.OFFICER },
-                //                { name: 'SUPERADMIN', y: data.SUPERADMIN },
-                //                { name: 'SUPERVISOR', y: data.SUPERVISOR },
-                //                { name: 'ZONALADMIN', y: data.ZONALADMIN },
-                //                { name: 'OPSCON', y: data.ZOPSCON },
-                //                { name: 'ZOPSCON', y: data.ZOPSCON },
-                //            ],
-                //            exporting: true
-                //        }]
-                //    });
-
-
-
-
-                //    var chart2 = Highcharts.chart({
-                //        chart: {
-                //            renderTo: 'container1',
-                //            type: 'column',
-                //            margin: 75,
-                //            options3d: {
-                //                enabled: true,
-                //                alpha: 15,
-                //                beta: 15,
-                //                depth: 50,
-                //                viewDistance: 25
-                //            }
-                //        },
-                //        title: {
-                //            text: 'Staff Bar Chart'
-                //        },
-                //        xAxis: {
-                //            categories: ['TOTAL STAFFS', 'ADOPERATIONS', 'FIELDADMIN', 'HEADADMIN', 'HEADGAS', 'OFFICER', 'SUPERADMIN', 'SUPERVISOR', 'ZONALADMIN', 'ZOPSCON']
-                //        },
-                //        plotOptions: {
-                //            column: {
-                //                depth: 25
-                //            }
-                //        },
-                //        series: [{
-                //            name: 'Total',
-                //            colorByPoint: true,
-                //            data: [
-                //                [data.totalstaff],
-                //                [data.ADOPERATIONS],
-                //                [data.FIELDADMIN],
-                //                [data.HEADADMIN],
-                //                [data.HEADGAS],
-                //                [data.OFFICER],
-                //                [data.SUPERADMIN],
-                //                [data.SUPERVISOR],
-                //                [data.ZONALADMIN],
-                //                [data.ZOPSCON]
-                //            ]
-                //        }]
-                //    });
-
-                //});
+                
 
 
 

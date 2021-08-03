@@ -19,10 +19,11 @@ namespace RSPP.Controllers
     public class CompanyController : Controller
     {
         public RSPPdbContext _context;
-        private WorkFlowHelper workflowHelper;
+        WorkFlowHelper _workflowHelper ;
         IHttpContextAccessor _httpContextAccessor;
         public IConfiguration _configuration;
         GeneralClass generalClass = new GeneralClass();
+        ResponseWrapper responseWrapper = new ResponseWrapper();
         HelperController _helpersController;
         private ILog log = log4net.LogManager.GetLogger(typeof(CompanyController));
 
@@ -38,6 +39,7 @@ namespace RSPP.Controllers
             _httpContextAccessor = httpContextAccessor;
             _hostingEnv = hostingEnv;
             _helpersController = new HelperController(_context, _configuration, _httpContextAccessor);
+            _workflowHelper = new WorkFlowHelper(_context);
         }
         public IActionResult Index()
         {
@@ -52,7 +54,7 @@ namespace RSPP.Controllers
                 ViewBag.ApplicationCount = 0;
                 ViewBag.PermitExpiringCount = 0;
                 ViewBag.ProcessedApplicationCount = 0;
-                ViewBag.CompanyName = generalClass.Decrypt(_helpersController.getSessionCompanyName());
+                ViewBag.CompanyName = _helpersController.getSessionCompanyName();
 
                 var Rejectcomment = (from u in _context.UserMaster
                                      where u.UserEmail == _helpersController.getSessionEmail()
@@ -135,7 +137,7 @@ namespace RSPP.Controllers
             var agencyid = 2;//_helpersController.sessionAgencyId();
             var AgencyId = Convert.ToInt32(agencyid);
             ViewBag.AgencyID = AgencyId;
-
+            ViewBag.AgencyEmail = _helpersController.getSessionEmail();
             var appdetails = (from a in _context.ApplicationRequestForm where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var govagencydetails =  (from a in _context.GovernmentAgency where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var logisticsserviceprovider = (from a in _context.LogisticsServiceProvider where a.ApplicationId == ApplicationId select a).FirstOrDefault();
@@ -146,6 +148,8 @@ namespace RSPP.Controllers
             if (appdetails != null)
             {
                 ViewBag.ApplicationId = appdetails.ApplicationId;
+                appdetail.Status = appdetails.Status;
+                appdetail.ApplicationTypeId = appdetails.ApplicationTypeId;
                 appdetail.AgencyId = AgencyId;
                 appdetail.ApplicationId = ApplicationId;
                 appdetail.AgencyName = appdetails.AgencyName;
@@ -234,24 +238,29 @@ namespace RSPP.Controllers
             var generatedapplicationid = generalClass.GenerateApplicationNo();
             var checkappexist = (from a in _context.ApplicationRequestForm where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
             int agencyId = Convert.ToInt32(Request.Form["txtagency"]);
+            var companyemail = _helpersController.getSessionEmail();
 
             try
             {
-                var agencyid = _helpersController.getSessionEmail();
+                //var agencyid = _helpersController.getSessionEmail();
                 appdetails = checkappexist == null ? new ApplicationRequestForm() : (from a in _context.ApplicationRequestForm where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 govagencydetails = (from a in _context.GovernmentAgency where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new GovernmentAgency() : (from a in _context.GovernmentAgency where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 logisticsserviceprovider = (from a in _context.LogisticsServiceProvider where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new LogisticsServiceProvider() : (from a in _context.LogisticsServiceProvider where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 otherportserviceprovider = (from a in _context.OtherPortServiceProvider where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new OtherPortServiceProvider() : (from a in _context.OtherPortServiceProvider where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 portoffdockserviceprovider = (from a in _context.PortOffDockTerminalOperator where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new PortOffDockTerminalOperator() : (from a in _context.PortOffDockTerminalOperator where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 shippingagency = (from a in _context.ShippingAgency where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new ShippingAgency() : (from a in _context.ShippingAgency where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
-
+                appdetails.ApplicationTypeId = model.ApplicationTypeId;
+                appdetails.Status = checkappexist == null ? "ACTIVE" : model.Status;
                 appdetails.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                 appdetails.AgencyName = model.AgencyName;
                 appdetails.DateofEstablishment = model.DateofEstablishment;
                 appdetails.CompanyAddress = model.CompanyAddress;
                 appdetails.PostalAddress = model.PostalAddress;
                 appdetails.PhoneNum = model.PhoneNum;
-                appdetails.CompanyEmail = model.CompanyEmail;
+                appdetails.AddedDate = DateTime.Now;
+                appdetails.ModifiedDate = DateTime.Now;
+                appdetails.LastAssignedUser = companyemail;
+                appdetails.CompanyEmail = companyemail;
                 appdetails.CompanyWebsite = model.CompanyWebsite;
                 appdetails.AgencyId = agencyId;
                 appdetails.CurrentStageId = 1;
@@ -382,7 +391,7 @@ namespace RSPP.Controllers
             message = "Your record was saved successfully";
             status = "success";
 
-            ResponseWrapper responseWrapper = workflowHelper.processAction(generatedapplicationid, "Proceed", _helpersController.getSessionEmail(), "Initiated Application");
+             responseWrapper = _workflowHelper.processAction(generatedapplicationid, "Proceed", companyemail, "Initiated Application");
             if (responseWrapper.status == true)
             {
                 return Json(new { Status = "success", applicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId, Message = responseWrapper.value });
@@ -512,7 +521,7 @@ namespace RSPP.Controllers
                 status = "failed";
                 message = "Something went wrong " + ex.Message;
             }
-            ResponseWrapper responseWrapper = workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
+            ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
             if(responseWrapper.status == true)
             {
                 return Json(new { Status = "success", Message = responseWrapper.value });
@@ -632,7 +641,7 @@ namespace RSPP.Controllers
                 else
                 {
                     status = "empty";
-                    message = "List of documents to be uploaded is empty";
+                    message = "List of documents to be uploaded are empty";
                 }
             }
             catch (Exception ex)
@@ -640,12 +649,60 @@ namespace RSPP.Controllers
                 status = "failed";
                 message = "Unable to submit your document. Please try again later " + ex.Message;
             }
-            ResponseWrapper responseWrapper = workflowHelper.processAction(appid[0], "Submit", _helpersController.getSessionEmail(), "Application was successfully sumbited after document upload");
+            ResponseWrapper responseWrapper = _workflowHelper.processAction(appid[0], "Submit", _helpersController.getSessionEmail(), "Application was successfully sumbited after document upload");
 
             return RedirectToAction("MyApplications");
         }
 
 
+
+
+
+        [HttpGet]
+        public ActionResult CompanyProfile()
+        {
+
+            var companydetails = (from a in _context.UserMaster where a.UserEmail == _helpersController.getSessionEmail() select a).FirstOrDefault();
+
+            ViewBag.AllCompanyDocument = _helpersController.CompanyDocument(_helpersController.getSessionEmail());
+
+
+            return View(companydetails);
+        }
+
+
+
+        public ActionResult UpdateCompanyRecord(UserMaster model)
+        {
+            string status = "success";
+            string jsonRequest = null;
+            
+
+            string actionType = Request.Form["actionType"];
+            string companyId = Request.Form["companyId"];
+
+
+
+           
+            var companydetails = (from u in _context.UserMaster where u.UserEmail == model.UserEmail select u).FirstOrDefault();
+
+           
+
+            if (actionType.Contains("UPDATE_PROFILE") && companydetails != null)
+            {
+                companydetails.CompanyName = model.CompanyName;
+                companydetails.PhoneNum = model.PhoneNum;
+            }
+            else if (actionType.Contains("ADDRESS") && companydetails != null)
+            {
+                companydetails.CompanyAddress = model.CompanyAddress;
+            }
+            _context.SaveChanges();
+            return Json(new
+            {
+                Status = status
+            });
+        }
 
 
 
@@ -693,7 +750,7 @@ namespace RSPP.Controllers
 
                 //ResponseWrapper responseWrapper = workflowHelper.processAction(dbCtxt, ApplicationId, "Proceed", userMaster.UserId, "Document Submitted", appRequest.CurrentOfficeLocation, "");
 
-                ResponseWrapper responseWrapper = workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
+                ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
                 if (responseWrapper.status == true)
                 {
                     return Json(new { Status = "success", Message = responseWrapper.value });
@@ -852,6 +909,210 @@ namespace RSPP.Controllers
             var Feedetails = (from a in _context.PaymentCategory select new { PaymentAmount = Convert.ToDecimal(a.PaymentAmount).ToString("N"), a.PaymentCategoryName }).ToList();
             return Json(Feedetails);
         }
+
+
+
+
+
+        [HttpGet]
+        public ActionResult MyDocuments()
+        {
+
+
+            ViewBag.AllCompanyDocument = _helpersController.CompanyDocument(_helpersController.getSessionEmail());
+
+
+            return View();
+        }
+
+
+
+
+        public ActionResult ALLCompanyPermits()
+        {
+            return View();
+        }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult GetAllPermits()
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+
+            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDir = Request.Form["order[0][dir]"].FirstOrDefault();
+
+            var searchTxt = Request.Form["search[value]"][0];
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+            var today = DateTime.Now.Date;
+
+            var staff = (from p in _context.ApplicationRequestForm where p.LicenseReference != null && p.CompanyEmail == _helpersController.getSessionEmail()
+                         
+                         select new
+                         {
+                             p.ApplicationId,
+                             p.LicenseReference,
+                             p.CompanyEmail,
+                             p.CompanyAddress,
+                             p.ApplicationTypeId,
+                             p.AgencyName
+                         });
+               
+
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                staff = staff.OrderBy(s => s.ApplicationId + " " + sortColumnDir);
+            }
+            if (!string.IsNullOrEmpty(searchTxt))
+            {
+                staff = staff.Where(a => a.ApplicationId.Contains(searchTxt) || a.AgencyName.Contains(searchTxt) || a.LicenseReference.Contains(searchTxt)
+               || a.CompanyEmail.Contains(searchTxt) || a.ApplicationTypeId.Contains(searchTxt) || a.CompanyAddress.Contains(searchTxt));
+            }
+            totalRecords = staff.Count();
+            var data = staff.Skip(skip).Take(pageSize).ToList();
+            switch (sortColumn)
+            {
+                case "0":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ApplicationId).ToList() : data.OrderBy(p => p.ApplicationId).ToList();
+                    break;
+                case "1":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.AgencyName).ToList() : data.OrderBy(p => p.AgencyName).ToList();
+                    break;
+                case "2":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ApplicationTypeId).ToList() : data.OrderBy(p => p.ApplicationTypeId).ToList();
+                    break;
+                case "3":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.CompanyEmail).ToList() : data.OrderBy(p => p.CompanyEmail).ToList();
+                    break;
+                case "4":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LicenseReference).ToList() : data.OrderBy(p => p.LicenseReference).ToList();
+                    break;
+                case "5":
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.CompanyAddress).ToList() : data.OrderBy(p => p.CompanyAddress).ToList();
+                    break;
+            }
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data });
+
+        }
+
+
+
+
+
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(PasswordModel model)
+        {
+            string responseMessage = null;
+
+            try
+            {
+                AppResponse appResponse = _helpersController.ChangePassword(_helpersController.getSessionEmail(), model.OldPassword, model.NewPassword);
+                log.Info("Response from Elps =>" + appResponse.message);
+                if (appResponse.message.Trim() != "SUCCESS")
+                {
+                    responseMessage = "An Error Message occured during Service Call to Elps Server, Please try again Later";
+                }
+                else
+                {
+                    if (((bool)appResponse.value) == true)
+                    {
+                        {
+                            responseMessage = "success";
+                            TempData["success"] = _helpersController.getSessionEmail() + " password was successfully changed";
+                        }
+                    }
+                    else
+                    {
+                        responseMessage = "Password Cannot Change, Kindly ensure your Old Password is correct and try again";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                responseMessage = "A General Error occured during Change Password";
+            }
+
+            return Json(new
+            {
+                Message = responseMessage
+            }
+             );
+        }
+
+
+
+
+
+        [HttpGet]
+        public ActionResult MyPayments()
+        {
+            List<PaymentLog> PaymentLogList = new List<PaymentLog>();
+            try
+            {
+                //var dbCtxt = DbManager.getConnectionEntities();
+                PaymentLogList = _context.PaymentLog.Where(p => p.ApplicantId == _helpersController.getSessionEmail()).ToList();
+                ViewBag.MyPaymentsResponseMessage = "SUCCESS";
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                ViewBag.MyPaymentsResponseMessage = "Error Occured Getting Payment List, Please Try Again Later";
+            }
+
+            return View(PaymentLogList);
+        }
+
+
+
+
+
+        [HttpGet]
+        public ActionResult RouteApplication(string ApplicationId = null)
+        {
+            ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == ApplicationId.Trim()).FirstOrDefault();
+            string actionName = "";
+
+            switch (appRequest.CurrentStageId)
+            {
+                case 1:
+                    actionName = "ApplicationForm";
+                    break;
+                case 2:
+                    actionName = "ChargeSummary";
+                    break;
+                case 3:
+                    actionName = "DocumentUpload";
+                    break;
+                
+            }
+            
+                return RedirectToAction(actionName, new
+                {
+                    ApplicationId = appRequest.ApplicationId
+                });
+            
+            
+
+        }
+
+
 
 
     }

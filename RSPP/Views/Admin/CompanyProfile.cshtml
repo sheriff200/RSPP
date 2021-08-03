@@ -1,4 +1,4 @@
-﻿@model RSPP.Models.DB.ApplicationRequestForm
+﻿@model RSPP.Models.DB.UserMaster
 @{
     ViewBag.Title = "Company Profile";
     Layout = "~/Views/Shared/_ElaLayout.cshtml";
@@ -41,31 +41,31 @@
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label class="control-label">Agency Name</label>
+                                    <label class="control-label">Company Email</label>
                                     &nbsp;<span class="req">*</span>
                                     <div class="">
                                         @if (ViewBag.LoginRole == "SUPPORT")
                                         {
-                                            @Html.TextBoxFor(model => model.AgencyName, new { @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control" })
                                         }
                                         else
-                                        {@Html.TextBoxFor(model => model.AgencyName, new { @class = "form-control", @readonly = "readonly" })}
+                                        {@Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control", @readonly = "readonly" })}
                                     </div>
                                 </div>
 
                                 
 
                                 <div class="form-group">
-                                    <label class="control-label">Company Website</label>
+                                    <label class="control-label">Company Name</label>
                                     &nbsp;<span class="req">*</span>
                                     <div class="">
                                         <div class="input-group">
                                             @if (ViewBag.LoginRole == "SUPPORT")
                                             {
-                                                @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control" })
                                             }
                                             else
-                                            { @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control", @readonly = "readonly" })}
+                                            { @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control", @readonly = "readonly" })}
 
 
                                             <span class="input-group-addon" id="basic-addon1"><i class="fa fa-calendar"></i></span>
@@ -73,19 +73,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="control-label">Company Email</label>
-                                    &nbsp;<span class="req">*</span>
-                                    <div class="">
-                                        @if (ViewBag.LoginRole == "SUPPORT")
-                                        {
-                                            @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control" })
-                                        }
-                                        else
-                                        { @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", @readonly = "readonly" })}
-
-                                    </div>
-                                </div>
+                               
 
                             </div>
                             <div class="col-md-5">
@@ -104,20 +92,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="control-label">Date of Establishment</label>
-                                    &nbsp;<span class="req">*</span>
-                                    <div class="">
-                                        @if (ViewBag.LoginRole == "SUPPORT")
-                                        {
-                                            @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control" })
-                                        }
-                                        else
-                                        { @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", @readonly = "readonly" })}
-
-
-                                    </div>
-                                </div>
+                               
 
                             </div>
                         </div>
@@ -174,23 +149,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 company">
 
-                                <div class="form-group">
-                                    <label class="control-label">Postal</label>&nbsp;<span class="req">*</span>
-                                    <div class="">
-                                        @if (ViewBag.LoginRole == "SUPPORT")
-                                        {
-                                            @Html.TextBoxFor(model => model.PostalAddress, new { @class = "form-control" })
-
-                                        }
-                                        else
-                                        { @Html.TextBoxFor(model => model.PostalAddress, new { @class = "form-control", @readonly = "readonly" })}
-                                    </div>
-                                </div>
-
-
-                            </div>
                             <div class="clear"></div>
                         </div>
                         <hr class="clear" />
@@ -209,7 +168,7 @@
 
             <div role="tabpanel" class="tab-pane" id="Document">
 
-                <form action="@Url.Action("DocumentLibrary", new { CompanyId=Model.CompanyEmail})" enctype="multipart/form-data" method="post" id="documentform">
+                <form action="@Url.Action("DocumentLibrary", new { CompanyId=Model.UserEmail})" enctype="multipart/form-data" method="post" id="documentform">
                     <div class="row xrow">
                         <div class="col-sm-11">
                             <div class="">

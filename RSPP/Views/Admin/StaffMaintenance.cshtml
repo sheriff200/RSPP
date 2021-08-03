@@ -16,11 +16,11 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="modal fade addstaffmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal" style="vertical-align: middle; display:block;  margin:0 auto 0 -20%; overflow-y:hidden; overflow-x:hidden;"  role="document">
+                    <div class="modal-dialog modal-sm" style="vertical-align: middle; display:block; width:40%;  margin:0 auto 0 -20%; overflow-y:hidden; overflow-x:hidden;" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-success" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span> Register New User</h4>
+                                <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i> Register New User</h4>
                             </div>
 
                             <div class="modal-body">
@@ -28,18 +28,18 @@
                                 <div class="form-horizontal">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label>User Email</label>
+                                            <label style="margin-left:18px; font-weight:bold">User Email</label>
                                             <div class="form-group">
                                                 <div class="col-sm-10">
                                                     <input id="locationid" name="locationid" type="hidden" />
                                                     <input id="roleuser" name="roleuser" type="hidden" />
-                                                    @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control", @required = "", @placeholder = "Type Search User Email", @type="email" })
+                                                    @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control", @required = "", @placeholder = "Type Search User Email", @type = "email" })
                                                     @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
 
                                                 </div>
                                             </div>
 
-                                            <label>FullName</label>
+                                            <label style="margin-left:18px; font-weight:bold">FullName</label>
                                             <div class="form-group">
                                                 <div class="col-md-10">
                                                     <input type="text" id="staffFullName" required="" name="staffFullName" class="form-control" />
@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-sm-6">
 
-                                            <div><label class="control-label">User Role</label></div>
+                                            <label style="margin-left:18px; font-weight:bold">User Role</label>
                                             <div class="form-group">
                                                 <div class="col-md-10">
                                                     <select id="Userroles" name="Userroles" class="form-control roleuser" required="" style="width:220px"></select>
@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-10">
-                                                    <button class="btn btn-success btn-block"><span class="glyphicon glyphicon-save"></span> Save</button>
+                                                    <button class="btn btn-success btn-block" style="width:200px"><i class="fa fa-save"></i> Save</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,20 +76,20 @@
             @using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Post))
             {
                 <div class="modal fade DeleteUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; margin:0 auto 0 40%; margin-top:100px" role="document">
+                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:20%; margin:0 auto 0 -10%" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-danger" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span>  Are you Sure You Want to Delete this User?</h4>
+                                <h4 class="modal-title text-danger" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>  Are you Sure You Want to Delete this User?</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="form-horizontal">
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                <div><label><b>User Email</b></label></div>
+                                                <label style="margin-left:18px; font-weight:bold">User Email</label>
                                                 <div class="form-group">
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-5">
                                                         <input type="text" class="form-control useremail" id="useremail" readonly="readonly" name="useremail" />
 
                                                     </div>
@@ -161,11 +161,11 @@
             @using (Html.BeginForm("DeactivateUser", "Admin", FormMethod.Post))
             {
                 <div class="modal fade DeactivateUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; margin:0 auto 0 40%; margin-top:100px" role="document">
+                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:30%; margin:0 auto 0 -10%" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-danger" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span> Are you Sure You Want to Deactivate this User?</h4>
+                                <h4 class="modal-title text-danger" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i> Are you Sure You Want to Deactivate this User?</h4>
                             </div>
 
                             <div class="modal-body">
@@ -175,9 +175,9 @@
 
                                             <div class="col-sm-12">
                                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                <div><label>User FullName</label></div>
+                                                <label style="margin-left:18px; font-weight:bold">User FullName</label>
                                                 <div class="form-group">
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-5">
                                                         <input type="hidden" id="userid" name="userid" />
                                                         <input type="hidden" id="userlocationDeactivate" name="userlocationDeactivate" />
                                                         <input type="text" id="fullName" name="fullName" readonly="readonly" class="form-control" />
@@ -185,9 +185,9 @@
                                                 </div>
 
                                                 <input type="hidden" id="UserLocationid" name="UserLocationid" class="UserLocationid" />
-                                                <div><label>Reason to Deactivate User</label></div>
+                                                <label style="margin-left:18px; font-weight:bold">Reason to Deactivate User</label>
                                                 <div class="form-group">
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-5">
                                                         <textarea cols="5" id="DeactivateComment" rows="5" name="DeactivateComment" required="" class="form-control" style="resize:none"></textarea>
 
 
@@ -195,8 +195,8 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="col-md-10">
-                                                        <input type="submit" value="Save " class="btn btn-success" />
+                                                    <div class="col-md-6">
+                                                        <input type="submit" value="Save" class="btn btn-success" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -214,11 +214,11 @@
             @using (Html.BeginForm("EditStaff", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="modal fade EditUsermodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal" style="display:inline-block; margin:0 auto 0 -25%; overflow-y:hidden; overflow-x:hidden; margin-top:100px; width:50%" role="document">
+                    <div class="modal-dialog modal" style="display:inline-block; margin:0 auto 0 -25%; overflow-y:hidden; width:10%; overflow-x:hidden; width:50%" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-success" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span> Edit User</h4>
+                                <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i> Edit User</h4>
                             </div>
 
                             <div class="modal-body">
@@ -226,35 +226,34 @@
                                     <div class="container">
                                         <div class="row">
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                                                 <input type="hidden" class="Fullname" id="Fullname" name="Fullname" />
                                                 <input type="hidden" id="UserLocationid" name="UserLocationid" class="UserLocationid" />
-                                                <div><label>FirstName</label></div>
-                                                <div class="form-group">
-                                                    <div class="col-md-10">
-                                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @required = "" })
-                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                <label style="margin-left:18px; font-weight:bold">FirstName</label>
+                                                    <div class="form-group">
+                                                        <div class="col-md-10">
+                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @required = "" })
+                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <label style="margin-left:18px; font-weight:bold">LastName</label>
+                                                    <div class="form-group">
+                                                        <div class="col-md-10">
+                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @required = "" })
+                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div><label>LastName</label></div>
+                                            <div class="col-sm-4">
+                                                <label style="margin-left:18px; font-weight:bold">User Role</label>
                                                 <div class="form-group">
                                                     <div class="col-md-10">
-                                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @required = "" })
-                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                                        <select id="Userrole" name="Userrole" class="form-control roleuser" required="" style="width:280px"></select>
                                                     </div>
                                                 </div>
-                                                
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div><label>User Role</label></div>
-                                                <div class="form-group">
-                                                    <div class="col-md-10">
-                                                        <select id="Userrole" name="Userrole" class="form-control roleuser" required="" style="width:230px"></select>
-                                                    </div>
-                                                </div>
-                                                <div><label>User Email</label></div>
+                                                <label style="margin-left:18px; font-weight:bold">User Email</label>
                                                 <div class="form-group">
                                                     <div class="col-md-10">
                                                         @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control UserId", @readonly = "readonly" })
@@ -269,8 +268,8 @@
                                                 </div>
                                             </div>
                                             <br />
-                                           
-                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -285,7 +284,7 @@
                         <header class="panel-heading panel-border">
                             <h3 class="text-primary"> Staff List </h3>
                             <span class="tools pull-right">
-                                <button class="btn btn-xs btn-primary" data-toggle="modal" data-target=".addstaffmodal"><span class="glyphicon glyphicon-plus"></span> Add Staff</button>
+                                <button class="btn btn-lg btn-primary" data-toggle="modal" data-target=".addstaffmodal"><span class="glyphicon glyphicon-plus"></span> Add Staff</button>
                             </span>
                         </header>
 
@@ -321,7 +320,7 @@
                         }
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-striped" id="staff" style="font-size:small">
+                                <table class="table table-striped staff" id="staff" style="font-size:small">
                                     <thead>
                                         <tr>
                                             <th><strong>Staff Email</strong>
@@ -344,13 +343,14 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#success, #message").fadeIn('fast').delay(10000).fadeOut('fast');
+            // $("#success, #message").fadeIn('fast').delay(10000).fadeOut('fast');
 
-
-            var table = $("#staff").DataTable({
+            debugger;
+            var table = $(".staff").DataTable({
                 "processing": true,
                 "serverSide": true,
                 ajax: {
@@ -373,14 +373,14 @@
                     {
                         data: "userRole"
                     },
-                    
+
                     {
                         data: "status",
                         render: function (data, type, user) {
                             if (user.status === "ACTIVE") {
-                                return '<strong class="badge" style="background-color:green"><span class="glyphicon glyphicon-ok"></span> Active</strong>';
+                                return '<strong class="badge" style="background-color:green"><i class="fa fa-check"></span> Active</strong>';
                             } else {
-                                return '<strong class="badge" style="background-color:red"><span class="glyphicon glyphicon-ban-circle"></span> DeActivated</strong>';
+                                return '<strong class="badge" style="background-color:red"><i class="fa fa-ban"></i> DeActivated</strong>';
                             }
                         }
 
@@ -395,10 +395,10 @@
 
                         "render": function (data, type, row) {
                             if (row.status === "ACTIVE") {
-                                return '<div id="deactive" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-ban-circle"></span> Deactivate</div>';
+                                return '<div id="deactive" class="btn btn-xs btn-info"><i class="fa fa-ban""></i> Deactivate</div>';
                             }
                             else {
-                                return '<span id="active" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-check"></span> Activate</span>';
+                                return '<span id="active" class="btn btn-xs btn-primary"><i class="fa fa-check"></i> Activate</span>';
 
                             }
                         }
@@ -409,26 +409,26 @@
                         "targets": 5,
                         "data": null,
                         "render": function (data, type, row) {
-                            return  '<button id="EditUsers" class="btn btn-xs btn-primary EditUsers"><span class="glyphicon glyphicon-edit"></span>  Edit</button>';
-                           
-                            }
-                        },
-                  
+                            return '<button id="EditUsers" class="btn btn-xs btn-primary EditUsers"><i class="fa fa-edit"></i>  Edit</button>';
 
-                   
+                        }
+                    },
+
+
+
                     {
                         "targets": 6,
                         "data": null,
                         "defaultContent":
-                            '<p id="DeleteUsers" class="btn btn-xs btn-danger DeleteUsers"><span class="glyphicon glyphicon-trash"></span>  Delete</p>'
+                            '<p id="DeleteUsers" class="btn btn-xs btn-danger DeleteUsers"><i class="fa fa-trash"></i>  Delete</p>'
                     },
 
-                    {
-                        "targets": 7,
-                        "data": "SignatureImage",
-                        "visible": false,
-                        "searchable": false,
-                    },
+                    //{
+                    //    "targets": 7,
+                    //    "data": "SignatureImage",
+                    //    "visible": false,
+                    //    "searchable": false,
+                    //},
                 ]
 
             });
@@ -453,18 +453,18 @@
                     $(".ActivateUser").modal('hide');
                     var data = table.row($(this).parents('tr')).data();
 
-                    $(".UserId").val(data.UserId);
+                    $(".UserId").val(data.userEmail);
                     var full = $(".Fullname").val(data.fullname);
                     var fullname = [];
                     fullname = full.val().split(' ')
                     $("#FirstName").val(fullname[0]);
                     $("#LastName").val(fullname[1]);
-                    
+
                     $(".roleuser").val(data.userRoles);
-                }); 
+                });
 
 
-               
+
             $('#staff').on('click',
                 'div',
                 function () {
@@ -489,7 +489,7 @@
 
             $(".roleuser").ready(function () {//get all user role populated in the dropdownlist
                 var html = "";
-
+                debugger;
                 $(".roleuser").html("");
 
                 $.getJSON("/Admin/GetUserRole",
@@ -510,7 +510,6 @@
 
             $("#UserEmail").autocomplete({
                 source: function (request, response) {
-                    debugger;
                     $.ajax({
                         url: '/Admin/UserIdAutosearch',
                         type: "GET",
@@ -522,9 +521,9 @@
                             response($.map(data,
                                 function (val, item) {
                                     return {
-                                        label: val.userid,
-                                        value: val.userid,
-                                        staffFullName: val.name,
+                                        label: val.userEmail,
+                                        value: val.userEmail,
+                                        staffFullName: val.firstName,
                                     }
 
                                 }));
@@ -541,6 +540,13 @@
 
                 }
             });
+
+
+
+
+
+
+
 
 
         });

@@ -40,7 +40,7 @@
                             <input type="hidden" name="txtApplicationId" id="txtApplicationId" value="@ViewBag.MyApplicationID" />
                             <input type="hidden" name="txtDocumentId[]" id="@("docid_"+item.DocId)" value="@item.DocId" />
                             <input type="hidden" name="txtDocumentName" id="txtDocumentName" value="@item.DocumentName" />
-                            <input type="text" class="docsource" name="txtDocumentsource" id=@("txtDocumentsource-"+item.DocId) />
+                            <input type="hidden" class="docsource" name="txtDocumentsource" id=@("txtDocumentsource-"+item.DocId) />
 
                             @item.DocumentName
                         </td>

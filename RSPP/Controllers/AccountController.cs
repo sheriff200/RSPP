@@ -25,7 +25,7 @@ namespace RSPP.Controllers
         GeneralClass generalClass = new GeneralClass();
         public static string roleid;
         public const string sessionEmail = "_sessionEmail";
-        public const string sessionUserID = "_sessionAgencyId";
+        public const string sessionStaffName = "_sessionStaffName";
         public const string sessionRoleName = "_sessionRoleName";
         public const string sessionCompanyName = "_sessionCompanyName";
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -70,17 +70,19 @@ namespace RSPP.Controllers
                 if (validateResult == "SUCCESS" && userMaster != null)
                 {
                     HttpContext.Session.SetString(sessionEmail, userMaster.UserEmail);
-                    HttpContext.Session.SetString(sessionUserID, generalClass.Encrypt(userMaster.UserMasterId.ToString()));
-                    HttpContext.Session.SetString(sessionCompanyName, generalClass.Encrypt(userMaster.CompanyName));
+                    HttpContext.Session.SetString(sessionRoleName, userMaster.UserRole);
+
                     if (userMaster.UserType.Contains("COMPANY"))
                     {
                         status = "success";
                         message = "Company";
+                        HttpContext.Session.SetString(sessionCompanyName, userMaster.CompanyName);
+
                         return Json(new{Status = status, Message = message });
                     }
                     else
                     {
-                        HttpContext.Session.SetString(sessionRoleName, generalClass.Encrypt(userMaster.UserRole));
+                        HttpContext.Session.SetString(sessionStaffName, userMaster.FirstName.ToString() + " " + userMaster.LastName.ToString());
 
                         status = "success";
                         message = "Admin";
@@ -106,7 +108,7 @@ namespace RSPP.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LogOff()
         {
             await HttpContext.SignOutAsync();

@@ -14,7 +14,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Rotativa.AspNetCore;
 using System;
-
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
+using RSPP.Controllers;
 namespace RSPP
 {
     public class Startup
@@ -25,6 +27,42 @@ namespace RSPP
         }
 
         public IConfiguration Configuration { get; }
+
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+        public class CheckUserSessionAttribute : ActionFilterAttribute
+        {
+            //context.HttpContext.Session == null||!context.HttpContext.Session.TryGetValue("_sessionEmail", out byte[] Context.Session.GetString(AccountController.sessionEmail).ToString()
+            public override void OnActionExecuting(ActionExecutingContext context)
+            {
+                var user = context.HttpContext.Session.GetString(AccountController.sessionEmail).ToString();
+                if (user == null)
+                            
+                {
+                    context.Result =
+                        new RedirectToRouteResult(new RouteValueDictionary(new
+                        {
+                            controller = "Account",
+                            action = "LogOff"
+                        }));
+                }
+                base.OnActionExecuting(context);
+
+                //HttpSessionStateBase session = filterContext.HttpContext.Session;
+                //var user = session["User"];
+
+                //if (((user == null) && (!session.IsNewSession)) || (session.IsNewSession))
+                //{
+                //    //send them off to the login page
+                //    var url = new UrlHelper(filterContext.RequestContext);
+                //    var loginUrl = url.Content("~/Account/LogOff");
+                //    session.RemoveAll();
+                //    session.Clear();
+                //    session.Abandon();
+                //    filterContext.HttpContext.Response.Redirect(loginUrl, true);
+                //}
+            }
+        }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -55,8 +93,9 @@ namespace RSPP
                 options.IdleTimeout = TimeSpan.FromMinutes(30);//You can set Time   
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                
             });
-
+           
             //ElpsServices._elpsAppEmail = Configuration.GetSection("ElpsKeys").GetSection("elpsAppEmail").Value.ToString();
             //ElpsServices._elpsBaseUrl = Configuration.GetSection("ElpsKeys").GetSection("elpsBaseUrl").Value.ToString();
             //ElpsServices.public_key = Configuration.GetSection("ElpsKeys").GetSection("PK").Value.ToString();

@@ -92,7 +92,7 @@
                                             <th><strong>Remita Ref</strong> </th>
                                             <th><strong>Application Type</strong> </th>
                                             <th><strong>Status</strong> </th>
-                                            <th><strong>Company Name</strong> </th>
+                                            <th><strong>Agency Name</strong> </th>
                                             <th><strong>Company Email</strong> </th>
                                             <th><strong>Total Amount</strong> </th>
                                             <th><strong>Transaction Date</strong> </th>
@@ -101,7 +101,6 @@
                                     <tbody></tbody>
                                     <tfoot>
                                         <tr>
-                                            <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -195,37 +194,37 @@
                 dom: 'Blfrtip',
                 columns: [
                     {
-                        data: "applicationID"
+                        data: "applicationId"
                     },
                     {
                         data: "rrreference"
                     },
                     {
-                        data: "applicationType"
+                        data: "applicationTypeId"
                     },
                     {
                         data: "status"
                     },
                     {
-                        data: "companyname"
+                        data: "agencyName"
                     },
                     {
-                        data: "companyemail"
+                        data: "companyEmail"
                     },
                     
                     {
-                        data: "amt",
+                        data: "txnAmount",
 
                     },
                     {
-                        data: "transdate",
+                        data: "transactionDate",
 
                     },
                 ],
 
                 "footerCallback": function (row, data, start, end, display) {
                     var api = this.api(), data;
-
+                    debugger;
                     // Remove the formatting to get integer data for summation
                     var intVal = function (i) {
                         return typeof i === 'string' ?

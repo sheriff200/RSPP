@@ -1,0 +1,177 @@
+﻿@model IEnumerable<RSPP.Models.PermitModels>
+
+@{
+    ViewBag.Title = "View LTO";
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div style="width: 1240px; height: 1810px; margin: 0px auto;box-sizing: border-box; padding: 0px; position: relative;">
+        <div style="width: 100%; text-align: center; position: absolute; top: 50%; margin-top: -400px;">
+            <img src="~/images/nscwatermark.png" style="width: 820px; width: 920px;" />
+        </div>
+        <div style="border: 10px solid #101010; padding: 50px 67px; font-family: 'Times New Roman'; position: relative; height: 100%; box-sizing: border-box;">
+            <div style="text-align: left">
+                <div><img src="~/images/coa.png" style="width:100px; height:100px" /></div>
+                <div>@Model.FirstOrDefault().permitmodels.FirstOrDefault().LicenseNumber</div>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="~/images/shipperscouncillogo.png" style="width:180px; margin-top:15px; margin-bottom:7px;" />
+                <div>
+                    <h2 style="margin: 0; margin-top:10px;font-size: 3.0em">NIGERIAN SHIPPERS' COUNCIL</h2>
+                    <h2 style="margin: 0; margin-top:5px;font-size: 2.5em">REGISTRATION OF PORT REGULATED SERVICE PROVIDERS AND USERS</h2>
+
+
+                    <table>
+                        <tr>
+                            <td style="font-size:2.5em; font-family:Old English Text MT">Registration Certificate</td>
+                            <td>
+                                <img style="height:150px" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.FirstOrDefault().permitmodels.FirstOrDefault().QrCode))" />
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <br />
+            </div>
+
+            <p></p>
+
+
+            <div class="text-center">
+                I hereby certify that
+            </div>
+
+
+
+            <div style=" border-bottom: 2px dotted #888;padding: 5px 0 0;" colspan="3">
+                <div style="display: inline-block; margin-bottom:-3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                </div><span style="font-weight: bold;font-size: 22px;  text-align:center" id="facAddress1">@Model.FirstOrDefault().permitmodels.FirstOrDefault().CompanyName</span>
+
+            </div>
+            <div class="text-center">
+                COMPANY/AGENCY/ORGANISATION
+            </div>
+            <p></p>
+
+            <p>is registered with the Nigerian Shipper's Council</p>
+
+
+
+
+            <table style="width: 100%; border-spacing: 0; position: relative; margin-top: 0px; font-size: 26px;">
+                <tr>
+                    <td style=" padding: 5px 0 0; border-bottom: 2px dotted #888;">
+                        <div style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                            this
+                        </div>
+                        <b style="font-weight: bold;font-size: 22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedDay</b>
+                    </td>
+                    <td style=" padding: 5px 0 0; border-bottom:2px dotted #888;">
+                        <div style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                            &nbsp; &nbsp; day of
+                        </div>
+                        <b style="font-weight: bold;font-size: 22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedMonth</b>
+                    </td>
+                    <td style=" padding: 5px 0 0; border-bottom:2px dotted #888;">
+                        <span style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding:5px 10px 5px 0; margin-right:90px">
+                            Year
+                        </span>
+                        <b style="font-weight: bold;font-size:22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedYear</b>
+                    </td>
+                </tr>
+
+            </table>
+
+            <p></p>
+
+            <div class="text-center">
+                as
+            </div>
+
+
+
+            <div style=" border-bottom: 2px dotted #888;padding: 5px 0 0;" colspan="3">
+                <div style="display: inline-block; margin-bottom:-3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                </div><span style="font-weight: bold;font-size: 22px;  text-align:center" id="facAddress1">@Model.FirstOrDefault().permitmodels.FirstOrDefault().AgencyName</span>
+
+            </div>
+            <div class="text-center">
+                Category
+            </div>
+
+
+
+            <table style="width: 100%; border-spacing: 0; position: relative; margin-top: 0px; font-size: 26px;">
+                <tr>
+                    <td style=" padding: 5px 0 0; border-bottom: 2px dotted #888;">
+                        <div style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                            Issued on the
+                        </div>
+                        <b style="font-weight: bold;font-size: 22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedDay</b>
+                    </td>
+                    <td style=" padding: 5px 0 0; border-bottom:2px dotted #888;">
+                        <div style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                            &nbsp; &nbsp; Day of
+                        </div>
+                        <b style="font-weight: bold;font-size: 22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedMonth</b>
+                    </td>
+                    <td style=" padding: 5px 0 0; border-bottom:2px dotted #888;">
+                        <span style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding:5px 10px 5px 0; margin-right:90px">
+                            Year
+                        </span>
+                        <b style="font-weight: bold;font-size:22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedYear and valid</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style=" padding: 5px 0 0; border-bottom: 2px dotted #888;">
+                        <div style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                            Until the
+                        </div>
+                        <b style="font-weight: bold;font-size: 22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().ExpiryDay</b>
+                    </td>
+                    <td style=" padding: 5px 0 0; border-bottom:2px dotted #888;">
+                        <div style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                            &nbsp; &nbsp; Day of
+                        </div>
+                        <b style="font-weight: bold;font-size: 22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().ExpiryMonth</b>
+                    </td>
+                    <td style=" padding: 5px 0 0; border-bottom:2px dotted #888;">
+                        <span style="display: inline-block; margin-bottom: -3px; background-color:#fff; padding:5px 10px 5px 0; margin-right:90px">
+                            Year
+                        </span>
+                        <b style="font-weight: bold;font-size:22px;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().ExpiryYear</b>
+                    </td>
+                </tr>
+
+            </table><br /><br />
+
+
+            <div style=" border-bottom: 2px dotted #888;padding: 5px 0 0;" colspan="3">
+                <div style="display: inline-block; margin-bottom:-3px; background-color:#fff; padding: 5px 10px 5px 0;">
+                </div><span style="font-weight: bold;font-size: 22px;  text-align:center" id="facAddress1">@Model.FirstOrDefault().permitmodels.FirstOrDefault().Signature</span>
+            </div>
+            <div class="text-center">
+                <b> REGISTRAR</b><br />
+                <div><img src="~/images/coa.png" style="width:100px; height:100px" /></div>
+            </div>
+
+
+
+        </div>
+    </div>
+</body>
+</html>
+

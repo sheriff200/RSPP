@@ -191,10 +191,8 @@ body {
 /* ====== New Set ====== */
 .jumbotron{border-radius: 0!important;}
 .bg1 {
-    background: url('/images/index-bg2.png');
+    background: url('../../images/index-bg2.png') left bottom;
     color: #FFF;
-    background-repeat: no-repeat;
-    background-size: 100%
 }
 .bg1 h2{
     font-weight: 100;

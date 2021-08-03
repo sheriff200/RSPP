@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[UserMaster] (
-    [UserMasterId]   INT NOT NULL,
+    [UserMasterId]   INT NOT NULL IDENTITY,
     [UserEmail]      VARCHAR (150) NULL,
     [CompanyAddress] VARCHAR (MAX) NULL,
     [Password]       VARCHAR (100) NULL,
@@ -16,8 +16,7 @@
     [LastComment]    VARCHAR (MAX) NULL,
     [FirstName]      VARCHAR (30)  NULL,
     [LastName]       VARCHAR (30)  NULL,
-    [SignatureImage] VARCHAR(300) NOT NULL, 
-    [SignatureId] INT NOT NULL IDENTITY, 
-    CONSTRAINT [PK_UserMaster] PRIMARY KEY CLUSTERED ([UserMasterId] ASC)
+    [SignatureImage] VARCHAR(300) NULL
+    CONSTRAINT [PK_UserMaster] PRIMARY KEY CLUSTERED ([UserMasterId])
 );
 

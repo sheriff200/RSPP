@@ -19,333 +19,336 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.ApplicationTypeId)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.AgencyName)
 
 
 
 
 
 
-    <div class="form-group">
+
+        <div class="form-group">
 
 
 
-        <div class="row form-group">
-            <label class="control-label col-md-2">Application Type</label>
-            <div class="col-md-4">
-                <select class="form-control" id="AppType" name="AppType">
-                    <option></option>
-                    <option>NEW</option>
-                    <option>RENEW</option>
-                </select>
-            </div>
-        </div>
-
-        <div style="display:none" id="hidecertnum">
             <div class="row form-group">
-                <label class="control-label col-md-2">Renewal Certificate Number </label>
+                <label class="control-label col-md-2">Application Type</label>
                 <div class="col-md-4">
-                    <select class="form-control txtcertnum" id="txtcertnum" name="txtcertnum"></select>
+                    <select class="form-control" required="required" id="AppType" name="AppType">
+                        <option></option>
+                        <option>NEW</option>
+                        <option>RENEW</option>
+                    </select>
                 </div>
             </div>
-        </div>
 
-
-
-        <div class="row form-group">
-            <label class="control-label col-md-2">Agencies</label>
-            <div class="col-md-4">
-                <select class="form-control agency" required="required" id="txtagency" name="txtagency"></select>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <label class="control-label col-md-2">Date of Establishment(with CAC)</label>
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.ApplicationId, new { @type = "hidden", @value = ViewBag.ApplicationId })
-                @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", required = "required", @readonly = "readonly" })
+            <div style="display:none" id="hidecertnum">
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Renewal Certificate Number </label>
+                    <div class="col-md-4">
+                        <select class="form-control txtcertnum" id="txtcertnum" name="txtcertnum"></select>
+                    </div>
+                </div>
             </div>
 
 
-            <label class="control-label col-md-2">Company Address</label>
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control CompanyAddress", required = "required" })
-            </div>
-        </div>
 
-
-
-        <div class="row form-group">
-            <label class="control-label col-md-2">Postal Address</label>
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.PostalAddress, new { @class = "form-control", required = "required" })
-            </div>
-
-
-            <label class="control-label col-md-2">Phone Number</label>
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.PhoneNum, new { @class = "form-control PhoneNum", required = "required" })
-            </div>
-        </div>
-
-
-
-
-        <div class="row form-group">
-            <label class="control-label col-md-2">Company Email</label>
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", required = "required", @type = "email" })
-            </div>
-
-
-            <label class="control-label col-md-2">Company Website</label>
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control CompanyWebsite", required = "required" })
-            </div>
-        </div>
-
-
-
-
-        <div id="Agencyid1" style="display:none">
             <div class="row form-group">
-                <label class="control-label col-md-2">Services Provided In Port</label>
+                <label class="control-label col-md-2">Agencies</label>
                 <div class="col-md-4">
-                    <textarea class="form-control" id="ServicesProvidedInPort" name="ServicesProvidedInPort" cols="3" rows="3">@ViewBag.ServicesProvidedInPort</textarea>
-                </div>
-
-
-                <label class="control-label col-md-2">Any Other Relevant Info</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="AnyOtherRelevantInfo" name="AnyOtherRelevantInfo" cols="3" rows="3">@ViewBag.AnyOtherRelevantInfo</textarea>
-
+                    <select class="form-control agency" required="required" id="txtagency" name="txtagency"></select>
                 </div>
             </div>
-        </div>
 
-        <div id="Agencyid2" style="display:none">
             <div class="row form-group">
-                <label class="control-label col-md-2">Line Of Business</label>
-                <div class="col-md-9">
-                    <input type="checkbox" class="Logistics" id="CargoConsolidators" name="CargoConsolidators" value="Cargo Consolidators"><b> Cargo Consolidators</b>
-                    <input type="checkbox" class="Logistics" id="Chandling" name="Chandling" value="Chandling"> <b>Chandling</b>
-                    <input type="checkbox" class="Logistics" id="ClearingAgents" name="ClearingAgents" value="Clearing Agents"> <b>Clearing Agents</b>
-                    <input type="checkbox" class="Logistics" id="FreightForwarding" name="FreightForwarding" value="Freight Forwarding"><b> Freight Forwarding</b>
-                    <input type="checkbox" class="Logistics" id="RoadHaulage" name="RoadHaulage" value="Road Haulage"> <b>Road Haulage</b>
-                    <input type="checkbox" class="Logistics" id="Stevedoring" name="Stevedoring" value="Stevedoring"> <b>Stevedoring</b>
-                    <input type="checkbox" class="Logistics" id="Warehousing" name="Warehousing" value="Warehousing"> <b>Warehousing</b>
-                    <input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>
-
-
-                </div>
-                <div class="col-md-10">
-                    <textarea class="form-control" id="LogisticsLineOfBusiness" style="display:none;margin-left:230px" name="LogisticsLineOfBusiness">@ViewBag.LineOfBusiness</textarea>
+                <label class="control-label col-md-2">Date of Establishment(with CAC)</label>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.ApplicationId, new { @type = "hidden", @value = ViewBag.ApplicationId })
+                    @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", required = "required", @readonly = "readonly" })
                 </div>
 
+
+                <label class="control-label col-md-2">Company Address</label>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control CompanyAddress", required = "required" })
+                </div>
+            </div>
+
+
+
+            <div class="row form-group">
+                <label class="control-label col-md-2">Postal Address</label>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.PostalAddress, new { @class = "form-control", required = "required" })
+                </div>
+
+
+                <label class="control-label col-md-2">Phone Number</label>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.PhoneNum, new { @class = "form-control PhoneNum", required = "required" })
+                </div>
             </div>
 
 
 
 
             <div class="row form-group">
-                <label class="control-label col-md-2">Customs License Number</label>
+                <label class="control-label col-md-2">Company Email</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="CustomLicenseNum" name="CustomLicenseNum" />
+                    @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", required = "required", @type = "email", @readonly = "readonly" })
                 </div>
 
 
-                <label class="control-label col-md-2">Customs License Expiry Date</label>
+                <label class="control-label col-md-2">Company Website</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" readonly id="CustomLicenseExpiryDate" name="CustomLicenseExpiryDate" />
+                    @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control CompanyWebsite", required = "required" })
+                </div>
+            </div>
+
+
+
+
+            <div id="Agencyid1" style="display:none">
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Services Provided In Port</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="ServicesProvidedInPort" name="ServicesProvidedInPort" cols="3" rows="3">@ViewBag.ServicesProvidedInPort</textarea>
+                    </div>
+
+
+                    <label class="control-label col-md-2">Any Other Relevant Info</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="AnyOtherRelevantInfo" name="AnyOtherRelevantInfo" cols="3" rows="3">@ViewBag.AnyOtherRelevantInfo</textarea>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="Agencyid2" style="display:none">
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Line Of Business</label>
+                    <div class="col-md-9">
+                        <input type="checkbox" class="Logistics" id="CargoConsolidators" name="CargoConsolidators" value="Cargo Consolidators"><b> Cargo Consolidators</b>
+                        <input type="checkbox" class="Logistics" id="Chandling" name="Chandling" value="Chandling"> <b>Chandling</b>
+                        <input type="checkbox" class="Logistics" id="ClearingAgents" name="ClearingAgents" value="Clearing Agents"> <b>Clearing Agents</b>
+                        <input type="checkbox" class="Logistics" id="FreightForwarding" name="FreightForwarding" value="Freight Forwarding"><b> Freight Forwarding</b>
+                        <input type="checkbox" class="Logistics" id="RoadHaulage" name="RoadHaulage" value="Road Haulage"> <b>Road Haulage</b>
+                        <input type="checkbox" class="Logistics" id="Stevedoring" name="Stevedoring" value="Stevedoring"> <b>Stevedoring</b>
+                        <input type="checkbox" class="Logistics" id="Warehousing" name="Warehousing" value="Warehousing"> <b>Warehousing</b>
+                        <input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>
+
+
+                    </div>
+                    <div class="col-md-10">
+                        <textarea class="form-control" id="LogisticsLineOfBusiness" style="display:none;margin-left:230px" name="LogisticsLineOfBusiness">@ViewBag.LineOfBusiness</textarea>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Customs License Number</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="CustomLicenseNum" name="CustomLicenseNum" />
+                    </div>
+
+
+                    <label class="control-label col-md-2">Customs License Expiry Date</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" readonly id="CustomLicenseExpiryDate" name="CustomLicenseExpiryDate" />
+
+                    </div>
+                </div>
+
+
+                <div class="row form-group">
+                    <label class="control-label col-md-2">CRFFN Registration Number</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="CrffnRegistrationNum" name="CrffnRegistrationNum" />
+                    </div>
+
+
+                    <label class="control-label col-md-2">CRFFN Registration Expiry Date</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" readonly id="CrffnRegistratonExpiryDate" name="CrffnRegistratonExpiryDate" />
+
+                    </div>
+                </div>
+
+
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Other License/Certification Number</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="OtherLicense" name="OtherLicense" />
+                    </div>
+
+
+                    <label class="control-label col-md-2">Other License/Certification Expiry Date</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="OtherLicenseExpiryDate" readonly name="OtherLicenseExpiryDate" />
+
+                    </div>
+                </div>
+
+
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Any Other Relevant Info</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="LogisticsAnyOtherRelevantInfo" name="LogisticsAnyOtherRelevantInfo" cols="3" rows="3">@ViewBag.AnyOtherRelevantInfo</textarea>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="Agencyid3" style="display:none">
+                <div class="row form-group" style="font-size:12px">
+
+                    <div class="col-md-4">
+                        <b>Line Of Business</b>
+                        <input type="checkbox" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminal" value="Port Terminal"> Port Terminal
+                        <input type="checkbox" class="LineOfBusinessTerminals" id="OffDockTerminal" name="OffDockTerminal" value="Off Dock Terminal"> Off Dock Terminal
+                        <input type="checkbox" class="LineOfBusinessTerminals" id="ClearingAgents" name="DryPort" value="Dry Port"> Dry Port
+                        <textarea type="text" class="form-control" style="display:none" id="portoffdockLineOfBusiness" name="portoffdockLineOfBusiness">@ViewBag.portoffdockLineOfBusiness</textarea>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <b>Status of Terminal:</b>
+                        <input type="checkbox" class="StatusTerminals" id="PortTerminal" name="PortTerminal" value="Port Terminal"> Port Terminal
+                        <input type="checkbox" class="StatusTerminals" id="OffDockTerminal" name="OffDockTerminal" value="Off Dock Terminal"> Off Dock Terminal
+                        <input type="checkbox" class="StatusTerminals" id="ClearingAgents" name="DryPort" value="Dry Port"> Dry Port
+                        <input type="checkbox" class="StatusTerminals" id="OtherStatusTerminal" name="OtherStatusTerminal" value="StatusTerminalOthers"> Others
+
+                        <textarea type="text" class="form-control" style="display:none" id="StatusOfTerminal" name="StatusOfTerminal">@ViewBag.StatusOfTerminal</textarea>
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <b>Cargo Type:</b>
+                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeBulk" name="CargoTypeBulk" value="Bulk"> Bulk
+                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeContainer" name="CargoTypeContainer" value="Container"> Container
+                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeDry" name="CargoTypeDry" value="Dry"> Dry
+                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeRoRo" name="CargoTypeRoRo" value="Ro-Ro"> Ro-Ro
+                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeWet" name="CargoTypeWet" value="Wet"> Wet
+                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeOthers" name="CargoTypeOthers" value="CargoTypeOthers"> Others
+                        <textarea type="text" class="form-control" style="display:none" id="portoffdockCargoType" name="portoffdockCargoType">@ViewBag.portoffdockCargoType</textarea>
+
+
+
+                    </div>
+
+                </div>
+
+
+                @*<div class="row" style="margin-left:5px; margin-right:5px">
+                    <div class="col-md-12" style="min-width:100%">class="table table-condensed table-bordered table-striped table-hover table-responsive" id="mytable"*@
+                <table class="table table-bordered table-striped" id="mytable" style="width:100%">
+
+                    <thead>
+                        <tr>
+                            <th> Terminal Name</th>
+                            <th>
+                                Terminal Location <span style="float:right" class="btn btn-success btn-sm" id="btnAddMoreTerminal" onclick="AddTerminal()"> <i class="fa fa-plus"> </i> Add More Terminal </span>
+                            </th>
+                            <th style="width:5px"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="AppendTerminals" style="width:100%">
+
+                        <tr>
+                            <td>
+                                <input type="text" required class="form-control" placeholder="Enter Terminal Name" id="txtTerminalName[]" name="txtTerminalName[]" />
+                            </td>
+
+                            <td>
+                                <input type="text" required class="form-control txtTerminalLocation" id="txtTerminalLocation[]" name="txtTerminalLocation[]" />
+                            </td>
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                @*</div>
+
+                    </div>*@
+
+                <div class="row form-group">
+                    <label class="control-label col-md-1">Any Other Relevant Info</label>
+                    <div class="col-md-11">
+                        <textarea class="form-control" id="portoffdockAnyOtherInfo" name="portoffdockAnyOtherInfo" cols="2" rows="2">@ViewBag.portoffdockAnyOtherInfo</textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="Agencyid4" style="display:none">
+                <div class="row form-group">
+                    <label class="control-label col-md-2"></label>
+                    <div class="col-md-4">
+                        <b>Line Of Business:</b>
+                        <input type="checkbox" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgency" value="Shipping Agency"> Shipping Agency
+                        <input type="checkbox" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingCompany" value="Shipping Company/Line"> Shipping Company/Line
+                        <input type="text" class="form-control" style="display:none" id="ShippingagencyLineOfBusiness" value="@ViewBag.LineOfBusiness" name="ShippingagencyLineOfBusiness" />
+                    </div>
+                    <div class="col-md-4">
+                        <b>Cargo Type</b>
+                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingCargoTypeBulk" value="Bulk"> Bulk
+                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeContainer" name="ShippingCargoTypeContainer" value="Container"> Container
+                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeDry" name="ShippingCargoTypeDry" value="Dry"> Dry
+                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeRoRo" name="ShippingCargoTypeRoRo" value="Ro-Ro"> Ro-Ro
+                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeWet" name="ShippingCargoTypeWet" value="Wet"> Wet
+                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeOthers" name="ShippingCargoTypeOthers" value="ShippingCargoTypeOthers"> Others
+                        <textarea type="text" class="form-control" id="ShippingagencyCargoType" style="display:none" name="ShippingagencyCargoType">@ViewBag.ShippingagencyCargoType</textarea>
+                    </div>
+                </div>
+
+
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Vessel/Lines Represented in Nigeria</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="VesselLinesRepresentedInNigeria" name="VesselLinesRepresentedInNigeria" cols="3" rows="3">@ViewBag.VesselLinesRepresentedInNigeria</textarea>
+                    </div>
+
+                    <label class="control-label col-md-2">Any Other Relevant Info</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="ShippingagencyAnyOtherInfo" name="ShippingagencyAnyOtherInfo" cols="3" rows="3">@ViewBag.ShippingagencyAnyOtherInfo</textarea>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="Agencyid5" style="display:none">
+                <div class="row form-group">
+                    <label class="control-label col-md-2">Line of Business</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="otherportLineOfBusiness" name="otherportLineOfBusiness" cols="3" rows="3">@ViewBag.otherportLineOfBusiness</textarea>
+                    </div>
+
+                    <label class="control-label col-md-2">Any Other Relevant Info</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="otherportAnyOtherInfo" name="otherportAnyOtherInfo" cols="3" rows="3">@ViewBag.otherportAnyOtherInfo</textarea>
+                    </div>
 
                 </div>
             </div>
 
 
-            <div class="row form-group">
-                <label class="control-label col-md-2">CRFFN Registration Number</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="CrffnRegistrationNum" name="CrffnRegistrationNum" />
-                </div>
-
-
-                <label class="control-label col-md-2">CRFFN Registration Expiry Date</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" readonly id="CrffnRegistratonExpiryDate" name="CrffnRegistratonExpiryDate" />
-
-                </div>
+            <br />
+            <div class="col-xs-12 col-md-offset-12 text-md-center">
+                <button type="submit" class="btn btn-primary btn-default round" id="addbtn">Submit and Continue</button>
             </div>
 
-
-            <div class="row form-group">
-                <label class="control-label col-md-2">Other License/Certification Number</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="OtherLicense" name="OtherLicense" />
-                </div>
-
-
-                <label class="control-label col-md-2">Other License/Certification Expiry Date</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="OtherLicenseExpiryDate" readonly name="OtherLicenseExpiryDate" />
-
-                </div>
-            </div>
-
-
-            <div class="row form-group">
-                <label class="control-label col-md-2">Any Other Relevant Info</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="LogisticsAnyOtherRelevantInfo" name="LogisticsAnyOtherRelevantInfo" cols="3" rows="3">@ViewBag.AnyOtherRelevantInfo</textarea>
-
-                </div>
-            </div>
         </div>
-
-
-
-        <div id="Agencyid3" style="display:none">
-            <div class="row form-group" style="font-size:12px">
-
-                <div class="col-md-4">
-                    <b>Line Of Business</b>
-                    <input type="checkbox" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminal" value="Port Terminal"> Port Terminal
-                    <input type="checkbox" class="LineOfBusinessTerminals" id="OffDockTerminal" name="OffDockTerminal" value="Off Dock Terminal"> Off Dock Terminal
-                    <input type="checkbox" class="LineOfBusinessTerminals" id="ClearingAgents" name="DryPort" value="Dry Port"> Dry Port
-                    <textarea type="text" class="form-control" style="display:none" id="portoffdockLineOfBusiness" name="portoffdockLineOfBusiness">@ViewBag.portoffdockLineOfBusiness</textarea>
-
-                </div>
-
-                <div class="col-md-4">
-                    <b>Status of Terminal:</b>
-                    <input type="checkbox" class="StatusTerminals" id="PortTerminal" name="PortTerminal" value="Port Terminal"> Port Terminal
-                    <input type="checkbox" class="StatusTerminals" id="OffDockTerminal" name="OffDockTerminal" value="Off Dock Terminal"> Off Dock Terminal
-                    <input type="checkbox" class="StatusTerminals" id="ClearingAgents" name="DryPort" value="Dry Port"> Dry Port
-                    <input type="checkbox" class="StatusTerminals" id="OtherStatusTerminal" name="OtherStatusTerminal" value="StatusTerminalOthers"> Others
-
-                    <textarea type="text" class="form-control" style="display:none" id="StatusOfTerminal" name="StatusOfTerminal">@ViewBag.StatusOfTerminal</textarea>
-
-
-                </div>
-
-                <div class="col-md-4">
-                    <b>Cargo Type:</b>
-                    <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeBulk" name="CargoTypeBulk" value="Bulk"> Bulk
-                    <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeContainer" name="CargoTypeContainer" value="Container"> Container
-                    <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeDry" name="CargoTypeDry" value="Dry"> Dry
-                    <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeRoRo" name="CargoTypeRoRo" value="Ro-Ro"> Ro-Ro
-                    <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeWet" name="CargoTypeWet" value="Wet"> Wet
-                    <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeOthers" name="CargoTypeOthers" value="CargoTypeOthers"> Others
-                    <textarea type="text" class="form-control" style="display:none" id="portoffdockCargoType" name="portoffdockCargoType">@ViewBag.portoffdockCargoType</textarea>
-
-
-
-                </div>
-
-            </div>
-
-
-            @*<div class="row" style="margin-left:5px; margin-right:5px">
-            <div class="col-md-12" style="min-width:100%">class="table table-condensed table-bordered table-striped table-hover table-responsive" id="mytable"*@
-            <table class="table table-bordered table-striped" id="mytable" style="width:100%">
-
-                <thead>
-                    <tr>
-                        <th> Terminal Name</th>
-                        <th>
-                            Terminal Location <span style="float:right" class="btn btn-success btn-sm" id="btnAddMoreTerminal" onclick="AddTerminal()"> <i class="fa fa-plus"> </i> Add More Terminal </span>
-                        </th>
-                        <th style="width:5px"></th>
-                    </tr>
-                </thead>
-
-                <tbody id="AppendTerminals" style="width:100%">
-
-                    <tr>
-                        <td>
-                            <input type="text" required class="form-control" placeholder="Enter Terminal Name" id="txtTerminalName[]" name="txtTerminalName[]" />
-                        </td>
-
-                        <td>
-                            <input type="text" required class="form-control txtTerminalLocation" id="txtTerminalLocation[]" name="txtTerminalLocation[]" />
-                        </td>
-                    </tr>
-
-
-
-                </tbody>
-
-            </table>
-            @*</div>
-
-            </div>*@
-
-            <div class="row form-group">
-                <label class="control-label col-md-1">Any Other Relevant Info</label>
-                <div class="col-md-11">
-                    <textarea class="form-control" id="portoffdockAnyOtherInfo" name="portoffdockAnyOtherInfo" cols="2" rows="2">@ViewBag.portoffdockAnyOtherInfo</textarea>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="Agencyid4" style="display:none">
-            <div class="row form-group">
-                <label class="control-label col-md-2"></label>
-                <div class="col-md-4">
-                    <b>Line Of Business:</b>
-                    <input type="checkbox" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgency" value="Shipping Agency"> Shipping Agency
-                    <input type="checkbox" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingCompany" value="Shipping Company/Line"> Shipping Company/Line
-                    <input type="text" class="form-control" style="display:none" id="ShippingagencyLineOfBusiness" value="@ViewBag.LineOfBusiness" name="ShippingagencyLineOfBusiness" />
-                </div>
-                <div class="col-md-4">
-                    <b>Cargo Type</b>
-                    <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingCargoTypeBulk" value="Bulk"> Bulk
-                    <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeContainer" name="ShippingCargoTypeContainer" value="Container"> Container
-                    <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeDry" name="ShippingCargoTypeDry" value="Dry"> Dry
-                    <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeRoRo" name="ShippingCargoTypeRoRo" value="Ro-Ro"> Ro-Ro
-                    <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeWet" name="ShippingCargoTypeWet" value="Wet"> Wet
-                    <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeOthers" name="ShippingCargoTypeOthers" value="ShippingCargoTypeOthers"> Others
-                    <textarea type="text" class="form-control" id="ShippingagencyCargoType" style="display:none" name="ShippingagencyCargoType">@ViewBag.ShippingagencyCargoType</textarea>
-                </div>
-            </div>
-
-
-            <div class="row form-group">
-                <label class="control-label col-md-2">Vessel/Lines Represented in Nigeria</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="VesselLinesRepresentedInNigeria" name="VesselLinesRepresentedInNigeria" cols="3" rows="3">@ViewBag.VesselLinesRepresentedInNigeria</textarea>
-                </div>
-
-                <label class="control-label col-md-2">Any Other Relevant Info</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="ShippingagencyAnyOtherInfo" name="ShippingagencyAnyOtherInfo" cols="3" rows="3">@ViewBag.ShippingagencyAnyOtherInfo</textarea>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div id="Agencyid5" style="display:none">
-            <div class="row form-group">
-                <label class="control-label col-md-2">Line of Business</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="otherportLineOfBusiness" name="otherportLineOfBusiness" cols="3" rows="3">@ViewBag.otherportLineOfBusiness</textarea>
-                </div>
-
-                <label class="control-label col-md-2">Any Other Relevant Info</label>
-                <div class="col-md-4">
-                    <textarea class="form-control" id="otherportAnyOtherInfo" name="otherportAnyOtherInfo" cols="3" rows="3">@ViewBag.otherportAnyOtherInfo</textarea>
-                </div>
-
-            </div>
-        </div>
-
-
-        <br />
-        <div class="col-xs-12 col-md-offset-12 text-md-center">
-            <button type="submit" class="btn btn-primary btn-default round" id="addbtn">Submit and Continue</button>
-        </div>
-
-    </div>
     }
 </div>
 <div style="display:none" id="loadingImage" class="loadingImage">
@@ -359,9 +362,9 @@
 
 
 @section scripts{
-    @*<script src="~/js/jquery-3.3.1.js"></script>
+    <script src="~/js/jquery-3.3.1.js"></script>
     <script src="~/js/jquery.validate.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>*@
+    <script src="~/js/bootstrap.min.js"></script>
 
     <script src="~/js/jquery.ui.widget.js"></script>
     <script src="~/js/jquery.iframe-transport.js"></script>
@@ -518,7 +521,7 @@
         $(document).ready(function () {
 
             getPlace();
-
+            $("#CompanyEmail").val('@ViewBag.AgencyEmail');
 
             $("#AppType").change(function () {
                 var selectedvalue = $("#AppType option:selected").text();
@@ -672,7 +675,8 @@
             $(".agency").on("change", function () {
                 debugger;
                 agencyID = Number($("#txtagency option:selected").val());
-
+                agencyname = $("#txtagency option:selected").text();
+                $("#AgencyName").val(agencyname);
                 if (agencyID === 1) {
                     $("#Agencyid1").show();
                     $("#Agencyid2").hide();

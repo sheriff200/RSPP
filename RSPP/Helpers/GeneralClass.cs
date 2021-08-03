@@ -1,8 +1,11 @@
 ﻿using log4net;
 using Microsoft.AspNetCore.Mvc;
+using QRCoder;
 using RSPP.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -14,7 +17,6 @@ namespace RSPP.Helpers
     public class GeneralClass : Controller
     {
         private ILog log = log4net.LogManager.GetLogger(typeof(GeneralClass));
-
         private Object thislock = new Object();
         public static string Approved = "Approved";
         public static string Rejected = "Rejected";
@@ -143,6 +145,37 @@ namespace RSPP.Helpers
             }
 
         }
+
+
+
+
+        
+
+
+
+
+
+        private static Byte[] BitmapToBytes(Bitmap img)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
+        public Byte[] GenerateQR(string url)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            var imageResult = BitmapToBytes(qrCodeImage);
+            return imageResult;
+        }
+
+
+
+
 
 
 

@@ -23,7 +23,7 @@
                 @foreach (RSPP.Models.DB.UserMaster up in Model)
                 {
                     <tr>
-                        <td><a href="@Url.Action("CompanyProfile", new { ApplicationId ="", CompanyEmail = up.UserEmail})">@up.FirstName</a> </td>
+                        <td><a href="@Url.Action("CompanyProfile", new { ApplicationId ="", CompanyEmail = up.UserEmail})">@up.CompanyName</a> </td>
                         <td>@up.CompanyAddress</td>
                         <td>@up.UserEmail</td>
                         <td>

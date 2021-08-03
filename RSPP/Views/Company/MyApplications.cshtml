@@ -3,13 +3,16 @@
     ViewBag.Title = "My Applications";
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
 }
-<div class="row">
-    <div class="pageTitle bg1">
-        <h3 class="lefty">My Applications</h3>
-        <div class="clear"></div>
-    </div>
-</div>
 
+<br /><br />
+<div class="row">
+    <br />
+    <div>
+        <h2 style="margin-left:10px" class="text-info">My Applications</h2>
+        <div class="clear"></div>
+    </div><br />
+</div>
+<br />
 <div class="modal fade" id="modalPopup">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -41,9 +44,8 @@
             <tbody>
 
                 @{ViewBag.Counter = 0;}
-                @if (ViewBag.ApplicationDetails != null)
-                {
-                    foreach (RSPP.Models.DB.ApplicationRequestForm appmaster in Model)
+                
+                   @foreach (RSPP.Models.DB.ApplicationRequestForm appmaster in Model)
                     {
                         <tr>
                             <td>@(ViewBag.Counter += 1)</td>
@@ -63,7 +65,11 @@
 
                                 }
 
+                                else if (appmaster.CurrentStageId == 3 && appmaster.Status != "Rejected")
+                                {
+                                    <a class="btn btn-warning btn-xs round" href="#" onclick="javascript:MoveToAction('DocumentUpload','@appmaster.ApplicationId')">Upload Document</a>
 
+                                }
                                 else if (appmaster.Status == "Rejected" && appmaster.CurrentStageId == 3)
                                 {
                                     <a class="btn btn-danger btn-xs round" href="#" onclick="javascript:MoveToAction('DocumentUpload','@appmaster.ApplicationId')">Resubmit Application</a>
@@ -102,7 +108,7 @@
 
 
                         </tr>
-                    }
+                   
                 }
             </tbody>
         </table>
@@ -176,4 +182,4 @@
 
     </script>
 
- }
+}

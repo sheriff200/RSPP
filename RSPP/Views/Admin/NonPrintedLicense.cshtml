@@ -8,18 +8,20 @@
 }
 
 <div class="content">
+    
     <div class="row" style="margin-top:-24px">
-        <div class="pageTitle bg1">
-            <h3 class="lefty">Non Printed Licenses</h3>
+        <br />
+        <div>
+            <h1 style="margin-left:10px" class="text-info">Non Printed Licenses</h1>
             <div class="clear"></div>
-        </div>
+        </div><br />
     </div>
     <div class="row">
         <div class="col-md-12">
             <table class="table table-striped printedlicense" id="printedlicense" style="font-size:small">
                 <thead>
                     <tr>
-                        
+
                         <th><strong>Application Ref</strong>
                         <th><strong>License Reference</strong>
                         <th><strong>Company Email</strong> </th>
@@ -41,8 +43,7 @@
     </div>
 </div>
 @section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.media.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.metadata.js")"></script>
+   
     <script type="text/javascript">
        
         $(document).ready(function () {
@@ -62,15 +63,16 @@
                     { data: "licenseReference" },
                     { data: "companyEmail" },
                     { data: "companyAddress" },
-                    { data: "applicationTypeId", },
-                    { data: "agencyName", },
+                    { data: "applicationTypeId" },
+                    { data: "agencyName" },
                     {
                         "render": function (data, type, row) {
                            
-                                return "<button class='btn-xs btn-success' onclick=\"ViewPermit('" + row['applicationId']+ "')\"> Download </button>";
+                            return "<button class='btn-xs btn-success' onclick=\"ViewPermit('" + row['applicationId']+ "')\"> Download </button>";
                            
                         }
                     }
+                   
                 ],
                 "columnDefs": [
                     {

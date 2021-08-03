@@ -79,16 +79,16 @@
     </div>
 }
 <div class="modal fade adminPopup" id="modalPopup">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="margin: 0 auto 0 -20%">
         <div class="modal-content">
-            <div class="modal-header">
+            @*<div class="modal-header">
 
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h3 class="modal-title">Modal header</h3>
-            </div>
+               <h3 class="modal-title">Modal header</h3>
+        </div>*@
             <div id="modal-body">
             </div>
         </div>
@@ -122,9 +122,9 @@
                 var elem = $(this);
                 var url = elem.attr("data-url");
                 var staffName = elem.data("name");
-                $("#modal-body").html(Loading());
+                //$("#modal-body").html(Loading());
                 $(".modal-dialog").addClass("wider-body");;
-                $(".modal-title").text("Applications on " + staffName + "'s desk");
+                //$(".modal-title").text("Applications on " + staffName + "'s desk");
 
                 $.get(url, function (data) {
                     $("#modal-body").html(data);

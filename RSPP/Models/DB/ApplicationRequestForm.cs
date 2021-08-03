@@ -31,7 +31,6 @@ namespace RSPP.Models.DB
         public int? CurrentStageId { get; set; }
         public string LastAssignedUser { get; set; }
         public DateTime? AddedDate { get; set; }
-        public int? SignatureId { get; set; }
         public string Status { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ApplicationTypeId { get; set; }

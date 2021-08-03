@@ -17,7 +17,7 @@
             <table class="table table-hover dataTable" style="height: 97%;">
                 <thead>
                     <tr>
-                        <th>Company</th>
+                        <th>Agency Name</th>
                         <th>Ref. No.</th>
                         <th>Application Type</th>
                         <th>Stage</th>
@@ -27,12 +27,13 @@
                 <tbody>
                     @foreach (RSPP.Models.DB.ApplicationRequestForm br in Model)
                     {
-                        <tr class="">
-                            <td>@br.AgencyName</td>
-                            <td>@br.ApplicationId</td>
-                            <td>@dbCtxt.WorkFlowState.Where(w => w.StateId == br.CurrentStageId).FirstOrDefault().StateName.ToString()</td>
-                            <td>@br.AddedDate.Value.ToString("dd-MMM-yyyy")</td>
-                        </tr>
+                    <tr class="">
+                        <td>@br.AgencyName</td>
+                        <td>@br.ApplicationId</td>
+                        <td>@br.ApplicationTypeId</td>
+                        <td>@dbCtxt.WorkFlowState.Where(w => w.StateId == br.CurrentStageId).FirstOrDefault().StateName.ToString()</td>
+                        <td>@br.AddedDate.Value.ToString("dd-MMM-yyyy")</td>
+                    </tr>
                     }
                 </tbody>
             </table>

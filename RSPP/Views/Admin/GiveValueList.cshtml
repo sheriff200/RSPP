@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 <div class="content">
-    <div class="row" style="margin-top:-24px">
-        <div class="pageTitle bg1">
-            <h3 class="lefty">Give Value</h3>
+    <div class="row" style="margin-top:-24px"><br />
+        <div>
+            <h1 style="margin-left:10px">Give Value</h1>
             <div class="clear"></div>
-        </div>
+        </div><br />
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -53,13 +53,16 @@
                     ],
                     "columnDefs": [
                         {
-                            "targets": 5,
+                            "targets": 4,
                             "data": null,
                             "defaultContent":
                                 '<button id="Givevalue" class="btn btn-xs btn-success payment"><span class="glyphicon glyphicon-transfer"></span> Give Value</button>'
                         }
                     ]
                 });
+
+
+
                 $('#givevalue').on('click', 'button', function () {
                     debugger;
                     var answer = confirm("Are You Want to Give Value?");

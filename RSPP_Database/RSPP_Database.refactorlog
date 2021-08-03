@@ -14,4 +14,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="CertificateSerialNumberId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="73fec9bd-dd96-4c2e-97a6-e04f2ffa015c" ChangeDateTime="07/28/2021 13:31:40">
+    <Property Name="ElementName" Value="[dbo].[CertificateSerialNumber].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CertificateSerialNumber]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CertificateSerialNumberId" />
+  </Operation>
 </Operations>

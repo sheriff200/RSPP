@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Rotativa.AspNetCore;
 using RSPP.Controllers;
 using RSPP.Helpers;
 using RSPP.Models;
@@ -37,14 +38,14 @@ namespace RSPP.Configurations
 
         public string getSessionRoleName()
         {
-            return generalClass.Decrypt(_httpContextAccessor.HttpContext.Session.GetString(AccountController.sessionRoleName));
+            return _httpContextAccessor.HttpContext.Session.GetString(AccountController.sessionRoleName);
         }
 
 
 
-        public int getSessionUserID()
+        public int getSessionStaffName()
         {
-            return Convert.ToInt32(generalClass.Decrypt(_httpContextAccessor.HttpContext.Session.GetString(AccountController.sessionUserID)));
+            return Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString(AccountController.sessionStaffName));
         }
 
 
@@ -70,7 +71,7 @@ namespace RSPP.Configurations
                 List<string> UserRoles = getSessionRoleName().Split(',').ToList();
                 List<short> AllStages = _context.WorkFlowNavigation.Where(c => UserRoles.Contains(c.ActionRole)).Select(c => c.CurrentStageId).Distinct().ToList();
                 Logger.Info("User Stages =>" + string.Join(",", AllStages.ToArray()));
-                ApplicationRequestForm appmaster = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == allRequest.FirstOrDefault().ApplicationId).FirstOrDefault();
+                //ApplicationRequestForm appmaster = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == allRequest.FirstOrDefault().ApplicationId).FirstOrDefault();
                 var currentstage = (from u in _context.ApplicationRequestForm where u.LastAssignedUser == getSessionEmail() select new { u.CurrentStageId}).FirstOrDefault();
                 
                 foreach (ApplicationRequestForm appRequest in _context.ApplicationRequestForm.Where(a => AllStages.Contains((short)a.CurrentStageId)).ToList())
@@ -100,6 +101,59 @@ namespace RSPP.Configurations
 
             return allRequest;
         }
+
+
+
+
+
+
+
+
+
+
+        public List<ApplicationRequestForm> GetApprovalRequests(UserMaster userMaster, out String errorMessage)
+        {
+            errorMessage = "SUCCESS";
+            List<ApplicationRequestForm> allRequest = new List<ApplicationRequestForm>();
+            Logger.Info("About to fetch Requests due for User => " + userMaster.UserEmail + " With Roles =>" + getSessionRoleName());
+
+            try
+            {
+                List<string> UserRoles = userMaster.UserRole.Split(',').ToList();
+                List<short> AllStages = _context.WorkFlowNavigation.Where(c => UserRoles.Contains(c.ActionRole)).Select(c => c.CurrentStageId).Distinct().ToList();
+                Logger.Info("User Stages =>" + string.Join(",", AllStages.ToArray()));
+                //ApplicationRequestForm appmaster = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == allRequest.FirstOrDefault().ApplicationId).FirstOrDefault();
+                var currentstage = (from u in _context.ApplicationRequestForm where u.LastAssignedUser == getSessionEmail() select new { u.CurrentStageId }).FirstOrDefault();
+
+                foreach (ApplicationRequestForm appRequest in _context.ApplicationRequestForm.Where(a => AllStages.Contains((short)a.CurrentStageId)).ToList())
+                {
+
+                    if (isPaymentMade(appRequest.ApplicationId, out errorMessage))
+                    {
+                        foreach (var item in AllStages)
+                        {
+                            if ((appRequest.CurrentStageId == item) && getSessionEmail() == appRequest.LastAssignedUser)
+                            {
+                                if (UserRoles.Contains("OFFICER") || UserRoles.Contains("SUPERVISOR") || UserRoles.Contains("REGISTRAR"))
+                                {
+                                    allRequest.Add(appRequest);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.StackTrace);
+                errorMessage = "Error Occured When Searching For User Applications, Please try again Later";
+            }
+
+            return allRequest;
+        }
+
+
 
 
 
@@ -732,6 +786,7 @@ namespace RSPP.Configurations
             List<UploadedDocuments> UploadedDocuments = new List<UploadedDocuments>();
             try
             {
+
                 UploadedDocuments = (from u in _context.UploadedDocuments join a in _context.ApplicationRequestForm on u.ApplicationId equals a.ApplicationId where a.CompanyEmail == companyemail select u).ToList();
                 if (UploadedDocuments.Count() > 0)
                 {
@@ -740,8 +795,9 @@ namespace RSPP.Configurations
                         var splitdocname = doc.DocumentName.Split("_");
                         d.DocumentSource = doc.DocumentSource;
                         d.DocumentName = splitdocname[0];
-                        UploadedDocuments.Add(d);
                     }
+                    UploadedDocuments.Add(d);
+
                 }
                 appResponse.message = "success";
                 appResponse.value = true;
@@ -753,6 +809,51 @@ namespace RSPP.Configurations
             }
             return UploadedDocuments;
         }
+
+
+
+
+
+
+        public List<UploadedDocuments> UploadedCompanyDocument(string Appid)
+        {
+            AppResponse appResponse = new AppResponse();
+            List<UploadedDocuments> UploadedDoc = new List<UploadedDocuments>();
+            try
+            {
+              var UploadedDocument = (from u in _context.UploadedDocuments where u.ApplicationId == Appid select u).ToList();
+                if (UploadedDocument.Count() > 0)
+                {
+                    foreach (var doc in UploadedDocument)
+                    {
+                        //var splitdocname = doc.DocumentName.Split("_");
+                        UploadedDoc.Add(new UploadedDocuments()
+                        {
+                          DocumentSource = doc.DocumentSource,
+                           DocumentName = doc.DocumentName.Split("_")[0]
+                        });
+                         
+                    }
+                   
+
+                }
+                appResponse.message = "success";
+                appResponse.value = true;
+            }
+            catch (Exception ex)
+            {
+                appResponse.message = ex.Message;
+                appResponse.value = false;
+            }
+            return UploadedDoc;
+        }
+
+
+
+
+
+
+
 
 
 
@@ -770,16 +871,16 @@ namespace RSPP.Configurations
             try
             {
                 Logger.Info("About to generate License");
-                string expiryDate = currentDateTime.ToString("yyyy") + "-12-31";
-                var Signatureid = (from u in _context.UserMaster where u.UserEmail == staffemail select u.SignatureId).FirstOrDefault();
+                DateTime expiryDate = currentDateTime.AddYears(2);
+                //var Signatureid = (from u in _context.UserMaster where u.UserEmail == staffemail select u.SignatureId).FirstOrDefault();DateTime.ParseExact(expiryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture
                 ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == applicationId.Trim()).FirstOrDefault();
                 var isRenewed = appRequest.ApplicationTypeId == "NEW" ? "NO" : "YES";
                 appRequest.LicenseIssuedDate = appRequest.LicenseIssuedDate == null ? DateTime.UtcNow : appRequest.LicenseIssuedDate;
-                appRequest.LicenseExpiryDate = appRequest.LicenseExpiryDate == null ? DateTime.ParseExact(expiryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture) : appRequest.LicenseExpiryDate;
+                appRequest.LicenseExpiryDate = appRequest.LicenseExpiryDate == null ? expiryDate : appRequest.LicenseExpiryDate;
                 string LicenseRef = generalClass.GenerateCertificateNumber(_context);
                 Logger.Info("Generated License Num => " + LicenseRef);
                 appRequest.LicenseReference = appRequest.LicenseReference == null ? LicenseRef : appRequest.LicenseReference;
-                appRequest.SignatureId = Convert.ToInt32(Signatureid);
+                //appRequest.SignatureId = Convert.ToInt32(Signatureid);
 
                 _context.SaveChanges();
             }
@@ -787,6 +888,65 @@ namespace RSPP.Configurations
             {
                 Logger.Error(ex.InnerException);
             }
+        }
+
+
+
+
+
+
+        public ViewAsPdf ViewCertificate(string id)
+        {
+
+            List<PermitModels> permitmodel = new List<PermitModels>();
+            List<Permitmodel> permits = new List<Permitmodel>();
+
+            var signature = (from c in _context.Configuration where c.ParamId == "Signature" select c.ParamValue).FirstOrDefault();
+
+            var details = (from a in _context.ApplicationRequestForm
+                           join u in _context.UserMaster on a.CompanyEmail equals u.UserEmail
+                           join f in _context.PaymentLog on a.ApplicationId equals f.ApplicationId
+                           where a.ApplicationId == id
+                           select new { f.TxnAmount, a.CompanyEmail, u.CompanyName, a.ApplicationId, a.LicenseReference, a.LicenseExpiryDate, a.LicenseIssuedDate, a.AgencyName }).FirstOrDefault();
+
+
+
+            var Host = HttpContext.Request.Path; //HttpContext.Current.Request.Url.Authority;
+            var absolutUrl = Host + "/Verify/VerifyPermitQrCode/" + id;
+            var QrCode = generalClass.GenerateQR(absolutUrl);
+            if (details != null)
+            {
+                var Pstatus = (from p in _context.ApplicationRequestForm where p.ApplicationId == id select p).FirstOrDefault();
+                Pstatus.PrintedStatus = "Printed";
+                _context.SaveChanges();
+
+                permits.Add(new Permitmodel()
+                {
+                    Signature = signature,
+                    IssuedDay = Convert.ToDateTime(details.LicenseIssuedDate).ToString("dd"),
+                    IssuedMonth = Convert.ToDateTime(details.LicenseIssuedDate).ToString("MMMM"),
+                    IssuedYear = Convert.ToDateTime(details.LicenseIssuedDate).ToString("yyyy"),
+                    ExpiryDay = Convert.ToDateTime(details.LicenseExpiryDate).ToString("dd"),
+                    ExpiryMonth = Convert.ToDateTime(details.LicenseExpiryDate).ToString("MMMM"),
+                    ExpiryYear = Convert.ToDateTime(details.LicenseExpiryDate).ToString("yyyy"),
+                    CompanyName = details.CompanyName,
+                    AgencyName = details.AgencyName,
+                    QrCode = QrCode
+                });
+
+                permitmodel.Add(new PermitModels()
+                {
+                    permitmodels = permits.ToList()
+                });
+
+            }
+
+            return new ViewAsPdf("ViewCertificate", permitmodel.ToList())
+            {
+                PageSize = (Rotativa.AspNetCore.Options.Size?)Rotativa.Options.Size.A4,
+                FileName = id + ".pdf"
+
+            };
         }
 
 

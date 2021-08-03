@@ -1,54 +1,717 @@
 ﻿
+@using RSPP.Helpers;
+@using RSPP.Controllers;
+@using Microsoft.AspNetCore.Http;
 
-<partial name="_ElaHeader.cshtml" />
+@{
+    GeneralClass generalClass = new GeneralClass();
 
-<body class="fix-header fix-sidebar">
+}
 
-    @*@ViewBag.BodyClass*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Cache-Control" content="no-cache">
+    <meta name="Pragma" content="no-cache">
+    <meta name="Expires" content="0">
+    <title>Admin Dashboard</title>
+
+    <environment include="Development">
 
 
-    <!-- Preloader - style you can find in spinners.css -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-        </svg>
+        <link href="~/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/css/MainStyle.css" rel="stylesheet" />
+        <link href="~/css/otherStyle.css" rel="stylesheet" />
+        <link href="~/css/dataTables.min.css" rel="stylesheet" />
+        <link href="~/css/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="~/css/buttons.dataTables.min.css" rel="stylesheet" />
+        <link href="~/css/dataTables.checkboxes.css" rel="stylesheet" />
+        <link href="~/css/jquery-ui.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/regular.css" integrity="sha384-aubIA90W7NxJ+Ly4QHAqo1JBSwQ0jejV75iHhj59KRwVjLVHjuhS3LkDAoa/ltO4" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+
+    </environment>
+
+
+    @*<link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/images/coa.png")" />
+
+        <link href="~/css/bootstrap.css" rel="stylesheet" />
+
+
+        <link rel="icon" type="image/png" sizes="16x16" href="~/images/coa.png" />
+        <link href="~/css/select2.min.css" rel="stylesheet" />
+        <link href="~/css/dataTables.min.css" rel="stylesheet" />
+        <link href="~/css/dataTables.checkboxes.css" rel="stylesheet" />
+        <link href="~/css/MainStyle.css" rel="stylesheet" />
+        <link href="~/css/otherStyle.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet">
+        <link href="~/css/jquery-ui.css" rel="stylesheet" />
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/regular.css" integrity="sha384-aubIA90W7NxJ+Ly4QHAqo1JBSwQ0jejV75iHhj59KRwVjLVHjuhS3LkDAoa/ltO4" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">*@
+
+    <style>
+        .center-cropped {
+            width: 120px;
+            height: 120px;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            color: #214528
+        }
+
+        .table-responsive {
+            overflow-y: visible !important;
+        }
+
+
+        .btn.round {
+            border-radius: 50px;
+        }
+
+        .label-medium {
+            vertical-align: super;
+            font-size: medium;
+        }
+
+        .label-large {
+            vertical-align: super;
+            font-size: large;
+        }
+
+        .label-bs {
+            vertical-align: super;
+        }
+
+        .label-as-badge {
+            border-radius: 1em;
+        }
+
+        .ui-autocomplete {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1510 !important;
+            float: left;
+            display: none;
+            padding: 4px 0;
+            margin: 2px 0 0 0;
+            list-style: none;
+            background-color: #ffffff;
+            border-color: #ccc;
+            border-color: rgba(0, 0, 0, 0.2);
+            border-style: solid;
+            border-width: 1px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -webkit-background-clip: padding-box;
+            -moz-background-clip: padding;
+            background-clip: padding-box;
+            *border-right-width: 2px;
+            *border-bottom-width: 2px;
+        }
+
+        fieldset.scheduler-border {
+            border: 1px groove #ddd !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend.scheduler-border {
+            width: inherit; /* Or auto */
+            padding: 0 10px; /* To give a bit of padding on the left and right */
+            border-bottom: none;
+        }
+        #appContainer .ctrl-sidebar .sidebar > ul > li:last-child {
+            height: 500px;
+        }
+        .flash {
+            border: 2px solid #e32424;
+            border-radius: 10px;
+            color: #e32424;
+            -webkit-animation: pulse linear 2s infinite;
+            animation: pulse linear 2s infinite;
+        }
+    </style>
+
+    @*@RenderSection("css", false)*@
+</head>
+<body>
+
+    <div id="loading" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
+        <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/Images/spinning.gif" />
     </div>
-    <!-- Main wrapper  -->
-    <div id="main-wrapper">
-        <!-- header header  -->
-        <!-- End header header -->
-        <!-- Left Sidebar  -->
-        <partial name="_ElaSideBar.cshtml" />
-        <!-- End Left Sidebar  -->
-        <!-- Page wrapper  -->
-        <div class="page-wrapper">
-            <br />
-            <!-- Bread crumb -->
-            @*<div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h4 style="color:#77db5d;"> @ViewBag.Title </h4>
-                </div>
-                <div class="col-md-7 align-self-center">
-                    <ol class="breadcrumb"></ol>
-                </div>
-            </div>*@
-            <!-- End Bread crumb -->
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-                <!-- Start Page Content -->
-                @RenderBody()
-                <!-- End PAge Content -->
+
+    <div class="navbar navbar-fixed-top og_Head" style="background-color:#7eaa86" role="navigation">
+        <div class="navbar-header" style="float:left">
+            <div class="navbar-brand navbar-left">
+                <a href="#">
+                    <img src="@Url.Content("~/images/RSPPlogo.PNG")" width="150" style="margin-top:10px" />
+                </a>
             </div>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-
-
-            <partial name="_ElaFooter.cshtml" />
-            <!-- End footer -->
+            <div class="navbar-left">
+                @*<form class="navbar-form navbar-left" role="search" action="@Url.Action("/")" method="get">
+                        <div class="form-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search for Application">
+                        </div>
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </form>*@
+            </div>
         </div>
-        <!-- End Page wrapper  -->
-    </div>
-    <!-- End Wrapper -->
 
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <div class="top-nav">
+            <form class="navbar-right" onsubmit="return confirm('Are you sure you want to log out ?');" id="logoutForm" method="get" action="@Url.Action("LogOff", "Account")">
+                <ul class="nav navbar-nav pull-right">
+
+                    <li>
+                        <a title="Manage" href="@Url.Action("ChangePassword","Admin")" class="text-white"><b>WELCOME &nbsp;@Context.Session.GetString(AccountController.sessionStaffName).ToString()</b></a>
+                    </li>
+                    <li>
+                        <button type="submit" class="initLogoff ad"><i class="fa fa-power-off" style="font-size: 22px; color:red" title="LogOut"></i></button>
+                    </li>
+                </ul>
+                @Html.AntiForgeryToken()
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="" id="appContainer" style="background-color:#7eaa86">
+        <br />
+        <div class="ctrl-sidebar" style="background-color:#7eaa86">
+
+
+
+            
+
+
+            <div class="collapse navbar-collapse sidebar" style="overflow-y: scroll">
+                <br />
+
+
+
+                <ul class="parent" style="background-color:#7eaa86; color:white">
+                    <li>
+                        <a href="#">
+                            <span class="text-white">Control Panel Admin</span>
+                            <br />
+                            <small class="text-white">@Context.Session.GetString(AccountController.sessionRoleName).ToString()</small>
+                        </a>
+                    </li>
+
+
+                    <li class="more main-list">
+
+                        <a href="#" class="has-arrow" aria-expanded="false">
+                            <i class="fa fa-table"></i>
+                            <span class="text-white">Desk</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/MyDesk" id="MyDesk">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span class="text-white">My Desk</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/StaffDesk" id="StaffDesk">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span class="text-white">Staff Desks</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+
+                    <li class="more main-list">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            <span class="text-white">Applications</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/AllApplications" id="AllApplications">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                    <span class="text-white">All Applications</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/Companies" id="Companies">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <span class="text-white">All Companies</span>
+                                </a>
+                            </li>
+                           
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-group" aria-hidden="true"></i>
+                            <span class="text-white">Access Management</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/StaffMaintenance" id="StaffMaintenance">
+                                    <i class="fa fa-users " aria-hidden="true"></i>
+                                    <span class="text-white">Staff Maintenance</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                            <span class="text-white">Reports and Charts</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/ApplicationReport" id="ApplicationReport">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span class="text-white">Applications Report</span>
+                                </a>
+                            </li>
+                           
+                           
+                            <li>
+                                <a href="/Admin/LicenseReport" id="LicenseReport">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span class="text-white">Licenses and Permits</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/PaymentList" id="PaymentList">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span class="text-white">Payment Report</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/StaffReport" id="StaffReport">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span class="text-white">Staff Report</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                            <span class="text-white">Payment</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/AllPayment" id="AllPayment">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                    <span class="text-white">All Payment</span>
+                                </a>
+                            </li>
+                            @*<li>
+                                <a href="/Admin/ConfirmExtraPayment" id="ConfirmExtraPayment">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i>
+                                    <span class="text-white">Confirm Extra Payment</span>
+                                </a>
+                            </li>*@
+                            <li>
+                                <a href="/Admin/AllExtraPayment" id="AllExtraPayment">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i>
+                                    <span class="text-white">All Extra Payment</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/GiveValueList" id="GiveValueList">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                    <span class="text-white">Give Value</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/ConfirmPayment" id="ConfirmPayment">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span class="text-white">Confirm Payment</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                            <span class="text-white">Account</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/ChangePassword" id="ChangePassword">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    <span class="text-white">Change Password</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Account/LogOff" id="LogOff">
+                                    <i class="fa fa-power-off" aria-hidden="true"></i>
+                                    <span class="text-white">LogOut</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                            <span class="text-white">Configuration</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/UpdateFacilityInfo" id="UpdateFacilityInfo">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <span class="text-white">Facility</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            <span class="text-white">Licenses</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/ALLPermits" id="ALLPermits">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span class="text-white">All Licenses/Approvals</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/NonPrintedLicense" id="NonPrintedLicense">
+                                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                    <span class="text-white">Non Printed Licenses</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/PrintedLicense" id="PrintedLicense">
+                                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                                    <span class="text-white">Printed Licenses</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="more main-list">
+
+                        <a href="#">
+                            <i class="fa fa-coffee" aria-hidden="true"></i>
+                            <span class="text-white">Out of Office</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/AllStaffOutofOffice" id="AllStaffOutofOffice">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span class="text-white">All Out of Office</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="/Admin/GetRelievedStaffOutofOffice">
+                            <i class="fa fa-users"></i><span class="text-white"> Relieved Staff(s)</span>&nbsp;<i class="label label-danger label-bs"><b>0</b></i>
+                        </a>
+                    </li>
+                    <li></li>
+
+                    
+
+                </ul>
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+        <div class="ctrl-content">
+            @RenderBody()
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="" style="color: #f7f7f7;">
+        <hr style="margin: 10px; padding: 0px;">
+    </div>
+
+    @*<script src="~/js/jquery-3.3.1.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>*@
+
+    @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>*@
+
+<environment include="Development">
+
+
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    *
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+    </script>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+    </script>
+   
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/dataTables.min.js"></script>
+    <script src="~/js/dataTablesbuttons.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+    <script src="~/js/buttons.flash.min.js"></script>
+    <script src="~/js/jszip.min.js"></script>
+    <script src="~/js/pdfmake.min.js"></script>
+    <script src="~/js/vfs_fonts.js"></script>
+    <script src="~/js/buttons.html5.min.js"></script>
+    <script src="~/js/buttons.print.min.js"></script>
+    <script src="~/js/buttons.colVis.min.js"></script>
+    <script src="~/js/dataTables.checkboxes.min.js"></script>
+    <script src="~/js/sidebarmenu.js"></script>
+    <script src="~/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</environment>
+
+
+
+    @*<script src="~/js/jquery.multiselect.js"></script>
+        <script src="~/js/buttons.print.min.js"></script>
+        <script src="~/js/buttons.html5.min.js"></script>
+        <script src="~/js/select2.min.js"></script>*@
+
+    @*<script src="~/js/exporting.js"></script>*@
+
+
+
+    <script>
+
+        //window.setInterval(function () {
+        //    $.post('/Admin/GetStaffEndOutofOffice', function (result) {
+        //        if (result == "done") {
+        //            //console("triggered done end");
+        //        }
+        //    });
+        //}, 30000);
+        //window.setInterval(function () {
+        //    $.post('/Admin/GetStaffStartOutofOffice', function (result) {
+        //        if (result == "done") {
+        //            //console("triggered done start");
+        //        }
+        //    });
+        //}, 30000);
+
+        $(document).ready(function () {
+            $('#loading').hide()
+                .ajaxStart(function () {
+                    $(this).show();
+                })
+                .ajaxStop(function () {
+                    $(this).hide();
+                });
+        })
+
+
+       
+
+        $('.child').hide();
+        $("li:has(ul)").click(function () {
+            $(".main-list").find('.child').slideUp();
+            $(this).find('.child').slideDown();
+        });
+
+       
+
+    </script>
+
+    @RenderSection("scripts", required: false)
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@Html.Partial("_ElaHeader.cshtml")
+
+    <body class="fix-header fix-sidebar">
+
+
+        <div class="preloader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+            </svg>
+        </div>
+        <div id="main-wrapper">
+
+            @Html.Partial("_ElaSideBar.cshtml")
+
+
+            <div class="page-wrapper">
+                <br />
+
+            </div>
+
+                <div class="container-fluid">
+
+                    @RenderBody()
+
+                </div>
+                @Html.Partial("_ElaFooter.cshtml")
+
+            </div>
+
+        </div>
+
+        @RenderSection("Scripts", required: false)
+
+    </body>*@
 

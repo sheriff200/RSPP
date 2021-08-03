@@ -124,7 +124,7 @@
                                     <td>@n.CompanyAddress</td>
                                     <td>@n.LastAssignedUser</td>
                                     <td>@n.AppliedDate</td>
-                                    <td><button class="btn btn-success btn-xs" onclick="CompanyJs('@n.ApplicationID', '@n.AgencyName', '@n.CompanyEmail', '@n.ApplicationTypeId', '@n.CompanyAddress', '@n.LastAssignedUser')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
+                                    <td><button class="btn btn-success btn-xs" onclick="CompanyJs('@n.ApplicationID', '@n.AgencyName', '@n.CompanyEmail', '@n.ApplicationTypeId', '@n.CompanyAddress','@n.CurrentStageId', '@n.LastAssignedUser')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
                                 </tr>
                             }
 
@@ -264,9 +264,9 @@
                     var CompanyAddress = $("#CompanyAddress").val();
                     var currentStageId = $("#CurrentStageId").val();
                     var LastAssignedUser = $("#LastAssignedUser").val();
-                    
 
-                   
+
+
 
                     if (msg === true) {
                     $(".loadingImage").show('fast');
@@ -306,7 +306,7 @@
                     "order": [[1, "desc"]]
                 });
             });
-            function CompanyJs(ApplicationId, AgencyName, CurrentStageId, lastAssignedUser, ApplicationType, Companyemail, CompanyAddress) {
+            function CompanyJs(ApplicationId, AgencyName, Companyemail, ApplicationType, CompanyAddress, CurrentStageId, lastAssignedUser) {
                 debugger;
                 $(".loadingImage").show('fast');
                 $("#AgencyName").val(AgencyName);

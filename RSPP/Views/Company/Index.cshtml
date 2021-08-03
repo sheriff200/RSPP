@@ -6,54 +6,6 @@
 @*<div class="row">*@
 @if (ViewBag.ErrorMessage == "SUCCESS")
 {
-    @*<div class="col-md-12 bg1">
-            <div class="pad-t">
-                <div class="col-md-4">
-
-                    <div class="welcome">
-                        <h4>WELCOME</h4>
-                        <h2>@ViewBag.CompanyName.ToUpper()</h2>
-                    </div>
-
-                </div>
-                <div class="col-md-8">
-                    <div class="col4_1x dTile" onclick="myhref('@Url.Action("MyApplications", "Company", new { type = "ALL" })');">
-                        <div class="tileHead">
-                            <h1 id="applicationsCount">@ViewBag.ApplicationCount</h1>
-                        </div>
-                        <div class="tileBase">
-                            <p>Total Application(s)</p>
-                        </div>
-                    </div>
-                    <div class="col4_1x dTile" onclick="myhref('@Url.Action("MyApplications", "Company", new { type = "PROC" })');">
-                        <div class="tileHead">
-                            <h1 id="processingCount">@ViewBag.ProcessedApplicationCount</h1>
-                        </div>
-                        <div class="tileBase">
-                            <p>Application(s) being Processed</p>
-                        </div>
-                    </div>
-                    <div class="col4_1x dTile" onclick="myhref('@Url.Action("ALLCompanyPermits", "Company")');">
-                        <div class="tileHead">
-                            <h1 id="totalCount">@ViewBag.TotalPermitCount</h1>
-                        </div>
-                        <div class="tileBase">
-                            <p>Total Permit(s)</p>
-                        </div>
-                    </div>
-                    <div class="col4_1x dTile" onclick="myhref('@Url.Action("ALLCompanyPermits", "Company", new { type = "EXP" })');">
-                        <div class="tileHead">
-                            <h1 id="expiringCount">@ViewBag.PermitExpiringCount</h1>
-                        </div>
-                        <div class="tileBase">
-                            <p>Permit(s) Expiring or Expired</p>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </div>*@
 
 
 
@@ -65,7 +17,7 @@
             <br />
             <h2>Welcome</h2>
             <hr />
-            <b class="DashCompanyName">@ViewBag.CompanyName.ToUpper()) </b>
+            <b class="DashCompanyName">@ViewBag.CompanyName.ToUpper()</b>
         </div>
 
         <div class="col-sm-8">
@@ -124,141 +76,50 @@
 
     <br />
 
-        <div style="margin-left:16%">
-            <div class="padd-s">
-                <div class="btn-group btn-group-lg btn-group-justified">
-                    <a class="btn btn-success round" role="button" href="@Url.Action("ApplicationForm")"><i class="fas fa-book  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Apply For License</a>
-                    <a class="btn btn-primary round" role="button" href="@Url.Action("CompanyProfile")"><i class="fas fa-building fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Company Profile</a>
-                    <a class="btn btn-info round" role="button" href="@Url.Action("MyDocuments")"><i class="fas fa-folder-open fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Company Documents</a>
-                    <a class="btn btn-warning round" role="button" href="@Url.Action("ALLCompanyPermits")"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;View License/Approval</a>
-                </div>
+    <div style="margin-left:16%">
+        <div class="padd-s">
+            <div class="btn-group btn-group-lg btn-group-justified">
+                <a class="btn btn-success round" role="button" href="@Url.Action("ApplicationForm")"><i class="fas fa-book  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Apply For Certificate</a>
+                <a class="btn btn-primary round" role="button" href="@Url.Action("CompanyProfile")"><i class="fas fa-building fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Company Profile</a>
+                <a class="btn btn-info round" role="button" href="@Url.Action("MyDocuments")"><i class="fas fa-folder-open fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Company Documents</a>
+                <a class="btn btn-warning round" role="button" href="@Url.Action("ALLCompanyPermits")"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;View Certificate</a>
             </div>
         </div>
-        @*<hr style="margin: 0 0 20px 0; padding: 0;" />*@
-        <div class="modal fade" id="modalPopup">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                </div>
+    </div>
+    <br />
+    <br />
+
+    <div class="modal fade" id="modalPopup">
+        <div class="modal-dialog">
+            <div class="modal-content">
             </div>
         </div>
-        <div id="coverScreen" class="LockOn" style="display: none;"></div>
-
-    
-
-
-
-
-
-
-
-
-
-
-    if (ViewBag.Allcomments.Count > 0)
-    {
-        foreach (var ah in ViewBag.Allcomments)
-        {
-            if (TempData["Acceptcomment"].ToString() == "Reject" || TempData["Acceptcomment"].ToString() == "Rejectmk" || TempData["Acceptcomment"].ToString() == "Deny")
-            {
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-danger alert-dismissable text-center" style="height:auto" role="alert">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>Application With the Reference Number @ah.ApplicationID, Has Been Rejected. Reason For Rejection=> @ah.Comment.<br /><br />
-
-                            PLEASE COMPLETE YOUR APPLICATION BY CLICKING  <a class="btn btn-warning btn-xs round" href="#" onclick="javascript:ProceedWithApplication('RouteApplication','@ah.ApplicationID','Application Form')">Document Upload/Application Form</a>
-
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <br />
-                <br />
-            }
-
-        }
-    }
-
-
-
-    if (ViewBag.ExtraPay != null && ViewBag.LoggedInUser == ViewBag.ExtraPaymentEmail)
-    {
-
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger alert-dismissible center-block" style="height:auto" role="alert" id="welcomealert" align="center">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <i class="fa fa-money fa-border" aria-hidden="true"></i>
-                    YOU ARE REQUIRED TO MAKE EXTRA PAYMENT OF @ViewBag.ExtraPaymentAmount NAIRA FOR THE APPLICATION WITH REFERENCE NUMBER (@ViewBag.ExtraPaymentAPPID) BY CLICKING
-                    <a class="btn btn-warning btn-xs round" href="/Company/MakeExtraPayment">Extra Payment</a>
-                </div>
-            </div>
-        </div>
-        <br />
-    }
-
-
-
-
-
-    if (ViewBag.legacystage == 46)
-    {
-        if (TempData["Rejectcomment"] != null)
-        {
-
-            if (TempData["Acceptcomment"].ToString() == "LSReject" || TempData["Acceptcomment"].ToString() == "Reject")
-            {
-                <div class="col-md-12">
-                    <div class="alert alert-danger alert-mini alert-dismissable text-center col-md-12" style="height:auto" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign"></span> Reason For Rejection => @TempData["Rejectcomment"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true" style="margin-left:-50px">&times;</span>
-                        </button>
-                    </div>
-                </div>
-                <br />
-            }
-        }
-        @*<div class="col-md-12">
-                <div class="alert alert-danger  alert-mini alert-dismissable text-center col-md-12" role="alert">
-                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    PLEASE COMPLETE YOUR LEGACY LICENSE PROCESSES BY CLICKING
-                    <a class="btn btn-warning btn-xs round" href="#" onclick="javascript:MoveToAction('LegacyApplication','@ViewBag.legacyappid')">Upload Legacy Document</a>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true" style="margin-left:-50px">&times;</span>
-                    </button>
-                </div>
-            </div><br />*@
-
-    }
-
-
+    </div>
+    <div id="coverScreen" class="LockOn" style="display: none;"></div>
 
 
 
     foreach (KeyValuePair<string, int>
         item in ViewBag.StageReferenceList)
     {
-        if ((item.Value == 1) && (TempData["Acceptcomment"].ToString() != "Reject" && TempData["Acceptcomment"].ToString() != "Rejectmk"))
+        if ((item.Value == 1))
         {
             <div class="col-md-12">
                 <div class="alert alert-info alert-dismissible center-block" role="alert" align="center">
                     <i class="fas fa-book-reader fa-2x" aria-hidden="true"></i>
-                    KINDLY PROCEED WITH APPLICATION REFERENCE <a href="javascript:ProceedWithApplication('RouteApplication','@item.Key','Application Form/Document Upload')" class="alert-link">@item.Key</a> TO COMPLETE THE FORM AND UPLOAD/CHANGE REQUIRED LICENSE/APPROVAL DOCUMENTS
+                    KINDLY PROCEED WITH APPLICATION REFERENCE <a href="javascript:MoveToAction('ApplicationForm','@item.Key')" class="alert-link">@item.Key</a> TO COMPLETE THE FORM AND UPLOAD/CHANGE REQUIRED LICENSE/APPROVAL DOCUMENTS
                 </div>
             </div>
             <br />
         }
 
-        if (item.Value == 2 || (item.Value == 1 && (TempData["Acceptcomment"].ToString() == "Reject" || TempData["Acceptcomment"].ToString() == "Rejectmk")))
+        if (item.Value == 2)
         {
             <div class="col-md-12">
-                <div class="alert alert-info alert-dismissible center-block" role="alert" align="center">
-                    <i class="fas fa-book-reader fa-2x" aria-hidden="true"></i>
-                    KINDLY PROCEED WITH APPLICATION REFERENCE <a href="javascript:ProceedWithApplication('RouteApplication','@item.Key','Application Form')" class="alert-link">@item.Key</a> TO COMPLETE THE REQUIRED LICENSE/APPROVAL DOCUMENTS
+                <div class="alert btn-warning alert-dismissible center-block" role="alert" align="center">
+                    `
+                    <i class="fas fa-money-bill-alt fa-2x" aria-hidden="true"></i>
+                    PROCEED WITH APPLICATION REFERENCE <a href="javascript:MoveToAction('ChargeSummary','@item.Key')" class="alert-link">@item.Key</a> TO FINALIZE APPLICATION
                 </div>
             </div>
             <br />
@@ -270,22 +131,26 @@
                 <div class="alert btn-warning alert-dismissible center-block" role="alert" align="center">
                     `
                     <i class="fas fa-money-bill-alt fa-2x" aria-hidden="true"></i>
-                    PROCEED WITH APPLICATION REFERENCE <a href="javascript:ProceedWithApplication('RouteApplication','@item.Key','Charge Summary')" class="alert-link">@item.Key</a> TO FINALIZE APPLICATION
+                    KINDLY PROCEED WITH APPLICATION REFERENCE <a href="javascript:MoveToAction('DocumentUpload','@item.Key')" class="alert-link">@item.Key</a> TO COMPLETE THE REQUIRED CERTIFICATE DOCUMENTS
                 </div>
             </div>
             <br />
         }
-        if (item.Value == 4)
+
+        if (item.Value == 3 && ((TempData["Acceptcomment"].ToString() == "Reject")))
         {
             <div class="col-md-12">
-                <div class="alert btn-info alert-dismissible center-block" role="alert" align="center">
-                    <i class="fab fa-amazon-pay fa-2x" aria-hidden="true"></i>
-                    PROCEED WITH APPLICATION REFERENCE <a href="javascript:ProceedWithApplication('RouteApplication','@item.Key','Payment')" class="alert-link">@item.Key</a> TO FINALIZE PENDING PAYMENT
+                <div class="alert alert-info alert-dismissible center-block" role="alert" align="center">
+                    <i class="fas fa-book-reader fa-2x" aria-hidden="true"></i>
+                    KINDLY PROCEED WITH APPLICATION REFERENCE <a href="javascript:MoveToAction('DocumentUpload','@item.Key')" class="alert-link">@item.Key</a> TO COMPLETE THE REQUIRED CERTIFICATE DOCUMENTS
                 </div>
             </div>
             <br />
         }
-        if (item.Value == 5)
+
+
+
+        if (item.Value == 4)
         {
             <div class="col-md-12">
                 <div class="alert btn-info alert-dismissible center-block" role="alert" align="center">
@@ -306,7 +171,8 @@
 
 
 
-    <br /><br />
+    <br />
+    <br />
     <div class="row xrow" style="">
         <div class="col-md-9">
             <div class="row">
@@ -384,16 +250,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -408,7 +264,6 @@ else
         </div>
     </div>
 }
-@*</div>*@
 
 
 
@@ -498,28 +353,19 @@ else
             window.location.replace = web;
         }
 
-        function ProceedWithApplication(ActionName, ApplicationID, Description) {
 
-            bootbox.confirm({
-                message: "Do You Want To Proceed With " + Description + "?",
-                size: 'small',
-                className: 'bb-alternate-modal',
-                buttons: {
-                    cancel: {
-                        label: '<i class="fa fa-times"></i> Cancel'
-                    },
-                    confirm: {
-                        label: '<i class="fa fa-check"></i> Confirm'
-                    }
-                },
-                callback: function (result) {
-                    if (result == true) {
-                        var url = '@Url.Action("replace")';
-                        url = url.replace("replace", ActionName);
-                        window.location.href = url + "?ApplicationId=" + ApplicationID;
-                    }
-                }
-            });
+
+
+        function MoveToAction(ActionName, ApplicationID) {
+             debugger;
+            var r = confirm("Are you sure you Want To Continue?");
+            if (r == true) {
+
+                var url = '@Url.Action("replace")';
+                url = url.replace("replace", ActionName);
+                window.location.href = url + "?ApplicationId=" + ApplicationID;
+
+            }
         }
 
 
@@ -551,37 +397,6 @@ else
         });
         }
 
-                    function showAppointmentDetail(ApplicationId, Header) {
-                        $(".loadingImage").show('fast');
-            $.get('@Url.Action("GetAppointmentDetail")', { ApplicationId: ApplicationId })
-         .fail(function (data) {
-             alert("Network Error");
-         })
-                .done(function (data) {
-                    debugger;
-            if (data.Status == "success") {
-                $('#appointheader').text(Header);
-                $('#appointLicenseType').val(data.LicenseDesc);
-                $('#appointDate').val(data.AppointDate);
-                $('#appointvenue').val(data.AppointVenue);
-                $('#appointcontactdetail').val(data.ContactDetails);
-
-                $('#appointType').val(data.AppointType);
-                $('#appointAppID').val(ApplicationId);
-                $('#inspectionType').val(data.InspectionType);
-                $("#appointmentModal").modal('show');
-                $(".loadingImage").hide('fast');
-            }
-            else {
-                console.debug("here");
-                alert(data.Message);
-                $(".loadingImage").hide('fast');
-            }
-        });
-
-
-
-        }
 
     </script>
 }

@@ -44,6 +44,7 @@ namespace RSPP.Models.DB
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True;");
             }
         }
@@ -157,8 +158,6 @@ namespace RSPP.Models.DB
                 entity.Property(e => e.PrintedStatus)
                     .HasMaxLength(20)
                     .IsUnicode(false);
-
-                entity.Property(e => e.SignatureId).HasColumnName("SignatureID");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(40)
@@ -657,8 +656,6 @@ namespace RSPP.Models.DB
 
             modelBuilder.Entity<UserMaster>(entity =>
             {
-                entity.Property(e => e.UserMasterId).ValueGeneratedNever();
-
                 entity.Property(e => e.CompanyAddress).IsUnicode(false);
 
                 entity.Property(e => e.CompanyName)
@@ -687,10 +684,7 @@ namespace RSPP.Models.DB
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.SignatureId).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.SignatureImage)
-                    .IsRequired()
                     .HasMaxLength(300)
                     .IsUnicode(false);
 

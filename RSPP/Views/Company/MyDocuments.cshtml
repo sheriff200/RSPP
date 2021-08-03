@@ -1,0 +1,60 @@
+﻿
+@{
+
+    ViewBag.Title = "Company Documents";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+
+    <div class="row xrow">
+        <div class="col-sm-11">
+            <div class="">
+                <table class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Document Type</th>
+                            <th style="width: 10%;">Document Image</th>
+                            <th style="width: 15%;">Date Added</th>
+                            <th style="width: 15%;">Date Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (RSPP.Models.DB.UploadedDocuments d in ViewBag.AllCompanyDocument)
+                        {
+
+                            <tr>
+                                <td>
+                                    @d.DocumentName
+
+                                </td>
+                                @if (d.DocumentName.Contains(".pdf"))
+                                {
+                                    <td>
+
+                                        <a href='@(d.DocumentSource)' target="_blank">
+                                            <img src="@Url.Content("~/images/pdficon.png")" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
+                                                 style="max-height: 40px; max-width: 40px; display: inline-block;" alt="@d.DocumentName" />
+                                        </a>
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+
+                                        <a href='@(d.DocumentSource)' target="_blank" data-name="@d.DocumentName">
+                                            <img src="@(d.DocumentSource)" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
+                                                 style="max-height: 40px; max-width: 40px; display: inline-block" alt="@d.DocumentName" />
+                                        </a>
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
