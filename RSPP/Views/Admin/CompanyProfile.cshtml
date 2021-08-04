@@ -6,13 +6,13 @@
 
 }
 <div class="content">
+
     <div class="row" style="margin-top:-24px">
-        <div class="pageTitle bg1">
-            <h2 class="lefty">Company Profile</h2>
-            <div class="righty">
-            </div>
+        <br />
+        <div>
+            <h1 style="margin-left:10px" class="text-info">Company Details</h1>
             <div class="clear"></div>
-        </div>
+        </div><br />
     </div>
     <div role="tabpanel">
 
@@ -29,15 +29,15 @@
                     <input type="hidden" name="actionType" id="actionType" value="UPDATE_PROFILE" />
 
                     @Html.AntiForgeryToken()
-                   
 
 
-                    <div class="row xrow og_form">
+
+                    <div class="row xrow og_form"><br /><br />
                         <div class="pad company">
-                            <h3>Company Information</h3>
-                            <hr />
+                            @*<h3>Company Information</h3>
+                            <hr />*@
                             <div class="col-md-12">
-                                <p>Fields with <span class="req">*</span> are required</p>
+                                @*<p>Fields with <span class="req">*</span> are required</p>*@
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
 
-                                
+
 
                                 <div class="form-group">
                                     <label class="control-label">Company Name</label>
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
 
-                               
+
 
                             </div>
                             <div class="col-md-5">
@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
 
-                               
+
 
                             </div>
                         </div>
@@ -118,14 +118,14 @@
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.CompanyAddress)
                     <input type="hidden" name="actionType" id="actionType" value="ADDRESS" />
-
+                    <br /><br />
                     <div class="row xrow og_form">
                         <div class="pad">
-                            <h3>Address</h3>
-                            <hr />
-                            <div class="col-md-12">
-                                <p>Fields with <span class="req">*</span> are required</p>
-                            </div>
+                            @*<h3>Address</h3>
+        <hr />
+        <div class="col-md-12">
+            <p>Fields with <span class="req">*</span> are required</p>
+        </div>*@
 
                             <div class="col-md-12 company">
                                 <div class="form-group">
@@ -133,11 +133,11 @@
                                     <div class="">
                                         @if (ViewBag.LoginRole == "SUPPORT")
                                         {
-                                            @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control"})
+                                            @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control" })
 
                                         }
                                         else
-                                        {@Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control", @readonly = "readonly"})
+                                        {@Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control", @readonly = "readonly" })
                                     }
                                     </div>
                                     <div style="display:none">
@@ -177,8 +177,8 @@
                                         <tr>
                                             <th style="width: 50%;">Document Type</th>
                                             <th style="width: 10%;">Document Image</th>
-                                            <th style="width: 15%;">Date Added</th>
-                                            <th style="width: 15%;">Date Modified</th>
+                                            @*<th style="width: 15%;">Date Added</th>
+                                            <th style="width: 15%;">Date Modified</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -191,28 +191,37 @@
                                                     @d.DocumentName
 
                                                 </td>
-                                                @if (d.DocumentName.Contains(".pdf"))
-                                                {
-                                                    <td>
-                                                       
-                                                        <a href='@(d.DocumentSource)' target="_blank">
+
+                                                <td>
+                                                    @if (d.DocumentName.Contains(".pdf"))
+                                                    {
+
+                                                        <a href="javascript:FileView('@d.DocumentSource')">
                                                             <img src="@Url.Content("~/images/pdficon.png")" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
-                                                                 style="max-height: 40px; max-width: 40px; display: inline-block;" alt="@d.DocumentName" />
+                                                                 style="max-height: 40px; max-width: 40px; display: inline-block;"/>
                                                         </a>
-
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td>
-
-                                                        <a href='@(d.DocumentSource)' target="_blank" data-name="@d.DocumentName">
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="javascript:FileView('@d.DocumentSource')" data-name="@d.DocumentName">
                                                             <img src="@(d.DocumentSource)" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
-                                                                 style="max-height: 40px; max-width: 40px; display: inline-block" alt="@d.DocumentName" />
+                                                                 style="max-height: 40px; max-width: 40px; display: inline-block"/>
                                                         </a>
-                                                    </td>
-                                                }
-                                                
+
+                                                    }
+                                                </td>
+                                                @*}
+                                                    else
+                                                    {
+                                                        <td>
+
+                                                            <a href='@(d.DocumentSource)' target="_blank" data-name="@d.DocumentName">
+                                                                <img src="@(d.DocumentSource)" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
+                                                                     style="max-height: 40px; max-width: 40px; display: inline-block" alt="@d.DocumentName" />
+                                                            </a>
+                                                        </td>
+                                                    }*@
+
                                             </tr>
                                         }
                                     </tbody>
@@ -353,7 +362,7 @@
 
     <script type="text/javascript">
 
-      
+
 
         $(function () {
             if (''.length > 0) {
@@ -430,6 +439,18 @@
                 });
             });
         });
+
+
+
+
+        function FileView(docname) {
+            debugger;
+            var url = window.location.origin + "/UploadedFiles/" + docname;
+            window.open(url, '_blank');
+        }
+
+
+
     </script>
 
 }

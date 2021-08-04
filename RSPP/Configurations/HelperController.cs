@@ -782,21 +782,21 @@ namespace RSPP.Configurations
         public List<UploadedDocuments> CompanyDocument(string companyemail)
         {
             AppResponse appResponse = new AppResponse();
-            UploadedDocuments d = new UploadedDocuments();
             List<UploadedDocuments> UploadedDocuments = new List<UploadedDocuments>();
             try
             {
 
-                UploadedDocuments = (from u in _context.UploadedDocuments join a in _context.ApplicationRequestForm on u.ApplicationId equals a.ApplicationId where a.CompanyEmail == companyemail select u).ToList();
-                if (UploadedDocuments.Count() > 0)
+               var UploadedDocument = (from u in _context.UploadedDocuments join a in _context.ApplicationRequestForm on u.ApplicationId equals a.ApplicationId where a.CompanyEmail == companyemail select u).ToList();
+                if (UploadedDocument.Count() > 0)
                 {
-                    foreach (var doc in UploadedDocuments)
+                    foreach (var doc in UploadedDocument)
                     {
-                        var splitdocname = doc.DocumentName.Split("_");
-                        d.DocumentSource = doc.DocumentSource;
-                        d.DocumentName = splitdocname[0];
+                        UploadedDocuments.Add(new UploadedDocuments()
+                        {
+                            DocumentSource = doc.DocumentSource,
+                            DocumentName = doc.DocumentName.Split("_")[0]
+                        });
                     }
-                    UploadedDocuments.Add(d);
 
                 }
                 appResponse.message = "success";

@@ -25,11 +25,11 @@ namespace RSPP.Controllers
         
 
         public RSPPdbContext _context;
-        private WorkFlowHelper workflowHelper;
         IHttpContextAccessor _httpContextAccessor;
         public IConfiguration _configuration;
         GeneralClass generalClass = new GeneralClass();
         HelperController _helpersController;
+        WorkFlowHelper _workflowHelper;
         List<UserMaster> staffJsonList = new List<UserMaster>();
 
         private ILog log = log4net.LogManager.GetLogger(typeof(CompanyController));
@@ -46,6 +46,8 @@ namespace RSPP.Controllers
             _httpContextAccessor = httpContextAccessor;
             _hostingEnv = hostingEnv;
             _helpersController = new HelperController(_context, _configuration, _httpContextAccessor);
+            _workflowHelper = new WorkFlowHelper(_context);
+
         }
 
 
@@ -669,10 +671,10 @@ namespace RSPP.Controllers
         public ActionResult CompanyProfile(string CompanyEmail)
         {
 
-            var companydetails = (from a in _context.UserMaster where a.UserEmail == CompanyEmail select a).ToList();
+            var companydetails = (from a in _context.UserMaster where a.UserEmail == CompanyEmail select a).FirstOrDefault();
 
             ViewBag.AllCompanyDocument = _helpersController.CompanyDocument(CompanyEmail);
-
+            ViewBag.BaseUrl = HttpContext.Request.Scheme+"//"+ HttpContext.Request.Host+""+""+ HttpContext.Request.PathBase;
 
             return View(companydetails);
         }
@@ -922,6 +924,7 @@ namespace RSPP.Controllers
             log.Info("Applications => " + applicationId);
             log.Info("UserComment => " + mycomment);
 
+            var email = _helpersController.getSessionEmail();
 
 
             log.Info("AcceptDecline Parameters =>" + applicationId + "_" + myaction + "_" + mycomment);
@@ -943,7 +946,7 @@ namespace RSPP.Controllers
 
                 var approcom = mycomment == "" ? "" : "Comment => " + mycomment + ";";
                 log.Info("Continuing with the Approval to Process Application");
-                responseWrapper = workflowHelper.processAction(appRequest.ApplicationId, myaction, _helpersController.getSessionEmail(), (mycomment == "=> " || mycomment == "") ? "Application was proccessed by "+ _helpersController.getSessionEmail() : mycomment);
+                responseWrapper = _workflowHelper.processAction(appRequest.ApplicationId, myaction, email, (mycomment == "=> " || mycomment == "") ? "Application was proccessed by "+ email : mycomment);
                 if (!responseWrapper.status)
                 {
                     response = responseWrapper.value;
@@ -1205,7 +1208,7 @@ namespace RSPP.Controllers
                 {
 
 
-                    ResponseWrapper responseWrapper = workflowHelper.processAction(Appid, "Submit", appRequest.CompanyEmail, "Application was successfully sumbited after value given");
+                    ResponseWrapper responseWrapper = _workflowHelper.processAction(Appid, "Submit", appRequest.CompanyEmail, "Application was successfully sumbited after value given");
                 }
 
 
@@ -2280,7 +2283,7 @@ namespace RSPP.Controllers
                 }
 
                 log.Info("Continuing with the Approval to Process Application");
-                responseWrapper = workflowHelper.processAction(appRequest.ApplicationId, myaction, _helpersController.getSessionEmail(), (string.IsNullOrEmpty(mycomment)) ? comment : mycomment);
+                responseWrapper = _workflowHelper.processAction(appRequest.ApplicationId, myaction, _helpersController.getSessionEmail(), (string.IsNullOrEmpty(mycomment)) ? comment : mycomment);
                 if (!responseWrapper.status)
                 {
                     response = responseWrapper.value;

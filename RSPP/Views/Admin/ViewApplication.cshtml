@@ -1,15 +1,15 @@
 ﻿@model RSPP.Models.DB.ApplicationRequestForm
 @{
-    ViewBag.Title = "View Application";
+    //ViewBag.Title = "View Application";
     Layout = "~/Views/Shared/_ElaLayout.cshtml";
     bool showPart = true;
     
 }
 <div class="content">
     <h3 class="lefty">Application Reference No: @ViewBag.ApplicationId </h3>
-    <div style="float:right">
+    @*<div style="float:right">
         <a href='javascript:history.go(-1)' class="btn btn-default"> Back</a>
-    </div>
+    </div>*@
     <hr class="clear" />
     <div class="row">
         @if (ViewBag.ErrorMessage != "SUCCESS")
@@ -30,7 +30,7 @@
                         <div class="padd">
                             <dl class="dl-horizontal lt">
                                 <dt>Company Email</dt>
-                                <dd><a href="/Admin/CompanyProfile?ApplicationId=@ViewBag.ApplicationId">@ViewBag.AppRequest.CompanyEmail</a></dd>
+                                <dd><a href="/Admin/CompanyProfile?CompanyEmail=@ViewBag.AppRequest.CompanyEmail"><span class="text-info">@ViewBag.AppRequest.CompanyEmail</span></a></dd>
                                 
                                 <dt>Type</dt>
                                 <dd>@ViewBag.appRequest.ApplicationTypeId</dd>
@@ -98,32 +98,32 @@
                     <div class="right-side">
                         <div class="">
 
-                            <table class="" style="width: 100%;">
+                            <table class="" style="width: 100%; text-align:left">
                                 <tr>
-                                    <td valign="top" class="pad"><b>Facility Information</b></td>
+                                    <td valign="top"><b>Facility Information</b></td>
                                     <td>
                                         <ul class="list-group">
-                                            <li class="list-group-item">
+                                            <li class="list-group-item" style="text-align:left">
                                                 <a href="@Url.Action("ApplicationDetails", new { applicationId = ViewBag.ApplicationId })"> Application Form</a>
                                             </li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td valign="top" class="pad"><b>Received From</b></td>
+                                    <td valign="top"><b>Received From</b></td>
                                     <td>
                                         <ul class="list-group">
-                                            <li class="list-group-item">
+                                            <li class="list-group-item" style="text-align:left">
                                                 @ViewBag.ReceivedFrom
                                             </li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td valign="top" class="pad"><b>Received Date</b></td>
+                                    <td valign="top"><b>Received Date</b></td>
                                     <td>
                                         <ul class="list-group">
-                                            <li class="list-group-item">
+                                            <li class="list-group-item" style="text-align:left">
                                                 @ViewBag.ReceivedDate
                                             </li>
                                         </ul>
@@ -131,20 +131,20 @@
                                 </tr>
                                
                                 <tr>
-                                    <td valign="top" class="pad"><b>Current Desk</b></td>
+                                    <td valign="top"><b>Current Desk</b></td>
                                     <td>
                                         <ul class="list-group">
-                                            <li class="list-group-item">
+                                            <li class="list-group-item" style="text-align:left">
                                                 @ViewBag.CurrentDesk
                                             </li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td valign="top" class="pad"><b>Last Message</b></td>
+                                    <td valign="top"><b>Last Message</b></td>
                                     <td>
                                         <ul class="list-group">
-                                            <li class="list-group-item" style="background-color:forestgreen; color:white">
+                                            <li class="list-group-item" style="background-color:forestgreen; color:white; text-align:left">
                                                 @ViewBag.LastMessage
                                             </li>
                                         </ul>
@@ -156,7 +156,7 @@
                         <div class="pad">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <p class="panel-title">Application History (Last 5)</p>
+                                    <p class="panel-title text-white">Application History (Last 5)</p>
                                 </div>
                                 <table class="table table-striped">
                                     <tr>
@@ -180,15 +180,15 @@
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            @if (ViewBag.ExtraPayment == null)
+                                            @*@if (ViewBag.ExtraPayment == null)
                                             {
                                                 <div style="height:5px; color:green"></div>
-                                                <button class="btn btn-primary btn-block round" data-toggle="modal" data-target=".Extrapaymentmodal" style="font-family:Cambria; font-weight:bold"><span class="glyphicon glyphicon-eye-open"></span> Extra Payment</button>
+                                                <button class="btn btn-primary btn-block round" data-toggle="modal" data-target=".Extrapaymentmodal" style="font-family:Cambria; font-weight:bold"><i class="fa fa-eye"></i> Extra Payment</button>
                                             }
                                             else
                                             {
-                                                <div class="btn btn-block btn-info"><span class="glyphicon glyphicon-hand-down"></span> Extra Payment Details</div>
-                                            }
+                                                <div class="btn btn-block btn-info"><i class="fa fa-hand-o-down"></i> Extra Payment Details</div>
+                                            }*@
                                         </td>
                                     </tr>
 
@@ -199,7 +199,7 @@
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Application Ref No</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.ApplicationID</span></td></tr>
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Sanction Type</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.SanctionType</span></td></tr>
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold"> Amount</span> :<span style="font-size:18px; color:green; font-weight:bold"> @ViewBag.ExtraPayment.TxnAmount</span></td></tr>
-                                            <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Status</span> : <span style="font-size:18px; color:green; font-weight:bold"> <span class="glyphicon glyphicon-remove" style="color:red"></span> Pending </span></td></tr>
+                                            <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Status</span> : <span style="font-size:18px; color:green; font-weight:bold"> <i class="fa fa-trash" style="color:red"></i> Pending </span></td></tr>
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Description</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.Description</span></td></tr>
                                         }
                                         else
@@ -208,7 +208,7 @@
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">RRR Ref No</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.RRReference</span></td></tr>
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Sanction Type</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.SanctionType</span></td></tr>
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Amount</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.TxnAmount </span></td></tr>
-                                            <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Status</span> :<span style="font-size:18px; color:green; font-weight:bold"><span class="glyphicon glyphicon-ok" style="color:green"></span> Paid</span></td></tr>
+                                            <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Status</span> :<span style="font-size:18px; color:green; font-weight:bold"><i class="fa fa-check" style="color:green"></i> Paid</span></td></tr>
                                             <tr><td colspan="3"><span style="font-size:20px; color:red; font-weight:bold">Description</span> : <span style="font-size:18px; color:green; font-weight:bold">@ViewBag.ExtraPayment.Description </span></td></tr>
                                         }
                                     }
@@ -221,17 +221,18 @@
             </div>
             <div class="col-md-3">
                 <div class="pad">
+                    <h3>Control Panel</h3>
                     @if (ViewBag.LoggedInUserRole == "OFFICER")
                     {
 
                         if (ViewBag.AppRequest.CurrentStageId == 4)//14
                         {
                             <div>
-                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
+                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Marketer</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Marketer</a>
                             </div>
                         }
 
@@ -245,11 +246,11 @@
 
                             <h3>Actions</h3>
                             <div>
-                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
+                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Officer')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Officer</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Officer')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Officer</a>
                             </div>
 
                         }
@@ -264,11 +265,11 @@
 
                             <h3>Actions</h3>
                             <div>
-                                <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company Certificate')"><i class="fa fa-check-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Certificate</a>
+                                <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company Certificate')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Certificate</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Supervisor')"><i class="fa fa-square-o fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Supervisor</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Supervisor')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Supervisor</a>
                             </div>
 
                         }
@@ -305,11 +306,11 @@
 @using (Html.BeginForm("AddExtraPayment", "Admin", FormMethod.Post))
 {
     <div class="modal fade Extrapaymentmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-        <div class="modal-dialog" style="display:inline-block; vertical-align:middle; margin:0 auto 0 35%; width:400px; height:500px; margin-top:100px" role="document">
+        <div class="modal-dialog" style="display:inline-block; vertical-align:middle; margin:0 auto 0 -5%; width:400px; height:500px; margin-top:10px" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-success" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span> Extra Payment for (@ViewBag.ApplicationId)</h4>
+                    <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i> Extra Payment for (@ViewBag.ApplicationId)</h4>
                 </div>
 
                 <div class="modal-body">
@@ -320,15 +321,15 @@
                                     <input type="hidden" id="myappid" name="myappid" value="@ViewBag.ApplicationId" />
                                     <input type="hidden" id="status" name="status" value="Pending" />
                                     <label style="font-family:Cambria; font-weight:bold">Payment Type</label>
-                                    <select class="form-control" id="sanctiontype" name="sanctiontype" required="">
+                                    <select class="form-control" id="sanctiontype" name="sanctiontype" required="" style="width:30%">
                                         <option value=""></option>
                                         <option value="Sanction">Sanction</option>
                                         <option value="Incomplete Fee">Incomplete Fee</option>
                                     </select><br />
                                     <label style="font-family:Cambria; font-weight:bold">Amount</label>
-                                    <input class="form-control" id="sanctionamount" type="number" name="sanctionamount" required="" /><br />
+                                    <input class="form-control" id="sanctionamount" type="number" name="sanctionamount" required="" style="width:30%" /><br />
                                     <label style="font-family:Cambria; font-weight:bold">Description</label>
-                                    <textarea cols="3" rows="3" class="form-control" id="sanctiondescription" name="sanctiondescription" required=""></textarea>
+                                    <textarea cols="3" rows="3" class="form-control" id="sanctiondescription" name="sanctiondescription" required="" style="width:30%"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -368,7 +369,7 @@
     </h4>
 </div>
 <div class="modal fade approvalModal" id="approvalModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog" style="display:inline-block; vertical-align:middle; margin:0 auto 0 -5%; width:400px; height:500px; margin-top:10px" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -436,7 +437,7 @@
 
 
 <div class="modal fade ApproveLicenseModal" id="ApproveLicenseModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog" style="display:inline-block; vertical-align:middle; margin:0 auto 0 -5%; width:400px; height:500px; margin-top:10px" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -508,7 +509,8 @@
     $(document).ready(function () {
 
 
-        $('.approvalBtn').click(function () {//Approve or Reject Application
+        $('.approvalBtn').click(function () {
+            debugger;
             var action = $(".actions").val();
             $(".loadingImage").show('fast');
             $(".approvalModal").modal('hide');
@@ -521,16 +523,17 @@
 
                 //var selectedtext = $("#text").text();;
                 //var selectedvalue = $("#textvalue").text();
-                var comments = "";
-                var docval = "";
-                if (selectedtext === "" || selectedtext === null)
-                {
-                    comments = $(".comment").val();
-                }
-                else {
-                    comments = $(".comment").val() + " => " + selectedtext;
-                   // docval = selectedvalue; DocId: docval 
-                }
+                //var comments = "";
+               var comments = $(".comment").val();
+                //var docval = "";
+                //if (selectedtext === "" || selectedtext === null)
+                //{
+                //    comments = $(".comment").val();
+                //}
+                //else {
+                //    comments = $(".comment").val() + " => " + selectedtext;
+                //   // docval = selectedvalue; DocId: docval 
+                //}
                 $.post('@Url.Action("ApplicationAcceptDecline")', { applicationId: $(".ApplicationId").val(), myaction: action, mycomment: comments}, function (data) {
                         console.log('before console');
                         var status = data.status;
@@ -541,7 +544,7 @@
                     if (status == 'success') {
                         $(".loadingImage").hide('fast');
                             bootbox.alert({
-                                message: data.Message,
+                                message: data.message,
                                 size: 'small',
                                 className: 'bb-alternate-modal',
                                 callback: function () {
@@ -551,7 +554,7 @@
 
                         }
                         else {
-                        alert(data.Message);
+                        alert(data.message);
                         $(".loadingImage").hide('fast');
 
                         }
@@ -581,18 +584,20 @@
                                     debugger;
                     if (status == 'success') {
                         $(".loadingImage").hide('fast');
-                                        bootbox.alert({
-                                            message: data.Message,
-                                            size: 'small',
-                                            className: 'bb-alternate-modal',
-                                            callback: function () {
-                                                window.location.href = "/Admin/MyDesk";
-                                            }
-                                        });
+                        alert(data.message);
+                        window.location.href = "/Admin/MyDesk";
+                                        //bootbox.alert({
+                                        //    message: data.message,
+                                        //    size: 'sm',
+                                        //    className: 'bb-alternate-modal',
+                                        //    callback: function () {
+                                        //        window.location.href = "/Admin/MyDesk";
+                                        //    }
+                                        //});
 
                                     }
                                     else {
-                        alert(data.Message);
+                        alert(data.message);
                         $(".loadingImage").hide('fast');
                                     }
                                 });

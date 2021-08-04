@@ -193,20 +193,35 @@
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },
+                    accessibility: {
+                        point: {
+                            valueSuffix: '%'
+                        }
+                    },
                     plotOptions: {
                         pie: {
                             allowPointSelect: true,
                             cursor: 'pointer',
-                            depth: 35,
                             dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            }
+                                enabled: false
+                            },
+                            showInLegend: true
                         }
                     },
+                    //plotOptions: {
+                    //    pie: {
+                    //        allowPointSelect: true,
+                    //        cursor: 'pointer',
+                    //        depth: 35,
+                    //        dataLabels: {
+                    //            enabled: true,
+                    //            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    //            style: {
+                    //                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    //            }
+                    //        }
+                    //    }
+                    //},
                     series: [{
                         name: 'Ratio',
                         colorByPoint: true,
@@ -243,6 +258,7 @@
                         },
                         categories: ['Approved App', 'Rejected App', 'Application On Desk', 'Online App in Process', 'Application Completed']//'Legacy App in Process',
                     },
+                   
                     plotOptions: {
                         column: {
                             depth: 25

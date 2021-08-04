@@ -226,11 +226,11 @@ namespace RSPP.Helper
 
                 if (stateType == "PROGRESS")
                 {
-                    responsewrapper.value = "Application has been moved To " + responsewrapper.receivedBy + "(" + responsewrapper.receivedByRole + ") at " + responsewrapper.receivedLocation;//responsewrapper.receivedBy 
+                    responsewrapper.value = "Application has been moved To " + responsewrapper.receivedBy + "(" + responsewrapper.receivedByRole + ")";//responsewrapper.receivedBy 
                 }
                 else if (stateType == "COMPLETE")
                 {
-                    responsewrapper.value = "Application Has been Approved and License/Approval Generated ";
+                    responsewrapper.value = "Application Has been Approved and Certificate Generated ";
                 }
                 else if (stateType == "LCOMPLETE")
                 {
