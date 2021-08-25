@@ -27,7 +27,7 @@
                             <div><img src="~/images/coa.png" style="border:double" width="150" height="100" /></div>
                             <div style="font-size:2em">Reg. No: @Model.FirstOrDefault().permitmodels.FirstOrDefault().LicenseNumber</div>
                         </td>
-                        
+
                         <td>
                             <img src="~/images/shipperscouncillogo.png" style="width:250px; height:200px; margin-top:15px; margin-bottom:7px;" />
                         </td>
@@ -45,7 +45,7 @@
                         <tbody>
                             <tr>
                                 <td style="font-size:2.7em; font-family:Old English Text MT;">Registration Certificate</td>
-                                
+
                                 <td>
                                     <img style="height:150px" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.FirstOrDefault().permitmodels.FirstOrDefault().QrCode))" />
                                 </td>
@@ -74,7 +74,7 @@
             <div style="text-align: center; font-size:2em">
                 COMPANY/AGENCY/ORGANISATION
             </div>
-            
+
 
             <p style="font-size: 2.5em">is registered with the Nigerian Shippers' Council</p>
 
@@ -105,7 +105,7 @@
 
             </table>
 
-            
+
             <br />
             <div style="text-align: center; font-size:2.5em">
                 as
@@ -143,8 +143,9 @@
                             Year
                         </span>
                         <b style="font-weight: bold;">@Model.FirstOrDefault().permitmodels.FirstOrDefault().IssuedYear </b>
-                    </td><td>and valid</td>
-                    
+                    </td>
+                    <td>and valid</td>
+
                 </tr>
 
                 <tr>

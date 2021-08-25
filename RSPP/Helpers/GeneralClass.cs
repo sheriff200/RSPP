@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,56 +19,55 @@ namespace RSPP.Helpers
     {
         private ILog log = log4net.LogManager.GetLogger(typeof(GeneralClass));
         private Object thislock = new Object();
-        public static string Approved = "Approved";
-        public static string Rejected = "Rejected";
-        public static string PaymentPending = "Payment Pending";
-        public static string PaymentCompleted = "Payment Completed";
-        public static string Processing = "Processing";
-        public static string ProposalSubmitted = "Proposal Submitted";
-        public static string ResultSubmitted = "Result Submitted";
-        public static int ProposalAmount = 250000;
-        public static string ApplicaionRequired = "Application Required";
-        public static string Resubmitted = "Application Required";
-        public static string DocumentsRequired = "Documents Required";
-        public static string DocumentsUploaded = "Documents Uploaded";
-        public static string BHPCode = "345";
+        public string merchantId = "2547916";
+        public string AppKey = "1946";
+        public string ServiceId = "4430731";
+        public string AccountNumber = "0230188961016";
+        public string BankCode = "000";
 
-        public static int elpsStateID = 0;
-
-        public static int _Year = DateTime.Now.Year + 1;
-
-        public static string _WAITING = "WAITING";
-        public static string _STARTED = "STARTED";
-        public static string _FINISHED = "FINISHED";
-
-        public static string START = "START";
-        public static string NEXT = "NEXT";
-        public static string END = "END";
-        public static string PASS = "PASS";
-        public static string DONE = "DONE";
-        public static string BEGIN = "BEGIN";
-
-        public static string CUSTOMER = "CUSTOMER";
-        public static string AD_UMR = "AD RM";
-        public static string HEAD_UMR = "HEAD UMR";
-        public static string SECTION_HEAD = "MANAGER RS";
-        public static string TEAM = "TEAM";
-        public static string HOOD = "HOOD";
-        public static string COMPANY = "COMPANY";
-        public static string SUPER_ADMIN = "SUPER ADMIN";
-        public static string ADMIN = "ADMIN";
-        public static string ICT_ADMIN = "ICT ADMIN";
-        public static string DIRECTOR = "DIRECTOR";
-        public static string SUPPORT = "SUPPORT";
+        public string PostPaymentUrl = "https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit";
+        public string GetPaymentBaseUrl = "https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/";
 
 
-        // Sending eamil parameters
-        public static string PROPOSAL_REQUEST = "PROPOSAL REQUEST";
-        public static string STAFF_NOTIFY = "STAFF NOTIFY";
-        public static string COMPANY_NOTIFY = "COMPANY NOTIFY";
-
-
+        public decimal GovAgency = 25000;
+        public decimal CargoConsolidators = 10000;
+        public decimal Chandling = 5000;
+        public decimal FreightForwarders = 5000;
+        public decimal ClearingAgent = 5000;
+        public decimal RoadHaulage = 5000;
+        public decimal Stevedoring = 5000;
+        public decimal Warehousing = 5000;
+        public decimal SeaPortTerminal = 20000; 
+        public decimal ICD = 25000;
+        public decimal OffDockTerminal = 10000;
+        public decimal DryPort = 25000;
+        public decimal ShippingAgency = 10000;
+        public decimal ShippingCompanyLine = 50000;
+        public decimal Users = 5000;
+        public decimal OtherPortServiceProviders = 5000;
+        
         private Object lockThis = new object();
+
+
+
+
+
+        public string GenerateSHA512(string inputString)
+        {
+            SHA512 sha512 = SHA512Managed.Create();
+            byte[] bytes = Encoding.UTF8.GetBytes(inputString);
+            byte[] hash = sha512.ComputeHash(bytes);
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
+
+
 
 
         public string Encrypt(string clearText)
@@ -198,15 +198,12 @@ namespace RSPP.Helpers
 
         public string SendStaffEmailMessage(string staffemail, string subject, string content)
         {
-            var result = "";
-
-            var apiKey = "BA3MXsvMnfddm6gHyYfbwjuSN/ElLLmZGpyU75ykd4JN";
-            var username = "AKIAQCM2OPFBVF6TMNVI";
+            var result = "";          
+            var apiKey = "BNW5He3DoWQAJVMkeMlEzPTtbYIXNveS4t+GuGtXzxQJ";
+            var username = "AKIAQCM2OPFBW35OSTFV";
             var emailFrom = "rspp-noreply@shipperstradedata.gov.ng";
             var Host = "email-smtp.us-west-2.amazonaws.com";
             var Port = 587;
-
-
 
             var msgBody = StaffMessageTemplate(subject, content);
 

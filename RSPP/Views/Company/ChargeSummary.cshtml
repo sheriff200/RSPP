@@ -16,13 +16,17 @@
 
 <div class="padd-t form-horizontal">
 
-    @using (Html.BeginForm("ChargeSummary", "Company", FormMethod.Post, new { id = "formid", role = "form", @class = "form-horizontal" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
+    @*<input type="hidden" id="appid" name="appid" value="@ViewBag.Applicationid" />
+        <input type="hidden" id="txtPaymentName" name="txtPaymentName" />
+        <input type="hidden" id="txtpaymentamount" name="txtpaymentamount" />*@
+
+    @*@using (Html.BeginForm("ChargeSummary", "Company", FormMethod.Post, new { id = "formid", role = "form", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)*@
 
 
-        <div class="form-group">
+    @*<div class="form-group">
             <div class="row form-group">
                 <label class="control-label col-md-2"><b>Select Payment Category</b></label>
                 <div class="col-md-4">
@@ -30,109 +34,125 @@
                 </div>
             </div>
 
-        </div>
-        <input type="hidden" id="appid" name="appid" value="@ViewBag.Applicationid"/>
-        <input type="hidden" id="txtPaymentName" name="txtPaymentName" />
-        <input type="hidden" id="txtpaymentamount" name="txtpaymentamount" />
-
- <br /><br />
-       <div id="hidepaymentdetails">
-           <table class="table-condensed table-warning table-responsive" style="font-size:20px">
-
-               <thead>
-                   <tr>
-                   </tr>
-               </thead>
-               <tbody>
-                   <tr>
-                       <td style="padding-left:20px; padding-top:25px"><b class="text-success">Application Reference Number:</b><span class="text-primary"> @ViewBag.Applicationid</span></td>
-
-                   </tr>
-                   <tr>
-                       <td style="padding-left:20px"><b class="text-success">Payment Category:</b> <span id="PaymentName" class="text-primary"></span></td>
-                   </tr>
-                   <tr>
-                       <td style="padding-left:20px"><b class="text-success">Payment Amount:</b> <span class="text-danger">₦</span><span id="paymentamount" class="text-primary"></span></td>
-                   </tr>
-                   <tr><td style="padding-bottom:50px"></td></tr>
-                   <tr><td></td></tr>
-                   <tr><td style="padding-left:20px"> <button type="button" id="paymentbtn" class="btn btn-success"><i class="fa fa-id-card"></i> Pay Now</button></td></tr>
-               </tbody>
-           </table>
-       </div>
+        </div>*@
 
 
-    }
+    <br /><br />
 
-    </div>
+    <table class="table-condensed table-warning table-responsive" style="font-size:20px">
+
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding-left:20px; padding-top:25px"><b class="text-success">Application Reference Number:</b><span class="text-primary"> @ViewBag.Applicationid</span></td>
+
+            </tr>
+            <tr>
+                <td style="padding-left:20px"><b class="text-success">Remita Retrival Reference (RRR):</b> <span id="PaymentName" class="text-primary">@ViewBag.RRR</span></td>
+            </tr>
+            <tr>
+                <td style="padding-left:20px"><b class="text-success">Payment Category:</b> <span id="PaymentName" class="text-primary">@ViewBag.AgencyName</span></td>
+            </tr>
+            <tr>
+                <td style="padding-left:20px"><b class="text-success">Payment Amount:</b> <span class="text-danger">₦</span><span id="paymentamount" class="text-primary">@ViewBag.Amount</span></td>
+            </tr>
+            <tr>
+                <td style="padding-left:20px"><b class="text-success">Payment Status:</b><span id="paymentamount" class="text-danger"> Payment Pending</span></td>
+            </tr>
+            <tr><td style="padding-bottom:50px"></td></tr>
+            <tr><td></td></tr>
+            @*<tr><td style="padding-left:20px"> <button type="button" id="paymentbtn" class="btn btn-success"><i class="fa fa-id-card"></i> Pay Now</button></td></tr>
+                0a00fa10af47c9218acafb8d389766d31b2b72923a8954cc912c33235aaf0c113776538ce1e21afb027a8ab1c111839e68d69a8d12ef45f796fcabdad0b258ac
+        2547916@ViewBag.AppkeyHashed
+
+            *@
+        </tbody>
+    </table>
+    <form action="https://remitademo.net/remita/ecomm/finalize.reg" method="POST">
+
+        <input name="merchantId" value="@ViewBag.MerchantId" type="hidden" />
+        <input name="hash" value="@ViewBag.AppkeyHashed" type="hidden" />
+        <input name="rrr" value="@ViewBag.RRR" type="hidden" />
+
+        <input name="responseurl" value="https://localhost:44311/Company/PaymentReceipt?ApplicationId=@ViewBag.Applicationid" type="hidden"/>
+
+        <input style="margin-left:200px" type="submit" name="submit_btn" class="btn btn-success" value="Pay Via Remita">
+    </form>
+
+    @*}*@
+
+</div>
 
     @section scripts{
         <script type="text/javascript">
 
             $(document).ready(function () {
 
-                $("#hidepaymentdetails").hide();
+                //$("#hidepaymentdetails").hide();
 
 
-                $(".paymentcat").ready(function () {
-                    debugger;
-                    var html = "";
-                    $(".paymentcat").html("");
+                //$(".paymentcat").ready(function () {
+                //    debugger;
+                //    var html = "";
+                //    $(".paymentcat").html("");
 
-                    $.getJSON("/Company/AllAgencyFees",
-                        {},
-                        function (datas) {
-                            debugger;
-                            $(".paymentcat").append("<option></option>");
-                            $.each(datas, function (key, val) {
-                                html += "<option value=" + val.paymentAmount + ">" + val.paymentCategoryName + "</option>";
-                            });
-                            $(".paymentcat").append(html);
-                        });
-                });
-
-
-                $(".paymentcat").on("change", function () {
-                    debugger;
-                    paymentamount = $("#paymentcat option:selected").val();
-                    paymentname = $("#paymentcat option:selected").text();
-                    if (paymentamount != "") {
-                        $("#hidepaymentdetails").show();
-                        $("#txtPaymentName").val(paymentname);
-                        $("#PaymentName").text(paymentname);
-                        $("#txtpaymentamount").val(paymentamount);
-                        $("#paymentamount").text(paymentamount);
-                    } else {
-                        $("#hidepaymentdetails").hide();
-
-                    }
+                //    $.getJSON("/Company/AllAgencyFees",
+                //        {},
+                //        function (datas) {
+                //            debugger;
+                //            $(".paymentcat").append("<option></option>");
+                //            $.each(datas, function (key, val) {
+                //                html += "<option value=" + val.paymentAmount + ">" + val.paymentCategoryName + "</option>";
+                //            });
+                //            $(".paymentcat").append(html);
+                //        });
+                //});
 
 
+                //$(".paymentcat").on("change", function () {
+                //    debugger;
+                //    paymentamount = $("#paymentcat option:selected").val();
+                //    paymentname = $("#paymentcat option:selected").text();
+                //    if (paymentamount != "") {
+                //        $("#hidepaymentdetails").show();
+                //        $("#txtPaymentName").val(paymentname);
+                //        $("#PaymentName").text(paymentname);
+                //        $("#txtpaymentamount").val(paymentamount);
+                //        $("#paymentamount").text(paymentamount);
+                //    } else {
+                //        $("#hidepaymentdetails").hide();
 
-                });
+                //    }
 
 
 
-                $('#paymentbtn').click(function (e) {
-                    e.preventDefault();
-                    debugger;
-                    if ($("#formid").valid()) {
+                //});
 
-                        var Applicationid = $("#appid").val();
-                        var txtPaymentName = $("#txtPaymentName").val();
-                        var txtpaymentamount = $("#txtpaymentamount").val();
 
-                        $.post("/Company/ChargeSummary", { applicationid: Applicationid, PaymentName: txtPaymentName, paymentamount: txtpaymentamount }, function (data) {
 
-                            if (data.status === "success") {
-                                window.location = "/Company/DocumentUpload?ApplicationId=" + Applicationid;
-                            } else {
-                                alert(data.message);
-                            }
+                //$('#paymentbtn').click(function (e) {
+                //    e.preventDefault();
+                //    debugger;
+                //    if ($("#formid").valid()) {
 
-                        });
-                    }
-                });
+                //        var Applicationid = $("#appid").val();
+                //        var txtPaymentName = $("#txtPaymentName").val();
+                //        var txtpaymentamount = $("#txtpaymentamount").val();
+
+                //        $.post("/Company/ChargeSummary", { applicationid: Applicationid, PaymentName: txtPaymentName, paymentamount: txtpaymentamount }, function (data) {
+
+                //            if (data.status === "success") {
+                //                window.location = "/Company/DocumentUpload?ApplicationId=" + Applicationid;
+                //            } else {
+                //                alert(data.message);
+                //            }
+
+                //        });
+                //    }
+                //});
 
 
 

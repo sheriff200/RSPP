@@ -5,7 +5,7 @@
 
 @{
     GeneralClass generalClass = new GeneralClass();
-
+    string rolename = Context.Session.GetString(AccountController.sessionRoleName).ToString();
 }
 
 <!DOCTYPE html>
@@ -232,7 +232,7 @@
                         <a href="#">
                             <span class="text-white">Control Panel Admin</span>
                             <br />
-                            <small class="text-white">@Context.Session.GetString(AccountController.sessionRoleName).ToString()</small>
+                            <small class="text-white">@rolename</small>
                         </a>
                     </li>
 
@@ -412,6 +412,9 @@
                             </li>
                         </ul>
                     </li>
+
+                    @if (rolename == "SUPERADMIN")
+                    {
                     <li class="more main-list">
 
                         <a href="#">
@@ -425,12 +428,14 @@
                             <li>
                                 <a href="/Admin/UpdateFacilityInfo" id="UpdateFacilityInfo">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
-                                    <span class="text-white">Facility</span>
+                                    <span class="text-white">Settings</span>
                                 </a>
                             </li>
                             
                         </ul>
                     </li>
+                    }
+
                     <li class="more main-list">
 
                         <a href="#">
@@ -444,19 +449,19 @@
                             <li>
                                 <a href="/Admin/ALLPermits" id="ALLPermits">
                                     <i class="fa fa-book" aria-hidden="true"></i>
-                                    <span class="text-white">All Licenses/Approvals</span>
+                                    <span class="text-white">All Certificates</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/Admin/NonPrintedLicense" id="NonPrintedLicense">
                                     <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                                    <span class="text-white">Non Printed Licenses</span>
+                                    <span class="text-white">Non Printed Certificates</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/Admin/PrintedLicense" id="PrintedLicense">
                                     <i class="fa fa-cogs" aria-hidden="true"></i>
-                                    <span class="text-white">Printed Licenses</span>
+                                    <span class="text-white">Printed Certificates</span>
                                 </a>
                             </li>
                         </ul>

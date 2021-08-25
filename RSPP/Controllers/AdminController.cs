@@ -62,6 +62,7 @@ namespace RSPP.Controllers
             int totalCancelled = 0;
             String errorMessage = null;
 
+            ViewBag.LoggedInRole = _helpersController.getSessionRoleName();
 
             try
             {
@@ -585,6 +586,29 @@ namespace RSPP.Controllers
 
 
 
+
+
+        [HttpGet]
+        public ActionResult GetApplicationChart(ApplicationRatio Appobj)
+        {
+            var applicationstatus = (from a in _context.ApplicationRequestForm select a).ToList();
+            if (applicationstatus.Count > 0)
+            {
+                Appobj.Initiated = applicationstatus.Select(a=>a.Status=="ACTIVE").Count();
+                Appobj.Approved = applicationstatus.Select(a => a.Status == "Approved").Count(); ;
+                Appobj.Processing = applicationstatus.Select(a => a.Status == "Processing").Count();
+                Appobj.Rejected = applicationstatus.Select(a => a.Status == "Rejected").Count();
+            }
+
+            return Json(Appobj);
+        }
+
+
+
+
+
+
+
         [HttpGet]
         public ActionResult ChangePassword()
         {
@@ -674,7 +698,6 @@ namespace RSPP.Controllers
             var companydetails = (from a in _context.UserMaster where a.UserEmail == CompanyEmail select a).FirstOrDefault();
 
             ViewBag.AllCompanyDocument = _helpersController.CompanyDocument(CompanyEmail);
-            ViewBag.BaseUrl = HttpContext.Request.Scheme+"//"+ HttpContext.Request.Host+""+""+ HttpContext.Request.PathBase;
 
             return View(companydetails);
         }
@@ -2327,10 +2350,12 @@ namespace RSPP.Controllers
 
 
 
-        //public ActionResult ViewCertificate(string id)
-        //{
-        //   // return _helpersController.ViewCertificate(id);
-        //}
+        public ActionResult ViewCertificate(string id)
+        {
+            var Host = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
+
+            return _helpersController.ViewCertificate(id, Host);
+        }
 
 
 

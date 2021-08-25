@@ -141,7 +141,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td valign="top"><b>Last Message</b></td>
+                                    <td valign="top"><b>Remark</b></td>
                                     <td>
                                         <ul class="list-group">
                                             <li class="list-group-item" style="background-color:forestgreen; color:white; text-align:left">
@@ -228,11 +228,11 @@
                         if (ViewBag.AppRequest.CurrentStageId == 4)//14
                         {
                             <div>
-                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
+                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Applicant Application')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Marketer</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Applicant Application')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Applicant</a>
                             </div>
                         }
 
@@ -244,13 +244,13 @@
                         if (ViewBag.AppRequest.CurrentStageId == 5)
                         {
 
-                            <h3>Actions</h3>
+                            @*<h3>Actions</h3>*@
                             <div>
-                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Company Application')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
+                                <a class="btn btn-success btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Accept','Accept Applicant Application')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Recommend</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Officer')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Officer</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Applicant Application to Officer')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Officer</a>
                             </div>
 
                         }
@@ -263,13 +263,13 @@
                         if (ViewBag.AppRequest.CurrentStageId == 6)
                         {
 
-                            <h3>Actions</h3>
+                            @*<h3>Actions</h3>*@
                             <div>
-                                <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Company Certificate')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Certificate</a>
+                                <a class="btn btn-success btn-block" href="javascript:GenerateLicense('@ViewBag.ApplicationId','Accept','Issue Applicant Certificate')"><i class="fa fa-check fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Issue Certificate</a>
                             </div>
                             <br />
                             <div>
-                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Company Application to Supervisor')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Supervisor</a>
+                                <a class="btn btn-danger btn-block" href="javascript:showAcceptDeclineBox('@ViewBag.ApplicationId','Reject','Reject Applicant Application to Supervisor')"><i class="fa fa-thumbs-down fa-border" aria-hidden="true"></i>&nbsp;&nbsp;Reject To Supervisor</a>
                             </div>
 
                         }
@@ -543,14 +543,16 @@
                         debugger;
                     if (status == 'success') {
                         $(".loadingImage").hide('fast');
-                            bootbox.alert({
-                                message: data.message,
-                                size: 'small',
-                                className: 'bb-alternate-modal',
-                                callback: function () {
-                                    window.location.href = "/Admin/MyDesk";
-                                }
-                            });
+                        alert(data.message);
+                        window.location.href = "/Admin/MyDesk";
+                            //bootbox.alert({
+                            //    message: data.message,
+                            //    size: 'small',
+                            //    className: 'bb-alternate-modal',
+                            //    callback: function () {
+                            //        window.location.href = "/Admin/MyDesk";
+                            //    }
+                            //});
 
                         }
                         else {

@@ -153,79 +153,174 @@
 
 
 
-                        $.getJSON("/Admin/GetApplicationChart", function (data) {
-                            table.draw();
-                            table.ajax.reload();
-                            Highcharts.chart('container', {
-                                chart: {
-                                    plotBackgroundColor: null,
-                                    plotBorderWidth: null,
-                                    plotShadow: false,
-                                    type: 'pie'
 
-                                },
-                                title: {
-                                    text: 'Application Chart Ratio'
-                                },                             
-                                plotOptions: {
-                                    pie: {
-                                        allowPointSelect: true,
-                                        cursor: 'pointer',
-                                        dataLabels: {
+
+
+                        //var container = $('<div/>').insertAfter(table.table().container());
+
+                        var chart = Highcharts.chart('container', {
+                            chart: {
+                                type: 'pie',
+                            },
+                            title: {
+                                text: 'Application Pie Chart',
+                            },
+                            accessibility: {
+                                point: {
+                                    valueSuffix: '%'
+                                }
+                            },
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
                                             enabled: true,
                                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                             style: {
                                                 color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                                             }
                                         }
-                                    }
+                                }
+                            },
+                            series: [
+                                {
+                                    data: chartData(table),
                                 },
-                                series: [{
-                                    name: 'Total',
-                                    colorByPoint: true,
-                                    data: [{ name: 'Total Request', y: data.totalapplication },
-                                    { name: 'Completed', y: data.CompleteApplication },
-                                    { name: 'Pending', y: data.UnCompleteApplication },
-                                    ],
-                                    exporting: true
-                                }]
-
-                            });
-
-                            var chart2 = Highcharts.chart({
-                                chart: {
-                                    renderTo: 'container1',
-                                    type: 'column',
-                                    margin: 75,
-                                    options3d: {
-                                        enabled: true,
-                                        alpha: 15,
-                                        beta: 15,
-                                        depth: 50,
-                                        viewDistance: 25
-                                    },                                  
-                                },                               
-                                xAxis: {
-                                    categories: ['Total Application','Completed Application', 'UnCompleted Application']
-                                },
-                                plotOptions: {
-                                    column: {
-                                        depth: 25
-                                    }
-                                },
-                                series: [{
-                                    name: 'Ratio',
-                                    colorByPoint: true,
-                                    data: [
-                                        [data.totalapplication],
-                                        [data.CompleteApplication],
-                                        [data.UnCompleteApplication],                            
-                                    ]
-                                }]
-                            });
-
-
+                            ],
                         });
+
+                       
+
+                      
+                                
+                            
+
+
+                        var chart1 = Highcharts.chart('container1', {
+                            chart: {
+                                type: 'column',
+                            },
+                            title: {
+                                text: 'Application Bar Chart',
+                            },
+                            //accessibility: {
+                            //    point: {
+                            //        valueSuffix: '%'
+                            //    }
+                            //},
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: false,
+                                        style: {
+                                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                        }
+                                    }
+                                }
+                            },
+                            xAxis: {
+                                categories: ['Approvals']
+                                },
+                            series: [
+                                {
+                                    data: chartData(table),
+                                },
+                            ],
+                        });
+
+
+
+                        // On each draw, update the data in the chart
+                        table.on('draw', function () {
+                            chart1.series[0].setData(chartData(table));
+                        });
+
+                        table.on('draw', function () {
+                            chart.series[0].setData(chartData(table));
+                        });
+
+
+
+
+
+
+
+                        //$.getJSON("/Admin/GetApplicationChart", function (data) {
+                        //    table.draw();
+                        //    table.ajax.reload();
+                        //    Highcharts.chart('container', {
+                        //        chart: {
+                        //            plotBackgroundColor: null,
+                        //            plotBorderWidth: null,
+                        //            plotShadow: false,
+                        //            type: 'pie'
+
+                        //        },
+                        //        title: {
+                        //            text: 'Application Chart Ratio'
+                        //        },                             
+                        //        plotOptions: {
+                        //            pie: {
+                        //                allowPointSelect: true,
+                        //                cursor: 'pointer',
+                        //                dataLabels: {
+                        //                    enabled: true,
+                        //                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        //                    style: {
+                        //                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        //                    }
+                        //                }
+                        //            }
+                        //        },
+                        //        series: [{
+                        //            name: 'Total',
+                        //            colorByPoint: true,
+                        //            data: [{ name: 'Total Request', y: data.totalapplication },
+                        //            { name: 'Completed', y: data.CompleteApplication },
+                        //            { name: 'Pending', y: data.UnCompleteApplication },
+                        //            ],
+                        //            exporting: true
+                        //        }]
+
+                        //    });
+
+                        //    var chart2 = Highcharts.chart({
+                        //        chart: {
+                        //            renderTo: 'container1',
+                        //            type: 'column',
+                        //            margin: 75,
+                        //            options3d: {
+                        //                enabled: true,
+                        //                alpha: 15,
+                        //                beta: 15,
+                        //                depth: 50,
+                        //                viewDistance: 25
+                        //            },                                  
+                        //        },                               
+                        //        xAxis: {
+                        //            categories: ['Total Application','Completed Application', 'UnCompleted Application']
+                        //        },
+                        //        plotOptions: {
+                        //            column: {
+                        //                depth: 25
+                        //            }
+                        //        },
+                        //        series: [{
+                        //            name: 'Ratio',
+                        //            colorByPoint: true,
+                        //            data: [
+                        //                [data.totalapplication],
+                        //                [data.CompleteApplication],
+                        //                [data.UnCompleteApplication],                            
+                        //            ]
+                        //        }]
+                        //    });
+
+
+                        //});
                         $(".companyname").autocomplete({
                             source: function (request, response) {
                                 debugger;
@@ -269,6 +364,34 @@
 
                        
                     });
+
+
+                    function chartData(table) {
+                        var counts = {};
+
+                        // Count the number of entries for each position
+                        table
+                            .column(1, { search: 'applied' })
+                            .data()
+                            .each(function (val) {
+                                if (counts[val]) {
+                                    counts[val] += 1;
+                                } else {
+                                    counts[val] = 1;
+                                }
+                            });
+
+                        // And map it to the format highcharts uses
+                        return $.map(counts, function (val, key) {
+                            return {
+                                name: key,
+                                y: val,
+                            };
+                        });
+                    }
+
+
+
                </script>
             }
 

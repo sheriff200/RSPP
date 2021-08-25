@@ -143,6 +143,11 @@ namespace RSPP.Helper
                             nextUser = _context.UserMaster.Where(u => u.UserRole.Contains(mainWkflowNavigation.TargetRole) && u.Status == "ACTIVE").FirstOrDefault();
                             NextProcessor = generalClass.GetNextProcessingStaff(_context, appmaster, mainWkflowNavigation.TargetRole, applicationLocation, Action, mainWkflowNavigation.ActionRole);
                             appmaster.CurrentStageId = mainWkflowNavigation.NextStateId;
+
+                            if(Action == "Accept" && mainWkflowNavigation.ActionRole == "REGISTRAR")
+                            {
+                                appmaster.Status = "Approved";
+                            }
                         }
                         
                     }

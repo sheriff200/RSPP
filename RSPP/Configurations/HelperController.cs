@@ -862,17 +862,11 @@ namespace RSPP.Configurations
         public void GenerateCertificate(string applicationId, string staffemail)
         {
 
-
-            decimal processFees = 0;
-            decimal statutoryFees = 0;
-            String errorMessage = null;
-            DateTime currentDateTime = DateTime.UtcNow.AddYears(1);
-            DateTime currentDate = DateTime.UtcNow;
+            DateTime currentDateTime = DateTime.UtcNow;
             try
             {
                 Logger.Info("About to generate License");
                 DateTime expiryDate = currentDateTime.AddYears(2);
-                //var Signatureid = (from u in _context.UserMaster where u.UserEmail == staffemail select u.SignatureId).FirstOrDefault();DateTime.ParseExact(expiryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture
                 ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == applicationId.Trim()).FirstOrDefault();
                 var isRenewed = appRequest.ApplicationTypeId == "NEW" ? "NO" : "YES";
                 appRequest.LicenseIssuedDate = appRequest.LicenseIssuedDate == null ? DateTime.UtcNow : appRequest.LicenseIssuedDate;
@@ -895,7 +889,7 @@ namespace RSPP.Configurations
 
 
 
-        public ViewAsPdf ViewCertificate(string id)
+        public ViewAsPdf ViewCertificate(string id, string Host)
         {
 
             List<PermitModels> permitmodel = new List<PermitModels>();
@@ -911,7 +905,6 @@ namespace RSPP.Configurations
 
 
 
-            var Host = HttpContext.Request.Path; //HttpContext.Current.Request.Url.Authority;
             var absolutUrl = Host + "/Verify/VerifyPermitQrCode/" + id;
             var QrCode = generalClass.GenerateQR(absolutUrl);
             if (details != null)
@@ -929,6 +922,7 @@ namespace RSPP.Configurations
                     ExpiryDay = Convert.ToDateTime(details.LicenseExpiryDate).ToString("dd"),
                     ExpiryMonth = Convert.ToDateTime(details.LicenseExpiryDate).ToString("MMMM"),
                     ExpiryYear = Convert.ToDateTime(details.LicenseExpiryDate).ToString("yyyy"),
+                    LicenseNumber = details.LicenseReference,
                     CompanyName = details.CompanyName,
                     AgencyName = details.AgencyName,
                     QrCode = QrCode

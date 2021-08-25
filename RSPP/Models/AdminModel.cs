@@ -109,7 +109,7 @@ namespace RSPP.Models
         public DateTime DateIssued { get; set; }
         public string IssuedMonth { get; set; }
         public string ExpiryDay { get; set; }
-         public string AgencyName { get; set; }
+        public string AgencyName { get; set; }
         public string ExpiryMonth { get; set; }
         public string IssuedYear { get; set; }
         public string ExpiryYear { get; set; }
@@ -127,14 +127,23 @@ namespace RSPP.Models
         public List<Permitmodel> permitmodels { get; set; }
     }
 
+    //statuscode":"025","RRR":"320008236824","status":"Payment Reference generated"
+
+    public class RemitaModel
+    {
+        public string statuscode { get; set; }
+        public string RRR { get; set; }
+        public string status { get; set; }
 
 
-
+    }
     public class ApplicationRatio
     {
-        public int totalapplication { get; set; }
-        public int CompleteApplication { get; set; }
-        public int UnCompleteApplication { get; set; }
+        public int Initiated { get; set; }
+        public int Approved { get; set; }
+        public int Rejected { get; set; }
+        public int Processing { get; set; }
+
     }
 
     public class PaymentModel

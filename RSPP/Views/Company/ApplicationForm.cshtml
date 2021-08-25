@@ -19,9 +19,11 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.ApplicationTypeId)
+        @Html.HiddenFor(model => model.ApplicationId)
         @Html.HiddenFor(model => model.Status)
         @Html.HiddenFor(model => model.AgencyName)
-
+        @Html.HiddenFor(model => model.AgencyId)
+        <input id="fees" name="fees"/>
 
 
 
@@ -64,7 +66,6 @@
             <div class="row form-group">
                 <label class="control-label col-md-2">Date of Establishment(with CAC)</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.ApplicationId, new { @type = "hidden", @value = ViewBag.ApplicationId })
                     @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", required = "required", @readonly = "readonly" })
                 </div>
 
@@ -129,14 +130,14 @@
                 <div class="row form-group">
                     <label class="control-label col-md-2">Line Of Business</label>
                     <div class="col-md-9">
-                        <input type="checkbox" class="Logistics" id="CargoConsolidators" name="CargoConsolidators" value="Cargo Consolidators"><b> Cargo Consolidators</b>
-                        <input type="checkbox" class="Logistics" id="Chandling" name="Chandling" value="Chandling"> <b>Chandling</b>
-                        <input type="checkbox" class="Logistics" id="ClearingAgents" name="ClearingAgents" value="Clearing Agents"> <b>Clearing Agents</b>
-                        <input type="checkbox" class="Logistics" id="FreightForwarding" name="FreightForwarding" value="Freight Forwarding"><b> Freight Forwarding</b>
-                        <input type="checkbox" class="Logistics" id="RoadHaulage" name="RoadHaulage" value="Road Haulage"> <b>Road Haulage</b>
-                        <input type="checkbox" class="Logistics" id="Stevedoring" name="Stevedoring" value="Stevedoring"> <b>Stevedoring</b>
-                        <input type="checkbox" class="Logistics" id="Warehousing" name="Warehousing" value="Warehousing"> <b>Warehousing</b>
-                        <input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>
+                        <input type="radio" class="Logistics" id="CargoConsolidators" name="LogisticsServices" value="Cargo Consolidators"><b> Cargo Consolidators</b>
+                        <input type="radio" class="Logistics" id="Chandling" name="LogisticsServices" value="Chandling"> <b>Chandling</b>
+                        <input type="radio" class="Logistics" id="ClearingAgents" name="LogisticsServices" value="Clearing Agents"> <b>Clearing Agents</b>
+                        <input type="radio" class="Logistics" id="FreightForwarding" name="LogisticsServices" value="Freight Forwarding"><b> Freight Forwarding</b>
+                        <input type="radio" class="Logistics" id="RoadHaulage" name="LogisticsServices" value="Road Haulage"> <b>Road Haulage</b>
+                        <input type="radio" class="Logistics" id="Stevedoring" name="LogisticsServices" value="Stevedoring"> <b>Stevedoring</b>
+                        <input type="radio" class="Logistics" id="Warehousing" name="LogisticsServices" value="Warehousing"> <b>Warehousing</b>
+                        @*<input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>*@
 
 
                     </div>
@@ -210,19 +211,20 @@
 
                     <div class="col-md-4">
                         <b>Line Of Business</b>
-                        <input type="checkbox" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminal" value="Port Terminal"> Port Terminal
-                        <input type="checkbox" class="LineOfBusinessTerminals" id="OffDockTerminal" name="OffDockTerminal" value="Off Dock Terminal"> Off Dock Terminal
-                        <input type="checkbox" class="LineOfBusinessTerminals" id="ClearingAgents" name="DryPort" value="Dry Port"> Dry Port
+                        <input type="radio" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminalLineOfBusiness" value="Port Terminal"> Sea Port Terminal
+                        <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="ICD"> ICD
+                        <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="Off Dock Terminal"> Off Dock Terminal
+                        <input type="radio" class="LineOfBusinessTerminals" id="ClearingAgents" name="PortTerminalLineOfBusiness" value="Dry Port"> Dry Port
                         <textarea type="text" class="form-control" style="display:none" id="portoffdockLineOfBusiness" name="portoffdockLineOfBusiness">@ViewBag.portoffdockLineOfBusiness</textarea>
 
                     </div>
 
                     <div class="col-md-4">
                         <b>Status of Terminal:</b>
-                        <input type="checkbox" class="StatusTerminals" id="PortTerminal" name="PortTerminal" value="Port Terminal"> Port Terminal
-                        <input type="checkbox" class="StatusTerminals" id="OffDockTerminal" name="OffDockTerminal" value="Off Dock Terminal"> Off Dock Terminal
-                        <input type="checkbox" class="StatusTerminals" id="ClearingAgents" name="DryPort" value="Dry Port"> Dry Port
-                        <input type="checkbox" class="StatusTerminals" id="OtherStatusTerminal" name="OtherStatusTerminal" value="StatusTerminalOthers"> Others
+                        <input type="radio" class="StatusTerminals" id="PortTerminal" name="PortTerminalStatusOfTerminal" value="Port Terminal"> Port Terminal
+                        <input type="radio" class="StatusTerminals" id="OffDockTerminal" name="PortTerminalStatusOfTerminal" value="Off Dock Terminal"> Off Dock Terminal
+                        <input type="radio" class="StatusTerminals" id="ClearingAgents" name="PortTerminalStatusOfTerminal" value="Dry Port"> Dry Port
+                        <input type="radio" class="StatusTerminals" id="OtherStatusTerminal" name="PortTerminalStatusOfTerminal" value="StatusTerminalOthers"> Others
 
                         <textarea type="text" class="form-control" style="display:none" id="StatusOfTerminal" name="StatusOfTerminal">@ViewBag.StatusOfTerminal</textarea>
 
@@ -231,12 +233,12 @@
 
                     <div class="col-md-4">
                         <b>Cargo Type:</b>
-                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeBulk" name="CargoTypeBulk" value="Bulk"> Bulk
-                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeContainer" name="CargoTypeContainer" value="Container"> Container
-                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeDry" name="CargoTypeDry" value="Dry"> Dry
-                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeRoRo" name="CargoTypeRoRo" value="Ro-Ro"> Ro-Ro
-                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeWet" name="CargoTypeWet" value="Wet"> Wet
-                        <input type="checkbox" class="CargoTypeTerminals" id="CargoTypeOthers" name="CargoTypeOthers" value="CargoTypeOthers"> Others
+                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeBulk" name="PortTerminalCargoType" value="Bulk"> Bulk
+                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeContainer" name="PortTerminalCargoType" value="Container"> Container
+                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeDry" name="PortTerminalCargoType" value="Dry"> Dry
+                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeRoRo" name="PortTerminalCargoType" value="Ro-Ro"> Ro-Ro
+                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeWet" name="PortTerminalCargoType" value="Wet"> Wet
+                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeOthers" name="PortTerminalCargoType" value="CargoTypeOthers"> Others
                         <textarea type="text" class="form-control" style="display:none" id="portoffdockCargoType" name="portoffdockCargoType">@ViewBag.portoffdockCargoType</textarea>
 
 
@@ -295,18 +297,18 @@
                     <label class="control-label col-md-2"></label>
                     <div class="col-md-4">
                         <b>Line Of Business:</b>
-                        <input type="checkbox" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgency" value="Shipping Agency"> Shipping Agency
-                        <input type="checkbox" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingCompany" value="Shipping Company/Line"> Shipping Company/Line
+                        <input type="radio" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgencyLineofBusiness" value="Shipping Agency"> Shipping Agency
+                        <input type="radio" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingAgencyLineofBusiness" value="Shipping Company/Line"> Shipping Company/Line
                         <input type="text" class="form-control" style="display:none" id="ShippingagencyLineOfBusiness" value="@ViewBag.LineOfBusiness" name="ShippingagencyLineOfBusiness" />
                     </div>
                     <div class="col-md-4">
                         <b>Cargo Type</b>
-                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingCargoTypeBulk" value="Bulk"> Bulk
-                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeContainer" name="ShippingCargoTypeContainer" value="Container"> Container
-                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeDry" name="ShippingCargoTypeDry" value="Dry"> Dry
-                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeRoRo" name="ShippingCargoTypeRoRo" value="Ro-Ro"> Ro-Ro
-                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeWet" name="ShippingCargoTypeWet" value="Wet"> Wet
-                        <input type="checkbox" class="ShippingCargoType" id="ShippingCargoTypeOthers" name="ShippingCargoTypeOthers" value="ShippingCargoTypeOthers"> Others
+                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingAgencyCargoType" value="Bulk"> Bulk
+                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeContainer" name="ShippingAgencyCargoType" value="Container"> Container
+                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeDry" name="ShippingAgencyCargoType" value="Dry"> Dry
+                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeRoRo" name="ShippingAgencyCargoType" value="Ro-Ro"> Ro-Ro
+                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeWet" name="ShippingAgencyCargoType" value="Wet"> Wet
+                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeOthers" name="ShippingAgencyCargoType" value="ShippingCargoTypeOthers"> Others
                         <textarea type="text" class="form-control" id="ShippingagencyCargoType" style="display:none" name="ShippingagencyCargoType">@ViewBag.ShippingagencyCargoType</textarea>
                     </div>
                 </div>
@@ -539,7 +541,7 @@
 
 
             $("#txtcertnum").change(function () {
-
+                debugger
                 var selectedvalue = $("#txtcertnum option:selected").text();
 
                 $.post("/Company/CertificateRenewal", { "CertificateNumber": selectedvalue }, function (response) {
@@ -548,27 +550,35 @@
                         $("#txtagency").html("");
 
                         $.each(response, function (key, data) {
+                            $("#AgencyId").val(data.agencyId);
+                            $("#ApplicationTypeId").val('RENEW');
+                            $("#AgencyName").val(data.agencyName);
+                            $("#AgencyId").val(data.agencyId);
+                            $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
+                            $("#DateofEstablishment").val(data.dateofEstablishment);
+                            $("#CompanyAddress").val(data.companyAddress);
+                            $("#PostalAddress").val(data.postalAddress);
+                            $("#PhoneNum").val(data.phoneNum);
+                            $("#CompanyEmail").val(data.companyEmail);
+                            $("#CompanyWebsite").val(data.companyWebsite);
+                            $("#fees").val(data.txnAmount);
+                            document.getElementById("DateofEstablishment").style.pointerEvents = "none";
+                            document.getElementById("CompanyAddress").style.pointerEvents = "none";
+                            document.getElementById("PostalAddress").style.pointerEvents = "none";
+                            $("#PhoneNum").attr("readonly", true);
+                            $("#CompanyEmail").attr("readonly", true);
+                            $("#CompanyWebsite").attr("readonly", true);
+
                             if (data.agencyId === 1) {
-                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
-                                $("#DateofEstablishment").val(data.dateofEstablishment);
-                                $("#CompanyAddress").val(data.companyAddress);
-                                $("#PostalAddress").val(data.postalAddress);
-                                $("#PhoneNum").val(data.phoneNum);
-                                $("#CompanyEmail").val(data.companyEmail);
-                                $("#CompanyWebsite").val(data.companyWebsite);
+                                
                                 $("#ServicesProvidedInPort").val(data.servicesProvidedInPort);
                                 $("#AnyOtherRelevantInfo").val(data.anyOtherRelevantInfo);
+                                $("#ServicesProvidedInPort").attr("readonly", true);
+                                $("#Agencyid1").show();
 
 
                             } else if (data.agencyId === 2) {
 
-                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
-                                $("#DateofEstablishment").val(data.dateofEstablishment);
-                                $("#CompanyAddress").val(data.companyAddress);
-                                $("#PostalAddress").val(data.postalAddress);
-                                $("#PhoneNum").val(data.phoneNum);
-                                $("#CompanyEmail").val(data.companyEmail);
-                                $("#CompanyWebsite").val(data.companyWebsite);
                                 $("#LogisticsLineOfBusiness").val(data.logisticsLineOfBusiness);
                                 $("#CustomLicenseNum").val(data.customLicenseNum);
                                 $("#CustomLicenseExpiryDate").val(data.customLicenseExpiryDate);
@@ -578,48 +588,47 @@
                                 $("#OtherLicenseExpiryDate").val(data.otherLicenseExpiryDate);
                                 $("#LogisticsAnyOtherRelevantInfo").val(data.anyOtherInfo);
 
+                                $("#LogisticsLineOfBusiness").attr("readonly", true);
+                                $("#CustomLicenseNum").attr("readonly", true);
+                                $("#CustomLicenseExpiryDate").attr("readonly", true);
+                                $("#CrffnRegistrationNum").attr("readonly", true);
+                                $("#CrffnRegistratonExpiryDate").attr("readonly", true);
+                                $("#OtherLicense").attr("readonly", true);
+                                $("#OtherLicenseExpiryDate").attr("readonly", true);
+
+                                $("#Agencyid2").show();
 
                             } else if (data.agencyId === 3) {
-                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
-                                $("#DateofEstablishment").val(data.dateofEstablishment);
-                                $("#CompanyAddress").val(data.companyAddress);
-                                $("#PostalAddress").val(data.postalAddress);
-                                $("#PhoneNum").val(data.phoneNum);
-                                $("#CompanyEmail").val(data.companyEmail);
-                                $("#CompanyWebsite").val(data.companyWebsite);
+                                
                                 $("#portoffdockLineOfBusiness").val(data.lineOfBusiness);
                                 $("#StatusOfTerminal").val(data.statusOfTerminal);
                                 $("#portoffdockCargoType").val(data.cargoType);
                                 $("#portoffdockAnyOtherInfo").val(data.anyOtherInfo);
+
+                                $("#portoffdockLineOfBusiness").attr("readonly", true);
+                                $("#StatusOfTerminal").attr("readonly", true);
+                                $("#portoffdockCargoType").attr("readonly", true);
+
                                 $.each(val.Tanks, function (keys, vals) {
                                     html += "<tr><td>" + vals.nameOfTerminal + "</td> <td>" + vals.locationOfTerminal + "</td></tr>";
                                 });
                                 $("#AppendTerminals").html(html);
-
+                                $("#Agencyid3").show();
                             } else if (data.agencyId === 4) {
-                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
-                                $("#DateofEstablishment").val(data.dateofEstablishment);
-                                $("#CompanyAddress").val(data.companyAddress);
-                                $("#PostalAddress").val(data.postalAddress);
-                                $("#PhoneNum").val(data.phoneNum);
-                                $("#CompanyEmail").val(data.companyEmail);
-                                $("#CompanyWebsite").val(data.companyWebsite);
+                                
                                 $("#ShippingagencyCargoType").val(data.cargoType);
                                 $("#ShippingagencyLineOfBusiness").val(data.lineOfBusiness);
                                 $("#VesselLinesRepresentedInNigeria").val(data.vesselLinesRepresentedInNigeria);
                                 $("#ShippingagencyAnyOtherInfo").val(data.anyOtherInfo);
-                                
-                            } else if (data.agencyId === 5) {
 
-                                $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
-                                $("#DateofEstablishment").val(data.dateofEstablishment);
-                                $("#CompanyAddress").val(data.companyAddress);
-                                $("#PostalAddress").val(data.postalAddress);
-                                $("#PhoneNum").val(data.phoneNum);
-                                $("#CompanyEmail").val(data.companyEmail);
-                                $("#CompanyWebsite").val(data.companyWebsite);
+                                $("#ShippingagencyCargoType").attr("readonly", true);
+                                $("#ShippingagencyLineOfBusiness").attr("readonly", true);
+                                $("#VesselLinesRepresentedInNigeria").attr("readonly", true);
+                                $("#Agencyid4").show();
+                            } else if (data.agencyId === 5) {
                                 $("#otherportLineOfBusiness").val(data.lineOfBusiness);
                                 $("#otherportAnyOtherInfo").val(data.anyOtherInfo);
+                                $("#Agencyid5").show();
                             }
                         });
                     };
@@ -677,6 +686,8 @@
                 agencyID = Number($("#txtagency option:selected").val());
                 agencyname = $("#txtagency option:selected").text();
                 $("#AgencyName").val(agencyname);
+                $("#AgencyId").val(agencyID);
+
                 if (agencyID === 1) {
                     $("#Agencyid1").show();
                     $("#Agencyid2").hide();
@@ -691,6 +702,14 @@
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
                     $("#otherportLineOfBusiness").attr("required", false);
+
+                    $.getJSON("/Company/GetFees", { "feename":"Government Agency"}, function (data) {
+                        var amount = data.feeamount;
+                        $("#fees").val(amount);
+                    });
+
+
+
                 } else if (agencyID === 2) {
                     $("#Agencyid1").hide();
                     $("#Agencyid2").show();
@@ -734,7 +753,7 @@
                     $("#otherportLineOfBusiness").attr("required", false);
 
                 }
-                else if (agencyID === 5) {
+                else if (agencyID === 5 || agencyID === 6) {
 
                     $("#Agencyid1").hide();
                     $("#Agencyid2").hide();
@@ -750,6 +769,11 @@
                     $("#CrffnRegistrationNum").attr("required", false);
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
+
+                    $.getJSON("/Company/GetFees", { "feename": "OtherPortServiceProviders" }, function (data) {
+                        var amount = data.feeamount;
+                        $("#fees").val(amount);
+                    });
                 }
 
             });
@@ -782,6 +806,12 @@
                     });
                     $("#LogisticsLineOfBusiness").val(logisticlist.join(", "));
                 }
+                var FeeTypeName = $(".Logistics:checked").val();
+
+                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+                    var amount = data.feeamount;
+                    $("#fees").val(amount);
+                });
             });
 
 
@@ -794,6 +824,13 @@
                     LineOfBusinessTerminalslist.push($(this).val());
                 });
                 $("#portoffdockLineOfBusiness").val(LineOfBusinessTerminalslist.join(", "));
+
+                var FeeTypeName = $(".LineOfBusinessTerminals:checked").val();
+
+                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+                    var amount = data.feeamount;
+                    $("#fees").val(amount);
+                });
 
             });
 
@@ -813,6 +850,8 @@
                     });
                     $("#StatusOfTerminal").val(StatusTerminallist.join(", "));
                 }
+                
+
             });
 
             $(".CargoTypeTerminals").on("change", function () {
@@ -830,6 +869,7 @@
                     });
                     $("#portoffdockCargoType").val(CargoTypeTerminallist.join(", "));
                 }
+                
             });
 
 
@@ -841,6 +881,12 @@
                 });
                 $("#ShippingagencyLineOfBusiness").val(portoffdocklist.join(", "));
 
+                var FeeTypeName = $(".LineOfBusinessShipping:checked").val();
+
+                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+                    var amount = data.feeamount;
+                    $("#fees").val(amount);
+                });
             });
 
 
@@ -933,7 +979,7 @@
 
                         $.post($("#formid").attr('action'), $("#formid").serialize() + '&' + $.param({ "MyTerminals": Terminals })).done(function (data) {
 
-                           
+                            var fee = $("#fees").val();
                             var status = data.Status;
                             $(".loadingImage").show();
 
@@ -944,7 +990,9 @@
                             else {
                                 alert("Reference Number " + data.applicationId + " Generated For this Application");
                                 $(".loadingImage").hide();
-                                window.location.href = getContextPath() + "/ChargeSummary?ApplicationId=" + data.applicationId;
+                                window.location.href = getContextPath() + "/GenerateRRR?ApplicationId=" + data.applicationId + "&Amount=" + fee;
+
+                                //window.location.href = getContextPath() + "/ChargeSummary?ApplicationId=" + data.applicationId;
                             }
 
                         }).fail(function (data) {

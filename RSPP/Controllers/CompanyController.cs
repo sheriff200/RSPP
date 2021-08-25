@@ -19,12 +19,13 @@ namespace RSPP.Controllers
     public class CompanyController : Controller
     {
         public RSPPdbContext _context;
-        WorkFlowHelper _workflowHelper ;
+        WorkFlowHelper _workflowHelper;
         IHttpContextAccessor _httpContextAccessor;
         public IConfiguration _configuration;
         GeneralClass generalClass = new GeneralClass();
         ResponseWrapper responseWrapper = new ResponseWrapper();
         HelperController _helpersController;
+        UtilityHelper _utilityHelper;
         private ILog log = log4net.LogManager.GetLogger(typeof(CompanyController));
 
         [Obsolete]
@@ -40,6 +41,7 @@ namespace RSPP.Controllers
             _hostingEnv = hostingEnv;
             _helpersController = new HelperController(_context, _configuration, _httpContextAccessor);
             _workflowHelper = new WorkFlowHelper(_context);
+            _utilityHelper = new UtilityHelper(_context);
         }
         public IActionResult Index()
         {
@@ -134,12 +136,10 @@ namespace RSPP.Controllers
         public IActionResult ApplicationForm(string ApplicationId)
         {
             ApplicationRequestForm appdetail = new ApplicationRequestForm();
-            var agencyid = 2;//_helpersController.sessionAgencyId();
-            var AgencyId = Convert.ToInt32(agencyid);
-            ViewBag.AgencyID = AgencyId;
+           
             ViewBag.AgencyEmail = _helpersController.getSessionEmail();
             var appdetails = (from a in _context.ApplicationRequestForm where a.ApplicationId == ApplicationId select a).FirstOrDefault();
-            var govagencydetails =  (from a in _context.GovernmentAgency where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+            var govagencydetails = (from a in _context.GovernmentAgency where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var logisticsserviceprovider = (from a in _context.LogisticsServiceProvider where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var otherportserviceprovider = (from a in _context.OtherPortServiceProvider where a.ApplicationId == ApplicationId select a).FirstOrDefault();
             var portoffdockserviceprovider = (from a in _context.PortOffDockTerminalOperator where a.ApplicationId == ApplicationId select a).FirstOrDefault();
@@ -150,7 +150,7 @@ namespace RSPP.Controllers
                 ViewBag.ApplicationId = appdetails.ApplicationId;
                 appdetail.Status = appdetails.Status;
                 appdetail.ApplicationTypeId = appdetails.ApplicationTypeId;
-                appdetail.AgencyId = AgencyId;
+                appdetail.AgencyId = appdetails.AgencyId;
                 appdetail.ApplicationId = ApplicationId;
                 appdetail.AgencyName = appdetails.AgencyName;
                 appdetail.DateofEstablishment = appdetails.DateofEstablishment;
@@ -159,65 +159,80 @@ namespace RSPP.Controllers
                 appdetail.PhoneNum = appdetails.PhoneNum;
                 appdetail.CompanyEmail = appdetails.CompanyEmail;
                 appdetail.CompanyWebsite = appdetails.CompanyWebsite;
-            }
-
-            if (govagencydetails != null && AgencyId == 1)
-            {
-                ViewBag.ServicesProvidedInPort = govagencydetails.ServicesProvidedInPort;
-                ViewBag.AnyOtherRelevantInfo = govagencydetails.AnyOtherRelevantInfo;
-            }
 
 
-            if (logisticsserviceprovider != null && AgencyId == 2)
-            {
-                ViewBag.LineOfBusiness = logisticsserviceprovider.LineOfBusiness;
-                ViewBag.CustomLicenseNum = logisticsserviceprovider.CustomLicenseNum;
-                ViewBag.CrffnRegistrationNum = logisticsserviceprovider.CrffnRegistrationNum;
-                ViewBag.AnyOtherInfo = logisticsserviceprovider.AnyOtherInfo;
-                ViewBag.OtherLicense = logisticsserviceprovider.OtherLicense;
-                ViewBag.CustomLicenseExpiryDate = logisticsserviceprovider.CustomLicenseExpiryDate;
-                ViewBag.CrffnRegistratonExpiryDate = logisticsserviceprovider.CrffnRegistratonExpiryDate;
-                ViewBag.OtherLicenseExpiryDate = logisticsserviceprovider.OtherLicenseExpiryDate;
-            }
-
-            if (portoffdockserviceprovider != null && AgencyId == 3)
-            {
-                ViewBag.portoffdockLineOfBusiness = portoffdockserviceprovider.LineOfBusiness;
-                ViewBag.StatusOfTerminal = portoffdockserviceprovider.StatusOfTerminal;
-                ViewBag.portoffdockCargoType = portoffdockserviceprovider.CargoType;
-                ViewBag.portoffdockAnyOtherInfo = portoffdockserviceprovider.AnyOtherInfo;
-
-                List<PortOffDockTerminalOperator> terminal = new List<PortOffDockTerminalOperator>();
-
-                var Terminals = (from t in _context.PortOffDockTerminalOperator
-                                 where t.ApplicationId == ApplicationId
-                                 select t).ToList();
-
-                foreach (var item in Terminals)
+                if (govagencydetails != null)
                 {
-                    terminal.Add(new PortOffDockTerminalOperator()
+                    if (appdetails.AgencyId == 1)
                     {
-                        NameOfTerminal = item.NameOfTerminal,
-                        LocationOfTerminal = item.LocationOfTerminal
-                    });
-
+                        ViewBag.ServicesProvidedInPort = govagencydetails.ServicesProvidedInPort;
+                        ViewBag.AnyOtherRelevantInfo = govagencydetails.AnyOtherRelevantInfo;
+                    }
                 }
 
-                ViewBag.TerminalList = Terminals;
-            }
 
-            if (shippingagency != null && AgencyId == 4)
-            {
-                ViewBag.ShippingagencyCargoType = shippingagency.CargoType;
-                ViewBag.VesselLinesRepresentedInNigeria = shippingagency.VesselLinesRepresentedInNigeria;
-                ViewBag.LineOfBusiness = shippingagency.LineOfBusiness;
-                ViewBag.ShippingagencyAnyOtherInfo = shippingagency.AnyOtherInfo;
-            }
+                if (logisticsserviceprovider != null)
+                {
+                    if (appdetails.AgencyId == 2)
+                    {
+                        ViewBag.LineOfBusiness = logisticsserviceprovider.LineOfBusiness;
+                        ViewBag.CustomLicenseNum = logisticsserviceprovider.CustomLicenseNum;
+                        ViewBag.CrffnRegistrationNum = logisticsserviceprovider.CrffnRegistrationNum;
+                        ViewBag.AnyOtherInfo = logisticsserviceprovider.AnyOtherInfo;
+                        ViewBag.OtherLicense = logisticsserviceprovider.OtherLicense;
+                        ViewBag.CustomLicenseExpiryDate = logisticsserviceprovider.CustomLicenseExpiryDate;
+                        ViewBag.CrffnRegistratonExpiryDate = logisticsserviceprovider.CrffnRegistratonExpiryDate;
+                        ViewBag.OtherLicenseExpiryDate = logisticsserviceprovider.OtherLicenseExpiryDate;
+                    }
+                }
 
-            if (otherportserviceprovider != null && AgencyId == 5)
-            {
-                ViewBag.otherportLineOfBusiness = otherportserviceprovider.LineOfBusiness;
-                ViewBag.otherportAnyOtherInfo = otherportserviceprovider.AnyOtherInfo;
+                if (portoffdockserviceprovider != null)
+                {
+                    if (appdetails.AgencyId == 3)
+                    {
+                        ViewBag.portoffdockLineOfBusiness = portoffdockserviceprovider.LineOfBusiness;
+                        ViewBag.StatusOfTerminal = portoffdockserviceprovider.StatusOfTerminal;
+                        ViewBag.portoffdockCargoType = portoffdockserviceprovider.CargoType;
+                        ViewBag.portoffdockAnyOtherInfo = portoffdockserviceprovider.AnyOtherInfo;
+
+                        List<PortOffDockTerminalOperator> terminal = new List<PortOffDockTerminalOperator>();
+
+                        var Terminals = (from t in _context.PortOffDockTerminalOperator
+                                         where t.ApplicationId == ApplicationId
+                                         select t).ToList();
+
+                        foreach (var item in Terminals)
+                        {
+                            terminal.Add(new PortOffDockTerminalOperator()
+                            {
+                                NameOfTerminal = item.NameOfTerminal,
+                                LocationOfTerminal = item.LocationOfTerminal
+                            });
+
+                        }
+
+                        ViewBag.TerminalList = Terminals;
+                    }
+                }
+                if (shippingagency != null)
+                {
+                    if (appdetails.AgencyId == 4)
+                    {
+                        ViewBag.ShippingagencyCargoType = shippingagency.CargoType;
+                        ViewBag.VesselLinesRepresentedInNigeria = shippingagency.VesselLinesRepresentedInNigeria;
+                        ViewBag.LineOfBusiness = shippingagency.LineOfBusiness;
+                        ViewBag.ShippingagencyAnyOtherInfo = shippingagency.AnyOtherInfo;
+                    }
+                }
+
+                if (otherportserviceprovider != null)
+                {
+                    if (appdetails.AgencyId == 5)
+                    {
+                        ViewBag.otherportLineOfBusiness = otherportserviceprovider.LineOfBusiness;
+                        ViewBag.otherportAnyOtherInfo = otherportserviceprovider.AnyOtherInfo;
+                    }
+                }
             }
 
             return View(appdetail);
@@ -237,7 +252,6 @@ namespace RSPP.Controllers
             ShippingAgency shippingagency = null;
             var generatedapplicationid = generalClass.GenerateApplicationNo();
             var checkappexist = (from a in _context.ApplicationRequestForm where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
-            int agencyId = Convert.ToInt32(Request.Form["txtagency"]);
             var companyemail = _helpersController.getSessionEmail();
 
             try
@@ -250,7 +264,7 @@ namespace RSPP.Controllers
                 portoffdockserviceprovider = (from a in _context.PortOffDockTerminalOperator where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new PortOffDockTerminalOperator() : (from a in _context.PortOffDockTerminalOperator where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 shippingagency = (from a in _context.ShippingAgency where a.ApplicationId == model.ApplicationId select a).FirstOrDefault() == null ? new ShippingAgency() : (from a in _context.ShippingAgency where a.ApplicationId == model.ApplicationId select a).FirstOrDefault();
                 appdetails.ApplicationTypeId = model.ApplicationTypeId;
-                appdetails.Status = checkappexist == null ? "ACTIVE" : model.Status;
+                appdetails.Status = "ACTIVE";
                 appdetails.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                 appdetails.AgencyName = model.AgencyName;
                 appdetails.DateofEstablishment = model.DateofEstablishment;
@@ -262,7 +276,7 @@ namespace RSPP.Controllers
                 appdetails.LastAssignedUser = companyemail;
                 appdetails.CompanyEmail = companyemail;
                 appdetails.CompanyWebsite = model.CompanyWebsite;
-                appdetails.AgencyId = agencyId;
+                appdetails.AgencyId = model.AgencyId;
                 appdetails.CurrentStageId = 1;
                 appdetails.PrintedStatus = "Not Printed";
                 if (checkappexist == null)
@@ -270,21 +284,21 @@ namespace RSPP.Controllers
                     _context.Add(appdetails);
                 }
 
-                if (agencyId != 0)
+                if (model.AgencyId != 0)
                 {
 
-                    if (agencyId == 1)//government Agency
+                    if (model.AgencyId == 1)//government Agency
                     {
                         govagencydetails.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                         govagencydetails.ServicesProvidedInPort = Request.Form["ServicesProvidedInPort"].ToString();
                         govagencydetails.AnyOtherRelevantInfo = Request.Form["AnyOtherRelevantInfo"].ToString();
 
-                        if (govagencydetails == null)
+                        if (model.ApplicationId == null)
                         {
                             _context.Add(govagencydetails);
                         }
                     }
-                    else if (agencyId == 2)//Logistics Services Providers
+                    else if (model.AgencyId == 2)//Logistics Services Providers
                     {
                         logisticsserviceprovider.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                         logisticsserviceprovider.LineOfBusiness = Request.Form["LogisticsLineOfBusiness"].ToString();
@@ -296,13 +310,13 @@ namespace RSPP.Controllers
                         logisticsserviceprovider.CrffnRegistratonExpiryDate = Convert.ToDateTime(Request.Form["CrffnRegistratonExpiryDate"]);
                         logisticsserviceprovider.OtherLicenseExpiryDate = Convert.ToDateTime(Request.Form["OtherLicenseExpiryDate"]);
 
-                        if (logisticsserviceprovider == null)
+                        if (model.ApplicationId == null)
                         {
                             _context.Add(logisticsserviceprovider);
                         }
                     }
 
-                    else if (agencyId == 3)//Port/Off Dock Terminals Operators
+                    else if (model.AgencyId == 3)//Port/Off Dock Terminals Operators
                     {
                         //portoffdockserviceprovider.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                         //portoffdockserviceprovider.LineOfBusiness = Request.Form["portoffdockLineOfBusiness"].ToString();
@@ -349,13 +363,13 @@ namespace RSPP.Controllers
 
 
 
-                        if (portoffdockserviceprovider == null)
+                        if (model.ApplicationId == null)
                         {
                             _context.Add(portoffdockserviceprovider);
                         }
                     }
 
-                    else if (agencyId == 4)//Shipping Agencies/Companies/Lines
+                    else if (model.AgencyId == 4)//Shipping Agencies/Companies/Lines
                     {
                         shippingagency.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                         shippingagency.LineOfBusiness = Request.Form["ShippingagencyLineOfBusiness"].ToString();
@@ -364,13 +378,13 @@ namespace RSPP.Controllers
                         shippingagency.AnyOtherInfo = Request.Form["ShippingagencyAnyOtherInfo"].ToString();
                     }
 
-                    else if (agencyId == 5) //Other Port Service Providers And Users
+                    else if (model.AgencyId == 5) //Other Port Service Providers And Users
                     {
                         otherportserviceprovider.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                         otherportserviceprovider.LineOfBusiness = Request.Form["otherportLineOfBusiness"].ToString();
                         otherportserviceprovider.AnyOtherInfo = Request.Form["otherportAnyOtherInfo"].ToString();
 
-                        if (otherportserviceprovider == null)
+                        if (model.ApplicationId == null)
                         {
                             _context.Add(otherportserviceprovider);
                         }
@@ -391,7 +405,7 @@ namespace RSPP.Controllers
             message = "Your record was saved successfully";
             status = "success";
 
-             responseWrapper = _workflowHelper.processAction(generatedapplicationid, "Proceed", companyemail, "Initiated Application");
+            responseWrapper = _workflowHelper.processAction(generatedapplicationid, "Proceed", companyemail, "Initiated Application");
             if (responseWrapper.status == true)
             {
                 return Json(new { Status = "success", applicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId, Message = responseWrapper.value });
@@ -485,52 +499,149 @@ namespace RSPP.Controllers
 
 
         [HttpGet]
-        public ActionResult ChargeSummary(string ApplicationId)
+        public ActionResult ChargeSummary(string RRR, string applicationId, decimal amount)
         {
 
-            ViewBag.Applicationid = ApplicationId;
+            var applicationdetails = (from a in _context.ApplicationRequestForm where a.ApplicationId == applicationId select a).FirstOrDefault();
+            string APIHash = generalClass.merchantId + RRR + generalClass.AppKey;
+            ViewBag.AppkeyHashed = generalClass.GenerateSHA512(APIHash).ToLower();
+            ViewBag.AgencyName = applicationdetails.AgencyName;
+            ViewBag.Applicationid = applicationId;
+            ViewBag.RRR = RRR;
+            ViewBag.Amount = amount;
+            ViewBag.MerchantId = generalClass.merchantId;
 
             return View();
         }
 
 
-        [HttpPost]
-        public JsonResult ChargeSummary(string ApplicationId, string PaymentName, decimal paymentamount)
+
+        [HttpGet]
+        public ActionResult PaymentReceipt(string ApplicationId)
         {
-            string status = string.Empty;
-            string message = string.Empty;
-            try
+
+            var paymentdetails = (from a in _context.PaymentLog where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+
+            if (paymentdetails != null)
             {
+                string APIHash = paymentdetails.Rrreference + generalClass.AppKey + generalClass.merchantId;
+                string AppkeyHashed = generalClass.GenerateSHA512(APIHash);
 
-                PaymentLog pay = new PaymentLog();
-                pay.Rrreference = "09034554333";
-                pay.ApplicationId = ApplicationId;
-                pay.TransactionDate = DateTime.UtcNow;
-                pay.LastRetryDate = DateTime.UtcNow;
-                pay.PaymentCategory = PaymentName;
-                pay.TxnAmount = paymentamount;
-                pay.ApplicantId = _helpersController.getSessionEmail();
-                _context.PaymentLog.Add(pay);
-                _context.SaveChanges();
+                WebResponse webResponse = _utilityHelper.GetRemitaPaymentDetails(AppkeyHashed, paymentdetails.Rrreference);
 
-                status = "success";
-                message = "Successful";
+                GetPaymentResponse paymentResponse = (GetPaymentResponse)webResponse.value;
+
+                if (paymentResponse != null)
+                {
+
+                    if (paymentResponse.message == "Successful" || paymentResponse.status == "01")
+                    {
+                        paymentdetails.Status = "AUTH";
+                        paymentdetails.TxnMessage = paymentResponse.message;
+                        paymentdetails.TransactionDate = Convert.ToDateTime(paymentResponse.transactiontime);
+                        ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
+                        
+                    }
+                    else
+                    {
+                        paymentdetails.Status = "INIT";
+                    }
+                    _context.SaveChanges();
+                }
+
+                ViewBag.PaymentLogApplicationId = paymentResponse.orderId;
+                ViewBag.PaymentLogStatus = paymentdetails.Status;
+                ViewBag.PaymentLogRRReference = paymentResponse.RRR;
+                ViewBag.PaymentLogTransactionDate = paymentResponse.transactiontime;
+                ViewBag.PaymentLogTxnMessage = paymentResponse.message;
+
             }
-            catch (Exception ex)
-            {
-                status = "failed";
-                message = "Something went wrong " + ex.Message;
-            }
-            ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
-            if(responseWrapper.status == true)
-            {
-                return Json(new { Status = "success", Message = responseWrapper.value });
 
-            }
+            return View();
 
 
-            return Json(new { Status = status, Message = message });
+
         }
+
+
+
+
+
+        //[HttpPost]
+        //public JsonResult ChargeSummary(string ApplicationId, string PaymentName, decimal paymentamount)
+        //{
+        //    string status = string.Empty;
+        //    string message = string.Empty;
+        //    String NewUrl = null;
+        //    string resultrrr = string.Empty;
+        //    try
+        //    {
+
+        //        var paymentLog = _context.PaymentLog.Where(c => c.ApplicationId.Trim() == ApplicationId.Trim()).Select(c=>c.Rrreference).FirstOrDefault();
+
+        //        ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == ApplicationId.Trim()).FirstOrDefault();
+        //        if (appRequest ==
+        //         default(ApplicationRequestForm))
+        //        {
+        //            status = "failure";
+        //            message = "Application ID with Reference " + ApplicationId + " Cannot be retrievd from the Database";
+        //            log.Error(message);
+        //        }
+        //        else
+        //        {
+
+
+
+        //                string APIHash = resultrrr + generalClass.AppKey + generalClass.merchantId;
+        //                string AppkeyHashed = generalClass.GenerateSHA512(APIHash);
+
+        //                WebResponse webResponse = _utilityHelper.GetRemitaPaymentDetails(AppkeyHashed, resultrrr);
+
+        //                GetPaymentResponse paymentResponse = (GetPaymentResponse)webResponse.value;
+
+        //                if (paymentResponse != null)
+        //                {
+
+        //                    if (paymentResponse.message == "Transaction Approved" || paymentResponse.status == "01")
+        //                    {
+        //                        NewUrl = "/Company/PaymentSuccess?orderId=" + paymentResponse.orderId;
+        //                    }
+        //                    else
+        //                    {
+        //                        NewUrl = baseUrl + "/Payment/Pay?rrr=" + resultrrr;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    return Json(new { Status = "Failed", Message = "Something went wrong while generation Remita Reference Number. Please try again later!!!" });
+        //                }
+        //            }
+
+        //            log.Info("Response from GeneratePaymentRRR =>" + resultrrr);
+
+
+
+
+        //            //var res = serviceIntegrator.CheckRRR(result);
+
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        status = "failed";
+        //        message = "Something went wrong " + ex.Message;
+        //    }
+        //    ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
+        //    if (responseWrapper.status == true)
+        //    {
+        //        return Json(new { Status = "success", Message = responseWrapper.value });
+
+        //    }
+
+
+        //    return Json(new { Status = status, Message = message });
+        //}
 
 
 
@@ -567,7 +678,7 @@ namespace RSPP.Controllers
             var Docname = Request.Form["txtDocumentName"];
             var filename = Request.Form["txtDocumentsource"];
 
-          
+
             string status = string.Empty;
             string message = string.Empty;
 
@@ -586,7 +697,7 @@ namespace RSPP.Controllers
                     {
                         var deleteexistingdoc = (from u in _context.UploadedDocuments where u.ApplicationId == appid[0] select u).ToList();
 
-                        if (deleteexistingdoc.Count() >0 )
+                        if (deleteexistingdoc.Count() > 0)
                         {
                             foreach (var deleteitems in deleteexistingdoc)
                             {
@@ -607,7 +718,7 @@ namespace RSPP.Controllers
                             var listdocname = ceck.Select(c => c.DocumentName).ToList();
                             var listdocsrc = ceck.Select(c => c.DocumentSource).ToList();
 
-                            
+
 
                             if ((!(listdocsrc.Contains(Path.GetFileName(appid[0] + "_" + filedocname)))) && (!(listdocname.Contains(docmentname + "_" + appid[0]))))
                             {
@@ -616,14 +727,14 @@ namespace RSPP.Controllers
                                 {
                                     ApplicationId = appid[0],
                                     DocumentSource = Path.GetFileName(appid[0] + "_" + filedocname), //Path.Combine(_hostingEnv.WebRootPath, "images", appid[0] + "_" + filedocname),
-                                DocumentName = docmentname+ "_"+appid[0]//item.FileName;
+                                    DocumentName = docmentname + "_" + appid[0]//item.FileName;
                                 };
                                 _context.UploadedDocuments.Add(doc);
                                 await _context.SaveChangesAsync();
                             }
                         }
                     }
-                    
+
                     foreach (var item in MyFile)
                     {
                         var fileName = Path.GetFileName(appid[0] + "_" + item.FileName);
@@ -676,17 +787,17 @@ namespace RSPP.Controllers
         {
             string status = "success";
             string jsonRequest = null;
-            
+
 
             string actionType = Request.Form["actionType"];
             string companyId = Request.Form["companyId"];
 
 
 
-           
+
             var companydetails = (from u in _context.UserMaster where u.UserEmail == model.UserEmail select u).FirstOrDefault();
 
-           
+
 
             if (actionType.Contains("UPDATE_PROFILE") && companydetails != null)
             {
@@ -776,31 +887,39 @@ namespace RSPP.Controllers
 
         public JsonResult CertificateRenewal(string CertificateNumber)
         {
-          // List<dynamic> appdetails = null;
             var details = (from a in _context.ApplicationRequestForm where a.LicenseReference == CertificateNumber select a).FirstOrDefault();
-            if(details != null)
+            if (details != null)
             {
-                if(details.AgencyId == 1)
+                if (details.AgencyId == 1)
                 {
-                   var appdetails = (from a in _context.ApplicationRequestForm  join g in _context.GovernmentAgency on a.ApplicationId equals g.ApplicationId 
-                                     select new{
-                                     a.ApplicationId,
-                                     a.AgencyId,
-                                     a.DateofEstablishment,
-                                     a.CompanyEmail,
-                                     a.CompanyWebsite,
-                                     a.AgencyName,
-                                     a.PostalAddress,
-                                     a.CompanyAddress,
-                                     g.ServicesProvidedInPort,
-                                     g.AnyOtherRelevantInfo
-                                     }).ToList(); 
-                   
+                    var appdetails = (from a in _context.ApplicationRequestForm
+                                      join g in _context.GovernmentAgency on a.ApplicationId equals g.ApplicationId
+                                      where a.LicenseReference == CertificateNumber
+                                      select new
+                                      {
+                                          a.ApplicationId,
+                                          a.AgencyId,
+                                          DateofEstablishment = a.DateofEstablishment.ToString(),
+                                          a.CompanyEmail,
+                                          a.CompanyWebsite,
+                                          a.AgencyName,
+                                          a.PostalAddress,
+                                          a.PhoneNum,
+                                          a.CompanyAddress,
+                                          g.ServicesProvidedInPort,
+                                          g.AnyOtherRelevantInfo,
+                                          TxnAmount = (from a in _context.PaymentLog where a.ApplicationId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
+                                      }).ToList();
+
                     return Json(appdetails);
-                }else if(details.AgencyId == 2)
+                }
+                else if (details.AgencyId == 2)
                 {
-                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.LogisticsServiceProvider on a.ApplicationId equals g.ApplicationId 
-                                      select new {
+                    var appdetails = (from a in _context.ApplicationRequestForm
+                                      join g in _context.LogisticsServiceProvider on a.ApplicationId equals g.ApplicationId
+                                      where a.LicenseReference == CertificateNumber
+                                      select new
+                                      {
                                           a.ApplicationId,
                                           a.AgencyId,
                                           a.DateofEstablishment,
@@ -815,15 +934,21 @@ namespace RSPP.Controllers
                                           g.CustomLicenseExpiryDate,
                                           g.CustomLicenseNum,
                                           g.LineOfBusiness,
+                                          a.PhoneNum,
                                           g.OtherLicense,
-                                          g.OtherLicenseExpiryDate
+                                          g.OtherLicenseExpiryDate,
+                                          TxnAmount = (from a in _context.PaymentLog where a.ApplicantId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
+
                                       }).ToList();
                     return Json(appdetails);
                 }
                 else if (details.AgencyId == 3)
                 {
-                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.PortOffDockTerminalOperator on a.ApplicationId equals g.ApplicationId
-                                      select new {
+                    var appdetails = (from a in _context.ApplicationRequestForm
+                                      join g in _context.PortOffDockTerminalOperator on a.ApplicationId equals g.ApplicationId
+                                      where a.LicenseReference == CertificateNumber
+                                      select new
+                                      {
                                           a.ApplicationId,
                                           a.AgencyId,
                                           a.DateofEstablishment,
@@ -835,17 +960,19 @@ namespace RSPP.Controllers
                                           g.LineOfBusiness,
                                           g.CargoType,
                                           g.AnyOtherInfo,
-                                          //g.LocationOfTerminal,
-                                          // g.NameOfTerminal,
-                                          //g.StatusOfTerminal
-                                          Terminal = (from t in _context.ApplicationRequestForm where t.ApplicationId == a.ApplicationId select t).ToList()
+                                          a.PhoneNum,
+                                          Terminal = (from t in _context.ApplicationRequestForm where t.ApplicationId == a.ApplicationId select t).ToList(),
+                                          TxnAmount = (from a in _context.PaymentLog where a.ApplicantId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
                                       }).ToList();
                     return Json(appdetails);
                 }
                 else if (details.AgencyId == 4)
                 {
-                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.ShippingAgency on a.ApplicationId equals g.ApplicationId 
-                                      select new {
+                    var appdetails = (from a in _context.ApplicationRequestForm
+                                      join g in _context.ShippingAgency on a.ApplicationId equals g.ApplicationId
+                                      where a.LicenseReference == CertificateNumber
+                                      select new
+                                      {
                                           a.ApplicationId,
                                           a.AgencyId,
                                           a.DateofEstablishment,
@@ -853,19 +980,24 @@ namespace RSPP.Controllers
                                           a.CompanyWebsite,
                                           a.AgencyName,
                                           a.PostalAddress,
+                                          a.PhoneNum,
                                           a.CompanyAddress,
                                           g.AnyOtherInfo,
                                           g.CargoType,
                                           g.LineOfBusiness,
-                                          g.VesselLinesRepresentedInNigeria
+                                          g.VesselLinesRepresentedInNigeria,
+                                          TxnAmount = (from a in _context.PaymentLog where a.ApplicantId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
 
                                       }).ToList();
                     return Json(appdetails);
                 }
                 else if (details.AgencyId == 5)
                 {
-                    var appdetails = (from a in _context.ApplicationRequestForm join g in _context.OtherPortServiceProvider on a.ApplicationId equals g.ApplicationId 
-                                      select new {
+                    var appdetails = (from a in _context.ApplicationRequestForm
+                                      join g in _context.OtherPortServiceProvider on a.ApplicationId equals g.ApplicationId
+                                      where a.LicenseReference == CertificateNumber
+                                      select new
+                                      {
                                           a.ApplicationId,
                                           a.AgencyId,
                                           a.DateofEstablishment,
@@ -873,9 +1005,12 @@ namespace RSPP.Controllers
                                           a.CompanyWebsite,
                                           a.AgencyName,
                                           a.PostalAddress,
+                                          a.PhoneNum,
                                           a.CompanyAddress,
                                           g.AnyOtherInfo,
-                                          g.LineOfBusiness
+                                          g.LineOfBusiness,                                          
+                                          TxnAmount = (from a in _context.PaymentLog where a.ApplicantId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
+
                                       }).ToList();
                     return Json(appdetails);
                 }
@@ -954,8 +1089,9 @@ namespace RSPP.Controllers
             int totalRecords = 0;
             var today = DateTime.Now.Date;
 
-            var staff = (from p in _context.ApplicationRequestForm where p.LicenseReference != null && p.CompanyEmail == _helpersController.getSessionEmail()
-                         
+            var staff = (from p in _context.ApplicationRequestForm
+                         where p.LicenseReference != null && p.CompanyEmail == _helpersController.getSessionEmail()
+
                          select new
                          {
                              p.ApplicationId,
@@ -965,7 +1101,7 @@ namespace RSPP.Controllers
                              p.ApplicationTypeId,
                              p.AgencyName
                          });
-               
+
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
@@ -1100,18 +1236,59 @@ namespace RSPP.Controllers
                 case 3:
                     actionName = "DocumentUpload";
                     break;
-                
+
             }
-            
-                return RedirectToAction(actionName, new
-                {
-                    ApplicationId = appRequest.ApplicationId
-                });
-            
-            
+
+            return RedirectToAction(actionName, new
+            {
+                ApplicationId = appRequest.ApplicationId
+            });
+
+
 
         }
 
+
+
+
+
+        public JsonResult GetFees(string feename)
+        {
+
+            decimal Amount = _utilityHelper.Fees(feename);
+
+            return Json(new { feeamount = Amount});
+        }
+
+
+        public ActionResult GenerateRRR(string ApplicationId, string Amount)
+        {
+            string resultrrr = "";
+            decimal amt = 0;
+            var checkRRRExit = (from a in _context.PaymentLog where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+            if (checkRRRExit == null)
+            {
+                amt = Convert.ToDecimal(Amount);
+                var baseUrl = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
+                resultrrr = _utilityHelper.GeneratePaymentReference(ApplicationId, baseUrl, _helpersController.getSessionCompanyName(), amt);
+            }
+            else
+            {
+                amt = Convert.ToDecimal(checkRRRExit.TxnAmount);
+                resultrrr = checkRRRExit.Rrreference;
+            }
+            return  RedirectToAction("ChargeSummary", new {RRR = resultrrr, applicationId = ApplicationId, amount = amt });
+        }
+
+
+
+
+        public ActionResult ViewCertificate(string id)
+        {
+            var Host = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
+
+            return _helpersController.ViewCertificate(id, Host);
+        }
 
 
 

@@ -28,6 +28,49 @@ namespace RSPP.Models
         public string confirmPassword { get; set; }
     }
 
+
+
+
+    public class PaymentTransactionModel
+    {
+        public string serviceTypeId { get; set; }
+        public string amount { get; set; }
+        public string orderId { get; set; }
+        public string payerName { get; set; }
+        public string payerEmail { get; set; }
+        public string payerPhone { get; set; }
+        public string description { get; set; }
+       
+    }
+
+    public class PaymentResponse
+    {
+        public string statuscode { get; set; }
+        public string RRR { get; set; }
+        public string status { get; set; }
+    }
+
+
+    public class GetPaymentResponse
+    {
+        public double amount { get; set; }
+        public string RRR { get; set; }
+        public string orderId { get; set; }
+        public string message { get; set; }
+        public string transactiontime { get; set; }
+        public string status { get; set; }
+    }
+
+
+    public class WebResponse
+    {
+        public WebResponse() { }
+        public string message { get; set; }
+        public object value { get; set; }
+    }
+
+
+
     public class AccountModel
     {
         //staff model

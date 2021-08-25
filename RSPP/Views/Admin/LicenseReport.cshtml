@@ -271,80 +271,177 @@
                     { data: "applicationId" }, { data: "applicationTypeId" }, { data: "companyEmail" }, { data: "status" }, { data: "agencyName" }, { data: "licenseIssuedDate" }, { data: "licenseExpiryDate" }]
                     
             });
-            $.getJSON("/Admin/GetLicenseChart", function (data) {
-                table.draw();
-                table.ajax.reload();
-                Highcharts.chart('container', {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
 
-                    },
-                    title: {
-                        text: 'Certificate Chart Ratio'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        name: 'Ratio',
-                        colorByPoint: true,
-                        data: [{ name: 'Total Issued Permits', y: data.totalLicense },
-                            { name: 'Total Legacy', y: data.Legacy },
-                        ],
-                        exporting: true
-                    }]
 
-                });
-                var chart2 = Highcharts.chart({
-                    chart: {
-                        renderTo: 'container1',
-                        type: 'column',
-                        margin: 75,
-                        options3d: {
-                            enabled: true,
-                            alpha: 15,
-                            beta: 15,
-                            depth: 50,
-                            viewDistance: 25
-                        }
+            var chart = Highcharts.chart('container', {
+                chart: {
+                    type: 'pie',
+                },
+
+                title: {
+                    text: 'License Report Pie chart',
+                },
+                tooltip: {
+                    pointFormat: 'Application Types'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                series: [
+                    {
+                        data: chartData(table),
                     },
-                    xAxis: {
-                        categories: ['Total Issued Permits', 'Total Legacy']
-                    },
-                    plotOptions: {
-                        column: {
-                            depth: 25
-                        }
-                    },
-                    series: [{
-                        name: 'Total',
-                        colorByPoint: true,
-                        data: [
-                            [data.totalLicense],
-                            [data.Legacy],
-                            [data.Online],
-                        ]
-                    }]
-                });
+                ],
             });
+
+
+            var chart1 = Highcharts.chart('container1', {
+                chart: {
+                    type: 'column',
+                },
+                title: {
+                    text: 'License Report Pie chart',
+                },
+                tooltip: {
+                    pointFormat: 'Application Types'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                xAxis: {
+                    categories: [chartData(table)]
+                },
+                series: [
+                    {
+                        data: chartData(table),
+                    },
+                ],
+            });
+
+
+            // On each draw, update the data in the chart
+            table.on('draw', function () {
+                chart.series[0].setData(chartData(table));
+            });
+
+            table.on('draw', function () {
+                chart1.series[0].setData(chartData(table));
+                chart1.xAxis[0].setData(chartData(table));
+            });
+
+            //$.getJSON("/Admin/GetLicenseChart", function (data) {
+            //    table.draw();
+            //    table.ajax.reload();
+            //    Highcharts.chart('container', {
+            //        chart: {
+            //            plotBackgroundColor: null,
+            //            plotBorderWidth: null,
+            //            plotShadow: false,
+            //            type: 'pie'
+
+            //        },
+            //        title: {
+            //            text: 'Certificate Chart Ratio'
+            //        },
+            //        tooltip: {
+            //            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            //        },
+            //        plotOptions: {
+            //            pie: {
+            //                allowPointSelect: true,
+            //                cursor: 'pointer',
+            //                dataLabels: {
+            //                    enabled: true,
+            //                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+            //                    style: {
+            //                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            //                    }
+            //                }
+            //            }
+            //        },
+            //        series: [{
+            //            name: 'Ratio',
+            //            colorByPoint: true,
+            //            data: [{ name: 'Total Issued Permits', y: data.totalLicense },
+            //                { name: 'Total Legacy', y: data.Legacy },
+            //            ],
+            //            exporting: true
+            //        }]
+
+            //    });
+            //    var chart2 = Highcharts.chart({
+            //        chart: {
+            //            renderTo: 'container1',
+            //            type: 'column',
+            //            margin: 75,
+            //            options3d: {
+            //                enabled: true,
+            //                alpha: 15,
+            //                beta: 15,
+            //                depth: 50,
+            //                viewDistance: 25
+            //            }
+            //        },
+            //        xAxis: {
+            //            categories: ['Total Issued Permits', 'Total Legacy']
+            //        },
+            //        plotOptions: {
+            //            column: {
+            //                depth: 25
+            //            }
+            //        },
+            //        series: [{
+            //            name: 'Total',
+            //            colorByPoint: true,
+            //            data: [
+            //                [data.totalLicense],
+            //                [data.Legacy],
+            //                [data.Online],
+            //            ]
+            //        }]
+            //    });
+            //});
             
         });
+
+        function chartData(table) {
+            var counts = {};
+
+            // Count the number of entries for each position
+            table
+                .column(1, { search: 'applied' })
+                .data()
+                .each(function (val) {
+                    if (counts[val]) {
+                        counts[val] += 1;
+                    } else {
+                        counts[val] = 1;
+                    }
+                });
+
+            // And map it to the format highcharts uses
+            return $.map(counts, function (val, key) {
+                return {
+                    name: key,
+                    y: val,
+                };
+            });
+        }
+
     </script>
 }
 
