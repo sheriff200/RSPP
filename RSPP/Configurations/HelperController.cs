@@ -28,6 +28,7 @@ namespace RSPP.Configurations
             _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+
         }
 
         public string getSessionEmail()
@@ -498,12 +499,13 @@ namespace RSPP.Configurations
 
 
 
-        public List<OutofOffice> GetReliverStaffOutofOffice(string reliever)
+        public List<OutofOfficeDto> GetReliverStaffOutofOffice(string reliever)
         {
             var today = DateTime.Now.Date;
-            var getpastwksapp = new List<OutofOffice>();
+            var getpastwksapp = new List<OutofOfficeDto>();
             var wksbackapp = (from p in _context.OutofOffice
                               join r in _context.ApplicationRequestForm on p.Relieved equals r.LastAssignedUser
+                              join u in _context.UserMaster on p.Relieved equals u.UserEmail
                               where p.Reliever == reliever && p.Status == "Started"
                               select new
                               {
@@ -512,18 +514,20 @@ namespace RSPP.Configurations
                                   p.StartDate,
                                   p.EndDate,
                                   p.Status,
-                                  p.Comment
+                                  p.Comment,
+                                  password = generalClass.Decrypt(u.Password)
                               }).ToList();
             foreach (var item in wksbackapp)
             {
-                getpastwksapp.Add(new OutofOffice()
+                getpastwksapp.Add(new OutofOfficeDto()
                 {
                     Reliever = item.Reliever,
                     Relieved = item.Relieved,
                     StartDate = item.StartDate,
                     EndDate = item.EndDate,
                     Status = item.Status,
-                    Comment = item.Comment
+                    Comment = item.Comment,
+                    Password = item.password
                 });
             }
             return getpastwksapp;
@@ -866,7 +870,9 @@ namespace RSPP.Configurations
             try
             {
                 Logger.Info("About to generate License");
-                DateTime expiryDate = currentDateTime.AddYears(2);
+                DateTime expiryDate1 = currentDateTime.AddYears(2);
+                DateTime expiryDate = expiryDate1.AddDays(-1);
+
                 ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == applicationId.Trim()).FirstOrDefault();
                 var isRenewed = appRequest.ApplicationTypeId == "NEW" ? "NO" : "YES";
                 appRequest.LicenseIssuedDate = appRequest.LicenseIssuedDate == null ? DateTime.UtcNow : appRequest.LicenseIssuedDate;

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_ElaLayout.cshtml";
 }
 <div class="content">
-   
+
     <div class="row">
         <div class="col-md-12" style="background-color:white">
             <fieldset class="scheduler-border">
@@ -26,20 +26,25 @@
                         {
                             foreach (var up in ViewBag.ReliverStaffOutofOfficeList)
                             {
-                                <tr>
-                                    <td>@up.Reliever</td>
-                                    <td>@up.Relieved</td>
-                                    <td>@up.StartDate</td>
-                                    <td>@up.EndDate</td>
-                                    <td>@up.Status</td>
-                                    <td>@up.Comment</td>
-                                    <td><a href="/Account/Login?Email=@up.Relieved" class="btn-xs btn btn-primary"> <span class="glyphicon glyphicon-transfer"></span> Switch Account</a> </td>
-                                </tr>
+                        <tr>
+                            <td>@up.Reliever</td>
+                            <td>@up.Relieved</td>
+                            <td>@up.StartDate</td>
+                            <td>@up.EndDate</td>
+                            <td>@up.Status</td>
+                            <td>@up.Comment</td>
+                            <td><span class="btn btn-primary btn-sm" onclick="Login('@up.Relieved', '@up.Password')"> <span style="font-size:18px">⇄︁</span> <b style="font-size:14px">Switch Account</b></span></td>
+                        </tr>
                             }
                         }
                     </tbody>
                 </table>
             </fieldset>
+        </div>
+    </div>
+    <div style="display:none" id="loadingImage" class="loadingImage">
+        <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
+            <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
         </div>
     </div>
 </div>
@@ -69,5 +74,29 @@
                 "order": [[1, "desc"]]
             });
         });
+
+        function Login(email, password) {
+            debugger;
+
+            $.post("/Account/Login/", { Email: email, Password: password }, function (data) {
+
+                var status = data.status;
+                var message = data.message;
+                if (status === "success" && message === "Company") {
+                    window.location = "/Company/Index";
+                } else if (status === "success" && message === "Admin") {
+                    window.location = "/Admin/Index";
+                } else {
+                    $(".loadingImage").hide();
+                    alert(message);
+                }
+
+            });
+            
+
+        }
+
+
+
             </script>
 }

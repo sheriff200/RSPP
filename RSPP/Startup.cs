@@ -17,6 +17,10 @@ using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using RSPP.Controllers;
+using RSPP.Job;
+using System.Threading.Tasks;
+using System.Threading;
+
 namespace RSPP
 {
     public class Startup
@@ -27,6 +31,10 @@ namespace RSPP
         }
 
         public IConfiguration Configuration { get; }
+
+
+       
+
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
         public class CheckUserSessionAttribute : ActionFilterAttribute
@@ -64,7 +72,6 @@ namespace RSPP
         }
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
@@ -75,10 +82,9 @@ namespace RSPP
             });
 
 
+            //AddHostedService
 
-
-            //services.AddTransient<IHostedService, RequestService>();
-            //services.AddTransient<IHostedService, RequestReminderService>();
+           services.AddHostedService<PaymentConfirmationService>();
 
             services.AddDistributedMemoryCache();
 
@@ -96,11 +102,7 @@ namespace RSPP
                 
             });
            
-            //ElpsServices._elpsAppEmail = Configuration.GetSection("ElpsKeys").GetSection("elpsAppEmail").Value.ToString();
-            //ElpsServices._elpsBaseUrl = Configuration.GetSection("ElpsKeys").GetSection("elpsBaseUrl").Value.ToString();
-            //ElpsServices.public_key = Configuration.GetSection("ElpsKeys").GetSection("PK").Value.ToString();
-            //ElpsServices._elpsAppKey = Configuration.GetSection("ElpsKeys").GetSection("elpsSecretKey").Value.ToString();
-
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<RSPPdbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RSPPConnectionString")));
@@ -111,6 +113,10 @@ namespace RSPP
                     options.LoginPath = new PathString("/Account/AccessDenied");
                 });
         }
+
+
+        
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         [Obsolete]

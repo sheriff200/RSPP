@@ -139,27 +139,29 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult NewUser(UserMaster user)
+        public JsonResult NewUser()
         {
+            string status = string.Empty;
+            string message = string.Empty;
+            string email = Request.Form["UserEmail"].ToString();
             try
             {
-
-                var checkexistence = (from u in _context.UserMaster where u.UserEmail == user.UserEmail select u).FirstOrDefault();
+                var checkexistence = (from u in _context.UserMaster where u.UserEmail == email select u).FirstOrDefault();
                 if (checkexistence != null)
                 {
-                   return Content("<html><head><script>alert('hghhghugygfyff')</script></head></html>");
-                   
+                    message = "Record with the email address "+ checkexistence.UserEmail+ " already exist in the database.";
+                    status = "failed";                   
                 }
                 else
                 {
-                    var splitfullname = Request.Form["staffFullName"];
+                    var splitfullname = Request.Form["staffFullName"].ToString();
                     var name = splitfullname.ToString().Split(' ');
                     var firstname = name[0];
                     var lastname = name[1];
-                    var role = Request.Form["Userroles"];
+                    var role = Request.Form["Userroles"].ToString();
                     var userdata = new UserMaster()
                     {
-                        UserEmail = user.UserEmail,
+                        UserEmail = email,
                         UserType = "ADMIN",
                         UserRole = role,
                         FirstName = firstname,
@@ -172,17 +174,19 @@ namespace RSPP.Controllers
                     };
                     _context.UserMaster.Add(userdata);
                     _context.SaveChanges();
-                    TempData["success"] = "User Was Successfully Added";
+                    status = "success";
+                    message = "Record was successfully added";
                 }
 
             }
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                message = "Something went wrong please try again later "+ex.Message;
             }
 
 
-            return RedirectToAction("StaffMaintenance", "Admin", "");
+            return Json(new {Status = status, Message = message });
         }
 
 
@@ -190,31 +194,36 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult EditStaff(UserMaster usr)
+        public JsonResult EditStaff()
         {
+            string status = string.Empty;
+            string message = string.Empty;
+            string email = Request.Form["UserEmail"].ToString();
             try
             {
 
 
-                var user = (from u in _context.UserMaster where u.UserEmail == usr.UserEmail select u).FirstOrDefault();
-                var staffname = Request.Form["Fullname"];
+                var user = (from u in _context.UserMaster where u.UserEmail == email select u).FirstOrDefault();
+                var staffname = Request.Form["Fullname"].ToString();
                 var sname = staffname.ToString().Split(' ');
-                var firstname = Request.Form["FirstName"];
-                var lastname = Request.Form["LastName"];
-                var staffrole = Request.Form["Userrole"];
+                var firstname = Request.Form["FirstName"].ToString();
+                var lastname = Request.Form["LastName"].ToString();
+                var staffrole = Request.Form["Userrole"].ToString();
                 user.UserRole = staffrole;
                 user.FirstName = firstname;
                 user.LastName = lastname;
                 _context.SaveChanges();
-                TempData["success"] = "Staff Update was Successful";
+                status = "success";
+                message = "Staff Update was Successful";
 
             }
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                message = "Something went wrong "+ ex.Message;
             }
 
-            return RedirectToAction("StaffMaintenance");
+            return Json(new { Status = status, Message = message });
         }
 
 
@@ -222,9 +231,11 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult DeleteUser()
+        public JsonResult DeleteUser()
         {
-            var email = Request.Form["useremail"];
+            string status = string.Empty;
+            string message = string.Empty;
+            var email = Request.Form["useremail"].ToString();
             try
             {
                 var useremail = (from u in _context.UserMaster where u.UserEmail == email select u).ToList();
@@ -234,13 +245,15 @@ namespace RSPP.Controllers
                     _context.UserMaster.Remove(useremail.FirstOrDefault());
                     _context.SaveChanges();
                 }
-                TempData["success"] = email + " was successfully deleted";
+                status = "success";
+                message = email + " was successfully deleted";
             }
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message + " Unable to delete user " + email;
+                status = "failed";
+                message = ex.Message + " Unable to delete user " + email;
             }
-            return RedirectToAction("StaffMaintenance");
+            return Json(new {Status = status, Message = message });
         }
 
 
@@ -248,28 +261,32 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult ActivateUser(FormCollection collect)
+        public JsonResult ActivateUser()
         {
+            string status = string.Empty;
+            string message = string.Empty;                
+            var usr = Request.Form["userID"].ToString();
             try
             {
 
-                var usr = Request.Form["userID"];
-                var deactive = Request.Form["Activate"];
-                var location = Request.Form["UserLocationActivate"];
+                var deactive = Request.Form["Activate"].ToString();
+                var location = Request.Form["UserLocationActivate"].ToString();
                 var usermas = (from u in _context.UserMaster where u.UserEmail == usr select u).FirstOrDefault();
                 usermas.Status = "ACTIVE";
                 usermas.LastComment = deactive;
 
                 _context.SaveChanges();
-                TempData["success"] = usr + " was Successfully Activated";
+                status = "success";
+                message = usr + " was Successfully Activated";
 
             }
 
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                message = ex.Message + " Unable to delete user " + usr;
             }
-            return RedirectToAction("StaffMaintenance", "Admin", "");
+            return Json(new { Status = status, Message = message });
         }
 
 
@@ -283,26 +300,29 @@ namespace RSPP.Controllers
         [HttpPost]
         public ActionResult DeactivateUser()
         {
+            string status = string.Empty;
+            string message = string.Empty;                
+            var usr = Request.Form["userid"].ToString();
+
             try
             {
 
-                var usr = Request.Form["userid"];
-                var deactive = Request.Form["DeactivateComment"];
+                var deactive = Request.Form["DeactivateComment"].ToString();
                 var usermas = (from u in _context.UserMaster where u.UserEmail == usr select u).FirstOrDefault();
                 usermas.Status = "PASSIVE";
                 usermas.LastComment = deactive;
                 _context.SaveChanges();
-                TempData["success"] = usr + " was Successfully Deactivated";
+                status = "success";
+                message = usr + " was Successfully Deactivated";
 
             }
 
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                message = ex.Message + " Unable to deactive user " + usr;
             }
-
-
-            return RedirectToAction("StaffMaintenance", "Admin", "");
+            return Json(new { Status = status, Message = message });
         }
 
 
@@ -805,15 +825,41 @@ namespace RSPP.Controllers
             try
             {
 
-                var today = DateTime.Now;
+                var today = DateTime.Now.Date;
                 List<OutofOffice> office = (from o in _context.OutofOffice where o.StartDate == today select o).ToList();
                 foreach (var item in office)
                 {
                     item.Status = "Started";
                 }
+                
                 _context.SaveChanges();
                 status = "done";
+            }
+            catch (Exception ex)
+            {
+                status = "failed";
+            }
+            return Json(status);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult GetStaffEndOutofOffice()
+        {
+            string status = "";
+            try
+            {
+                
+                    var today = DateTime.Now.Date;
+                    List<OutofOffice> office = (from o in _context.OutofOffice where o.EndDate <= today select o).ToList();
+                    foreach (var item in office)
+                    {
+                        item.Status = "Finished";
+                    }
                 _context.SaveChanges();
+                status = "done";
+
             }
             catch (Exception ex)
             {
@@ -825,27 +871,29 @@ namespace RSPP.Controllers
 
 
 
-
         [HttpPost]
-        public ActionResult EndLeave(OutofOffice office)
+        public JsonResult EndLeave(OutofOffice office)
         {
+            string status = string.Empty;
+            string message = string.Empty;
             try
             {
-
 
                 var Outoffice = (from u in _context.OutofOffice where u.Relieved == office.Relieved select u).FirstOrDefault();
                 Outoffice.Status = "Finished";
 
                 _context.SaveChanges();
-                TempData["success"] = office.Relieved + " Successfully Ended Leave";
+                status = "success";
+                message = office.Relieved + " Successfully Ended Leave";
 
             }
 
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                message = "Unable to end leave!!! Something went wrong. " + ex.Message;
             }
-            return RedirectToAction("OutOfOffice", "Admin", "");
+            return Json(new {Status = status, Message = message });
         }
 
 
@@ -1544,33 +1592,38 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult AddOutofOffice(OutofOffice usr)
+        public JsonResult AddOutofOffice()//OutofOffice usr
         {
+            string status = string.Empty;
+            string message = string.Empty;
+
             try
             {
-
+                var enddate = Convert.ToDateTime(Request.Form["EndDate"].ToString());
+                var startdate = Convert.ToDateTime(Request.Form["StartDate"].ToString());
                 var today = DateTime.Now;
                 var outofoffice = new OutofOffice()
                 {
-                    Reliever = usr.Reliever,
-                    Relieved = usr.Relieved,
-                    EndDate = usr.EndDate,
-                    StartDate = usr.StartDate,
-                    Comment = usr.Comment
+                    Reliever = Request.Form["Reliever"].ToString(),
+                    Relieved = Request.Form["Relieved"].ToString(),
+                    EndDate = enddate,
+                    StartDate = startdate,
+                    Comment = Request.Form["Comment"].ToString()
                 };
-                outofoffice.Status = usr.StartDate < today ? "Started" : "Starting";
+                outofoffice.Status = startdate < today ? "Started" : "Starting";
                 _context.OutofOffice.Add(outofoffice);
                 _context.SaveChanges();
-
-                TempData["success"] = "Update was Successful";
+                status = "success";
+                message = "Successfully added out of office";
 
             }
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                message = "Something went wrong "+ex.Message;
             }
 
-            return RedirectToAction("OutOfOffice", "Admin", "");
+            return Json(new { Status = status, Message = message });
         }
 
 
@@ -1579,24 +1632,30 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult DeleteOutofOffice(OutofOffice office)
+        public JsonResult DeleteOutofOffice()//OutofOffice office
         {
+            string status = string.Empty;
+            string message = string.Empty;
+
+            var relievedstaff = Request.Form["Relieved"].ToString();
+
             try
             {
-                var useremail = (from u in _context.OutofOffice where u.Relieved == office.Relieved select u).ToList();
+                var useremail = (from u in _context.OutofOffice where u.Relieved == relievedstaff select u).ToList();
                 if (useremail != null)
                 {
                     _context.OutofOffice.Remove(useremail.FirstOrDefault());
                     _context.SaveChanges();
                 }
-
-                TempData["success"] = "Out of office was successfully deleted";
+                status = "success";
+                message = "Out of office was successfully deleted";
             }
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message + " Unable to delete user " + office.Relieved;
+                status = "failed";
+                message = ex.Message + " Unable to delete user " + relievedstaff;
             }
-            return RedirectToAction("OutOfOffice");
+            return Json(new {Status = status, Message = message });
         }
 
 
@@ -1605,27 +1664,33 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult EditOutofOffice(OutofOffice usr)
+        public JsonResult EditOutofOffice()//OutofOffice usr
         {
+            string status = string.Empty;
+            string message = string.Empty;
+            var relievedstaff = Request.Form["Relieved"].ToString();
+
             try
             {
 
-                var outofoffice = (from u in _context.OutofOffice where u.Relieved == usr.Relieved select u).FirstOrDefault();
-                outofoffice.Reliever = usr.Reliever;
-                outofoffice.Relieved = usr.Relieved;
-                outofoffice.EndDate = usr.EndDate;
-                outofoffice.StartDate = usr.StartDate;
-                outofoffice.Comment = usr.Comment;
+                var outofoffice = (from u in _context.OutofOffice where u.Relieved == relievedstaff select u).FirstOrDefault();
+                outofoffice.Reliever = Request.Form["Reliever"].ToString();
+                outofoffice.Relieved = relievedstaff;
+                outofoffice.EndDate = Convert.ToDateTime(Request.Form["EndDate"].ToString());
+                outofoffice.StartDate = Convert.ToDateTime(Request.Form["StartDate"].ToString());
+                outofoffice.Comment = Request.Form["Comment"].ToString();
                 _context.SaveChanges();
-                TempData["success"] = "Update was Successful";
+                status = "success";
+                message = "Update was Successful";
 
             }
             catch (Exception ex)
             {
-                TempData["message"] = ex.Message;
+                status = "failed";
+                TempData["message"] = ex.Message+" Unable to update record";
             }
 
-            return RedirectToAction("OutOfOffice", "Admin", "");
+            return Json(new { Status = status, Message = message });
         }
 
 
@@ -1652,7 +1717,7 @@ namespace RSPP.Controllers
             int totalRecords = 0;
             var today = DateTime.Now.Date;
             var staff = (from u in _context.OutofOffice
-                         where u.Relieved == _helpersController.getSessionEmail()
+                         //where u.Relieved == _helpersController.getSessionEmail()
                          select new
                          {
                              u.Reliever,
@@ -1688,9 +1753,9 @@ namespace RSPP.Controllers
         {
             List<UserMaster> staffJsonList1 = new List<UserMaster>();
 
-            foreach (UserMaster staff in _context.UserMaster.Where(s => s.UserEmail.ToLower().Contains(term.ToLower())))
+            foreach (UserMaster staff in _context.UserMaster.Where(s => s.UserEmail.ToLower().Contains(term.ToLower()) && s.UserRole != "COMPANY" && s.UserRole != "SUPERADMIN" && s.UserRole != "ICT"))
             {
-                staffJsonList1.Add(new UserMaster() { UserEmail = staff.UserEmail, FirstName = staff.FirstName + " " + staff.LastName });
+                staffJsonList1.Add(new UserMaster() { UserEmail = staff.UserEmail, FirstName = staff.FirstName + " " + staff.LastName, UserRole = staff.UserRole });
             }
 
             log.Info("Fetched Staff Count =>" + staffJsonList.Count);

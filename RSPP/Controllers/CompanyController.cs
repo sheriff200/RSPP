@@ -534,10 +534,11 @@ namespace RSPP.Controllers
                 if (paymentResponse != null)
                 {
 
-                    if (paymentResponse.message == "Successful" || paymentResponse.status == "01")
+                    if (paymentResponse.message == "Successful" || paymentResponse.status == "00")
                     {
                         paymentdetails.Status = "AUTH";
                         paymentdetails.TxnMessage = paymentResponse.message;
+                        paymentdetails.TransactionId = paymentResponse.status;
                         paymentdetails.TransactionDate = Convert.ToDateTime(paymentResponse.transactiontime);
                         ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
                         
@@ -562,86 +563,6 @@ namespace RSPP.Controllers
 
 
         }
-
-
-
-
-
-        //[HttpPost]
-        //public JsonResult ChargeSummary(string ApplicationId, string PaymentName, decimal paymentamount)
-        //{
-        //    string status = string.Empty;
-        //    string message = string.Empty;
-        //    String NewUrl = null;
-        //    string resultrrr = string.Empty;
-        //    try
-        //    {
-
-        //        var paymentLog = _context.PaymentLog.Where(c => c.ApplicationId.Trim() == ApplicationId.Trim()).Select(c=>c.Rrreference).FirstOrDefault();
-
-        //        ApplicationRequestForm appRequest = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == ApplicationId.Trim()).FirstOrDefault();
-        //        if (appRequest ==
-        //         default(ApplicationRequestForm))
-        //        {
-        //            status = "failure";
-        //            message = "Application ID with Reference " + ApplicationId + " Cannot be retrievd from the Database";
-        //            log.Error(message);
-        //        }
-        //        else
-        //        {
-
-
-
-        //                string APIHash = resultrrr + generalClass.AppKey + generalClass.merchantId;
-        //                string AppkeyHashed = generalClass.GenerateSHA512(APIHash);
-
-        //                WebResponse webResponse = _utilityHelper.GetRemitaPaymentDetails(AppkeyHashed, resultrrr);
-
-        //                GetPaymentResponse paymentResponse = (GetPaymentResponse)webResponse.value;
-
-        //                if (paymentResponse != null)
-        //                {
-
-        //                    if (paymentResponse.message == "Transaction Approved" || paymentResponse.status == "01")
-        //                    {
-        //                        NewUrl = "/Company/PaymentSuccess?orderId=" + paymentResponse.orderId;
-        //                    }
-        //                    else
-        //                    {
-        //                        NewUrl = baseUrl + "/Payment/Pay?rrr=" + resultrrr;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    return Json(new { Status = "Failed", Message = "Something went wrong while generation Remita Reference Number. Please try again later!!!" });
-        //                }
-        //            }
-
-        //            log.Info("Response from GeneratePaymentRRR =>" + resultrrr);
-
-
-
-
-        //            //var res = serviceIntegrator.CheckRRR(result);
-
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        status = "failed";
-        //        message = "Something went wrong " + ex.Message;
-        //    }
-        //    ResponseWrapper responseWrapper = _workflowHelper.processAction(ApplicationId, "GenerateRRR", _helpersController.getSessionEmail(), "Remita Retrieval Reference Generated");
-        //    if (responseWrapper.status == true)
-        //    {
-        //        return Json(new { Status = "success", Message = responseWrapper.value });
-
-        //    }
-
-
-        //    return Json(new { Status = status, Message = message });
-        //}
 
 
 

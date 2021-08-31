@@ -1,6 +1,9 @@
 ﻿using log4net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
+using RSPP.Configurations;
+using RSPP.Controllers;
 using RSPP.Models.DB;
 using System;
 using System.Collections.Generic;
@@ -344,9 +347,7 @@ namespace RSPP.Helpers
             return LicenseNum + zeroPadder(Convert.ToString(result), 3) + "/" + DateTime.Now.Year;
 
         }
-
-
-
+       
         private String zeroPadder(String text, int maxlenght)
         {
             String retText = text;

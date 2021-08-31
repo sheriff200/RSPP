@@ -34,8 +34,9 @@ namespace RSPP.Helper
                 logger.Info("UserID =>" + FromUserId + ", Action => " + Action + ", ApplicationID =>" + ApplicationId);
 
                 applicationTypeList.Add("ALL");
-                UserMaster userMaster = _context.UserMaster.Where(c => c.UserEmail.Trim() == FromUserId.Trim() && c.Status == "ACTIVE").FirstOrDefault();
-               
+                var userMaster = (from u in _context.UserMaster where u.UserEmail == FromUserId && u.Status == "ACTIVE" select u).FirstOrDefault();
+                //UserMaster userMaster = _context.UserMaster.Where(c => c.UserEmail.Trim() == FromUserId.Trim() && c.Status == "ACTIVE").FirstOrDefault();
+
 
                 if (userMaster ==
                  default(UserMaster))

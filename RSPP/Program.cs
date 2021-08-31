@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RSPP.Job;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +24,10 @@ namespace RSPP
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+            //.ConfigureServices(services =>
+            //       services.AddHostedService<PaymentConfirmationService>());
+
+        //.UseShutdownTimeout(TimeSpan.FromSeconds(10))
+
     }
 }

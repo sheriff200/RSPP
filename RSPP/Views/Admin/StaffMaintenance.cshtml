@@ -12,7 +12,7 @@
 <div class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("NewUser", "Admin", FormMethod.Post, new { @id = "newstaff" }))
+            @using (Html.BeginForm("NewUser", "Admin", FormMethod.Post, new { id = "newstaff" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="modal fade addstaffmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-10">
-                                                    <button class="btn btn-success btn-block" style="width:200px"><i class="fa fa-save"></i> Save</button>
+                                                    <button class="btn btn-success btn-block" id="addnewuser" style="width:200px" type="button"><i class="fa fa-save"></i> Save</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
                 </div>
 
             }
-            @using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Post))
+            @using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Post, new { id = "deleteUser" }))
             {
                 <div class="modal fade DeleteUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
                     <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:20%; margin:0 auto 0 -10%" role="document">
@@ -97,7 +97,7 @@
 
                                                 <div class="form-group">
                                                     <div class="col-md-10">
-                                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                                        <button type="button" class="btn btn-danger" id="DeleteUsers">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,14 +111,14 @@
                 </div>
             }
 
-            @using (Html.BeginForm("ActivateUser", "Admin", FormMethod.Post))
+            @using (Html.BeginForm("ActivateUser", "Admin", FormMethod.Post, new { id = "activateUser" }))
             {
                 <div class="modal fade ActivateUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; margin:0 auto 0 40%; margin-top:100px" role="document">
+                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:30%; margin:0 auto 0 -10%; margin-top:100px" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-success" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span>  Are you Sure You Want to Activate this User?</h4>
+                                <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>  Are you Sure You Want to Activate this User?</h4>
                             </div>
 
                             <div class="modal-body">
@@ -128,24 +128,24 @@
 
                                             <div class="col-sm-12">
 
-                                                <div><label>User FullName</label></div>
+                                                <label style="margin-left:17px">User FullName</label>
                                                 <div class="form-group">
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-5">
                                                         <input type="hidden" id="UserLocationActivate" name="UserLocationActivate" />
                                                         <input type="hidden" id="userID" name="userID" />
                                                         <input type="text" id="userfullName" name="userfullName" class="form-control" readonly="readonly" />
 
                                                     </div>
                                                 </div>
-                                                <div><label>Reason to Activate User</label></div>
+                                                <label style="margin-left:17px">Reason to Activate User</label>
                                                 <div class="form-group">
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-5">
                                                         <textarea cols="5" rows="5" id="activate" name="activate" required="" class="form-control" style="resize:none"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-md-10">
-                                                        <input type="submit" value="Save" class="btn btn-success" />
+                                                        <button type="button" class="btn btn-success" id="ActiveUsers">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,7 +158,7 @@
                     </div>
                 </div>
             }
-            @using (Html.BeginForm("DeactivateUser", "Admin", FormMethod.Post))
+            @using (Html.BeginForm("DeactivateUser", "Admin", FormMethod.Post, new { id = "deactivateUser" }))
             {
                 <div class="modal fade DeactivateUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
                     <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:30%; margin:0 auto 0 -10%" role="document">
@@ -196,7 +196,7 @@
 
                                                 <div class="form-group">
                                                     <div class="col-md-6">
-                                                        <input type="submit" value="Save" class="btn btn-success" />
+                                                        <button type="button" class="btn btn-success" id="DeactiveUsers">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,7 +211,7 @@
                 </div>
 
             }
-            @using (Html.BeginForm("EditStaff", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditStaff", "Admin", FormMethod.Post, new { id = "editStaff" }))
             {
                 <div class="modal fade EditUsermodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
                     <div class="modal-dialog modal" style="display:inline-block; margin:0 auto 0 -25%; overflow-y:hidden; width:10%; overflow-x:hidden; width:50%" role="document">
@@ -232,20 +232,20 @@
                                                 <input type="hidden" class="Fullname" id="Fullname" name="Fullname" />
                                                 <input type="hidden" id="UserLocationid" name="UserLocationid" class="UserLocationid" />
                                                 <label style="margin-left:18px; font-weight:bold">FirstName</label>
-                                                    <div class="form-group">
-                                                        <div class="col-md-10">
-                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @required = "" })
-                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-                                                    <label style="margin-left:18px; font-weight:bold">LastName</label>
-                                                    <div class="form-group">
-                                                        <div class="col-md-10">
-                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @required = "" })
-                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                                                        </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @required = "" })
+                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
+                                                <label style="margin-left:18px; font-weight:bold">LastName</label>
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @required = "" })
+                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-4">
                                                 <label style="margin-left:18px; font-weight:bold">User Role</label>
                                                 <div class="form-group">
@@ -263,7 +263,7 @@
 
                                                 <div class="form-group">
                                                     <div class="col-md-10">
-                                                        <input type="submit" value="Save Update" class="btn btn-success" />
+                                                        <button type="button" class="btn btn-success" id="EditUsers">Save Update</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -342,12 +342,18 @@
             </div>
         </div>
     </div>
+
+    <div style="display:none" id="loadingImage" class="loadingImage">
+        <div id="load" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
+            <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/images/spinning.gif" />
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            // $("#success, #message").fadeIn('fast').delay(10000).fadeOut('fast');
 
             debugger;
             var table = $(".staff").DataTable({
@@ -543,9 +549,138 @@
 
 
 
+            $("#addnewuser").click(function () {
+                $.post($("#newstaff").attr('action'), $("#newstaff").serialize()).done(function (data) {
+
+                    var status = data.status;
+                    $(".loadingImage").show();
+
+                    if (status === "failed") {
+                        $(".loadingImage").hide();
+                        alert(data.message);
+                    }
+                    else {
+                        alert(data.message);
+                        $(".loadingImage").hide();
+                        history.go(0);
+                    }
+
+                }).fail(function (data) {
+                    $(".loadingImage").hide();
+                    alert('Network Communication Error, Restore Connection and Try again');
+                }).always(function (data) {
+                    $(".loadingImage").hide();
+                });
+            });
+
+
+            $("#DeleteUsers").click(function () {
+                $.post($("#deleteUser").attr('action'), $("#deleteUser").serialize()).done(function (data) {
+
+                    var status = data.status;
+                    $(".loadingImage").show();
+
+                    if (status === "failed") {
+                        $(".loadingImage").hide();
+                        alert(data.message);
+                    }
+                    else {
+                        alert(data.message);
+                        $(".loadingImage").hide();
+                        history.go(0);
+                    }
+
+                }).fail(function (data) {
+                    $(".loadingImage").hide();
+                    alert('Network Communication Error, Restore Connection and Try again');
+                }).always(function (data) {
+                    $(".loadingImage").hide();
+                });
+            });
 
 
 
+
+
+            $("#EditUsers").click(function () {
+                $.post($("#editStaff").attr('action'), $("#editStaff").serialize()).done(function (data) {
+
+                    var status = data.status;
+                    $(".loadingImage").show();
+
+                    if (status === "failed") {
+                        $(".loadingImage").hide();
+                        alert(data.message);
+                    }
+                    else {
+                        alert(data.message);
+                        $(".loadingImage").hide();
+                        history.go(0);
+                    }
+
+                }).fail(function (data) {
+                    $(".loadingImage").hide();
+                    alert('Network Communication Error, Restore Connection and Try again');
+                }).always(function (data) {
+                    $(".loadingImage").hide();
+                });
+            });
+
+
+
+
+
+            
+            $("#ActiveUsers").click(function () {
+                $.post($("#activateUser").attr('action'), $("#activateUser").serialize()).done(function (data) {
+
+                    var status = data.status;
+                    $(".loadingImage").show();
+
+                    if (status === "failed") {
+                        $(".loadingImage").hide();
+                        alert(data.message);
+                    }
+                    else {
+                        alert(data.message);
+                        $(".loadingImage").hide();
+                        history.go(0);
+                    }
+
+                }).fail(function (data) {
+                    $(".loadingImage").hide();
+                    alert('Network Communication Error, Restore Connection and Try again');
+                }).always(function (data) {
+                    $(".loadingImage").hide();
+                });
+            });
+
+
+
+            
+            $("#DeactiveUsers").click(function () {
+                $.post($("#deactivateUser").attr('action'), $("#deactivateUser").serialize()).done(function (data) {
+                    debugger;
+                    var status = data.status;
+                    $(".loadingImage").show();
+
+                    if (status === "failed") {
+                        $(".loadingImage").hide();
+                        alert(data.message);
+                    }
+                    else {
+                        alert(data.message);
+                        $(".loadingImage").hide();
+                        history.go(0);
+                    }
+
+                }).fail(function (data) {
+                    $(".loadingImage").hide();
+                    alert('Network Communication Error, Restore Connection and Try again');
+                }).always(function (data) {
+                    $(".loadingImage").hide();
+                });
+            });
 
 
 
