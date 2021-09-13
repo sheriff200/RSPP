@@ -23,6 +23,7 @@ namespace RSPP.Models.DB
         public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<ExtraPayment> ExtraPayment { get; set; }
         public virtual DbSet<GovernmentAgency> GovernmentAgency { get; set; }
+        public virtual DbSet<LineOfBusiness> LineOfBusiness { get; set; }
         public virtual DbSet<LogisticsServiceProvider> LogisticsServiceProvider { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<MissingDocuments> MissingDocuments { get; set; }
@@ -37,6 +38,7 @@ namespace RSPP.Models.DB
         public virtual DbSet<UploadedDocuments> UploadedDocuments { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserMaster> UserMaster { get; set; }
+        public virtual DbSet<UserOfPortService> UserOfPortService { get; set; }
         public virtual DbSet<WorkFlowNavigation> WorkFlowNavigation { get; set; }
         public virtual DbSet<WorkFlowState> WorkFlowState { get; set; }
 
@@ -44,7 +46,6 @@ namespace RSPP.Models.DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True;");
             }
         }
@@ -199,9 +200,9 @@ namespace RSPP.Models.DB
                     .HasMaxLength(2)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Agency)
+                entity.HasOne(d => d.LineOfBusiness)
                     .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.AgencyId)
+                    .HasForeignKey(d => d.LineOfBusinessId)
                     .HasConstraintName("FK_Documents_Agency");
             });
 
@@ -295,6 +296,18 @@ namespace RSPP.Models.DB
 
                 entity.Property(e => e.ServicesProvidedInPort)
                     .HasColumnName("Services_Provided_In_Port")
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<LineOfBusiness>(entity =>
+            {
+                entity.Property(e => e.LineOfBusinessId).ValueGeneratedNever();
+
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.LineOfBusinessName)
+                    .IsRequired()
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 
@@ -708,6 +721,19 @@ namespace RSPP.Models.DB
 
                 entity.Property(e => e.UserType)
                     .HasMaxLength(30)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<UserOfPortService>(entity =>
+            {
+                entity.Property(e => e.AnyOtherInfo).IsUnicode(false);
+
+                entity.Property(e => e.ApplicationId)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Category)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 

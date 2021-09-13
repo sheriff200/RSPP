@@ -186,42 +186,24 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 
-@*<script src="~/js/jquery.datetimepicker.min.js"></script>*@
-
-
-
-
-
-@* Local Application configuration script *@
-@*<script src="~/js/BHP Scripts/Configurations/Countries.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/States.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/FieldOffice.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/Zones.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/ZoneState.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/ZoneFieldOffice.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/Roles.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/AppStage.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/AppType.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/ApplicationDocuments.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/AppTypeStage.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/AppStageDocument.js"></script>*@
-@*<script src="~/js/BHP Scripts/Configurations/Locations.js"></script>
-    <script src="~/js/BHP Scripts/Configurations/ApplicationProcess.js"></script>
-
-     Local application staff script *@
-@*<script src="~/js/BHP Scripts/Users/Staff.js"></script>*@
-
-
-@* Local application company script *@
-@*<script src="~/js/BHP Scripts/Company/Company.js"></script>*@
-
-
-
-
-@* Local application application script *@
-@*<script src="~/js/BHP Scripts/Applications/CompanyApplications.js"></script>*@
 
 <script type="text/javascript">
+
+    window.setInterval(function () {
+        $.post("/Session/CheckSession", function (response) {
+
+            if ($.trim(response) === "true") {
+
+                var location = window.location.origin + "/Home/Index";
+                window.location.href = location;
+            }
+        });
+    }, 12000);
+
+
+
+
+
     function add_chatinline() { var hccid = 89311022; var nt = document.createElement("script"); nt.async = true; nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid; var ct = document.getElementsByTagName("script")[0]; ct.parentNode.insertBefore(nt, ct); }
     add_chatinline();
 </script>

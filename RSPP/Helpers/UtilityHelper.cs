@@ -151,92 +151,93 @@ namespace RSPP.Helpers
 
 
 
-        public decimal Fees(string feename)
+        public LineOfBusiness Fees(string feename)
         {
-            decimal Amount = 0;
+            var details = (from a in _context.LineOfBusiness where a.LineOfBusinessName == feename select a).FirstOrDefault();
+            //decimal Amount = 0;
 
-            if (feename == "Government Agency")
-            {
-                Amount = generalClass.GovAgency;
-            }
-            else if (feename == "Cargo Consolidators")
-            {
-                Amount = generalClass.CargoConsolidators;
-            }
-            else if (feename == "Chandling")
-            {
-                Amount = generalClass.Chandling;
+            //if (feename == "Government Agency")
+            //{
+            //    Amount = generalClass.GovAgency;
+            //}
+            //else if (feename == "Cargo Consolidators")
+            //{
+            //    Amount = generalClass.CargoConsolidators;
+            //}
+            //else if (feename == "Chandling")
+            //{
+            //    Amount = generalClass.Chandling;
 
-            }
-            else if (feename == "Freight Forwarding")
-            {
-                Amount = generalClass.FreightForwarders;
+            //}
+            //else if (feename == "Freight Forwarding")
+            //{
+            //    Amount = generalClass.FreightForwarders;
 
-            }
-            else if(feename == "Clearing Agents")
-            {
-                Amount = generalClass.ClearingAgent;
+            //}
+            //else if(feename == "Clearing Agents")
+            //{
+            //    Amount = generalClass.ClearingAgent;
 
-            }
-            else if (feename == "Road Haulage")
-            {
-                Amount = generalClass.RoadHaulage;
+            //}
+            //else if (feename == "Road Haulage")
+            //{
+            //    Amount = generalClass.RoadHaulage;
 
-            }
-            else if (feename == "Stevedoring")
-            {
-                Amount = generalClass.Stevedoring;
+            //}
+            //else if (feename == "Stevedoring")
+            //{
+            //    Amount = generalClass.Stevedoring;
 
-            }
-            else if (feename == "Warehousing")
-            {
-                Amount = generalClass.Warehousing;
+            //}
+            //else if (feename == "Warehousing")
+            //{
+            //    Amount = generalClass.Warehousing;
 
-            }
-            else if (feename == "Port Terminal")
-            {
-                Amount = generalClass.SeaPortTerminal;
+            //}
+            //else if (feename == "Port Terminal")
+            //{
+            //    Amount = generalClass.SeaPortTerminal;
 
-            }
-            else if (feename == "ICD")
-            {
-                Amount = generalClass.ICD;
+            //}
+            //else if (feename == "ICD")
+            //{
+            //    Amount = generalClass.ICD;
 
-            }
-            else if (feename == "Off Dock Terminal")
-            {
-                Amount = generalClass.OffDockTerminal;
+            //}
+            //else if (feename == "Off Dock Terminal")
+            //{
+            //    Amount = generalClass.OffDockTerminal;
 
-            }
-            else if (feename == "Dry Port")
-            {
-                Amount = generalClass.DryPort;
+            //}
+            //else if (feename == "Dry Port")
+            //{
+            //    Amount = generalClass.DryPort;
 
-            }
-            else if (feename == "Shipping Agency")
-            {
-                Amount = generalClass.ShippingAgency;
+            //}
+            //else if (feename == "Shipping Agency")
+            //{
+            //    Amount = generalClass.ShippingAgency;
 
-            }
-            else if (feename == "Shipping Company/Line")
-            {
-                Amount = generalClass.ShippingCompanyLine;
+            //}
+            //else if (feename == "Shipping Company/Line")
+            //{
+            //    Amount = generalClass.ShippingCompanyLine;
 
-            }
-            else if (feename == "Users")
-            {
-                Amount = generalClass.Users;
+            //}
+            //else if (feename == "Users")
+            //{
+            //    Amount = generalClass.Users;
 
-            }
-            else if (feename == "OtherPortServiceProviders")
-            {
-                Amount = generalClass.OtherPortServiceProviders;
+            //}
+            //else if (feename == "OtherPortServiceProviders")
+            //{
+            //    Amount = generalClass.OtherPortServiceProviders;
 
-            }
+            //}
 
 
 
-            return Amount;
+            return details;
         }
 
 

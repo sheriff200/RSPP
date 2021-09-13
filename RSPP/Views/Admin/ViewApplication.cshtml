@@ -82,7 +82,6 @@
                                     <div class="list-group">
                                         @foreach (RSPP.Models.DB.UploadedDocuments doc in ViewBag.CompanyUploadedDocument)
                                         {
-                                            //~/ UploadedFiles / 072321144215_CNGD_LTO.PNG @("UploadedFiles/"+ doc.DocumentSource)
                                             <a href="javascript:FileView('@doc.DocumentSource')" class="list-group-item">@doc.DocumentName<i class="og-icon og-pdf righty"></i></a>
                                         }
                                     </div>
@@ -98,13 +97,13 @@
                     <div class="right-side">
                         <div class="">
 
-                            <table class="" style="width: 100%; text-align:left">
+                            <table class="" style="width: 100%; text-align:left; margin-left:2%">
                                 <tr>
                                     <td valign="top"><b>Facility Information</b></td>
                                     <td>
                                         <ul class="list-group">
                                             <li class="list-group-item" style="text-align:left">
-                                                <a href="@Url.Action("ApplicationDetails", new { applicationId = ViewBag.ApplicationId })"> Application Form</a>
+                                                <a href="@Url.Action("ApplicationDetails","Admin", new { applicationId = ViewBag.ApplicationId })"> Application Form</a>
                                             </li>
                                         </ul>
                                     </td>
@@ -153,8 +152,8 @@
                             </table>
                         </div>
                         <hr class="marg50" />
-                        <div class="pad">
-                            <div class="panel panel-info">
+                        <div>
+                            <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <p class="panel-title text-white">Application History (Last 5)</p>
                                 </div>
@@ -406,7 +405,6 @@
                         </div>
                        
                     </div>
-                   
                     <div class="commentDivRej">
                         <div class="form-group">
                             <label class="control-label col-md-3">Comment</label>
@@ -620,7 +618,6 @@
 
 
         function FileView(docname) {
-            debugger;
             var url = window.location.origin + "/UploadedFiles/" + docname;
             window.open(url, '_blank');
         }

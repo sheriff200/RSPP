@@ -7,9 +7,9 @@ namespace RSPP.Models.DB
     {
         public int DocId { get; set; }
         public string DocumentName { get; set; }
-        public int? AgencyId { get; set; }
+        public int? LineOfBusinessId { get; set; }
         public string IsMandatory { get; set; }
 
-        public virtual Agency Agency { get; set; }
+        public virtual Agency LineOfBusiness { get; set; }
     }
 }

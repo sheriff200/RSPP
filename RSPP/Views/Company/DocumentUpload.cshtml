@@ -24,7 +24,7 @@
                 <tr>
                     <th>#</th>
                     <th>Document Name</th>
-                    <th>Select file (Max 4MB)</th>
+                    <th>Select file <span class="text-danger">(Max 4MB; Only images & PDF files are allowed)</span></th>
                     <th>File Name</th>
                     <th>File Image</th>
 
@@ -46,30 +46,15 @@
                         </td>
                         <td>
 
-                            @*@if (item.IsMandatory == "Y")
-                                {*@
+                           
                             <label for="@("filebtn"+item.DocId)" id="MyFile" class="custom-file-upload btn btn-info">
-                                <span class="glyphicon glyphicon-cloud-upload"></span> Upload File
+                                <i class="fa fa-upload"></i> Upload File
                             </label>
 
                             <input type="file" name="MyFile" id="@("filebtn"+ item.DocId)" style="display: none;" multiple class="docUpload" required="required" accept="image/gif, image/png, image/jpeg, application/pdf" data-i="@(item.DocId)" onchange="ValidateSingleInput(this);" />
                             <div id="@("extFileName-"+item.DocId)" class="File"></div>
 
 
-
-                            @*}*@
-                            @*@if(item.IsMandatory == "N")
-                                {
-
-
-                                    <label for="@("filebtn"+item.DocId)" id="File" class="custom-file-upload btn btn-info">
-                                        <span class="glyphicon glyphicon-cloud-upload"></span> Upload File
-                                    </label>
-
-                                    <input type="file" name="MyFile" multiple for="imgInp" id="@("filebtn"+item.DocId)" style="display: none;" class="docUpload"
-                                           accept="image/gif, image/png, image/jpeg, application/pdf" data-i="@(item.DocId)" onchange="ValidateSingleInput(this);" />
-                                    <div id="@("extFileName-"+item.DocId)" class="File"></div>
-                                }*@
 
                         </td>
 
@@ -80,7 +65,7 @@
                             </div>
                         </td>
                         <td>
-                            <a id='@("url-"+item.DocId)' href="" target="_blank" title="">
+                            <a id='@("url-"+item.DocId)' href="#" title="">
                                 <img id="@("fileuploaded-"+item.DocId)" src="" alt="File image" class="center-cropped" style="border:groove; height:90px; width:90px" /><br />
                             </a>
 

@@ -51,7 +51,7 @@
                     </div>
                     <div class="DashCount">
                         <br />
-                        Total Approval(s)
+                        Total Certificate(s)
                     </div>
                 </div>
 
@@ -202,15 +202,16 @@
                                     <td>
                                         @if (mm.MessageType == "Info")
                                         {
-                                            <a href="#" onclick="javascript:showMessageDetail('@mm.ApplicationId','@mm.MessageId')">
-                                                @mm.Message
-                                            </a>
+                                            @*<a href="#" onclick="javascript:showMessageDetail('@mm.ApplicationId','@mm.MessageId')">*@
+                                            <div class="text text-primary"> @mm.Message</div>
+                                            @*</a>*@
                                         }
                                         else
                                         {
-                                            <a href="#" onclick="javascript:showMessageDetail('@mm.ApplicationId','@mm.MessageId')">
-                                                <strong style="color:red;font-size:18px;">@mm.Message</strong>
-                                            </a>
+                                            @*<a href="#" onclick="javascript:showMessageDetail('@mm.ApplicationId','@mm.MessageId')">*@
+                                    <div class="text text-danger">@mm.Message</div>
+                                                
+                                            @*</a>*@
                                         }
                                     </td>
                                     <td>

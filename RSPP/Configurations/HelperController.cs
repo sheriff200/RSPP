@@ -880,7 +880,6 @@ namespace RSPP.Configurations
                 string LicenseRef = generalClass.GenerateCertificateNumber(_context);
                 Logger.Info("Generated License Num => " + LicenseRef);
                 appRequest.LicenseReference = appRequest.LicenseReference == null ? LicenseRef : appRequest.LicenseReference;
-                //appRequest.SignatureId = Convert.ToInt32(Signatureid);
 
                 _context.SaveChanges();
             }
@@ -951,7 +950,29 @@ namespace RSPP.Configurations
 
 
 
+        public ApplicationRequestForm ApplicationDetails(string ApplicationId)
+        {
+            ApplicationRequestForm appdetail = new ApplicationRequestForm();
 
+            var appdetails = (from a in _context.ApplicationRequestForm where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+            if (appdetails != null)
+            {
+                ViewBag.ApplicationId = appdetails.ApplicationId;
+                appdetail.Status = appdetails.Status;
+                appdetail.ApplicationTypeId = appdetails.ApplicationTypeId;
+                appdetail.AgencyId = appdetails.AgencyId;
+                appdetail.ApplicationId = ApplicationId;
+                appdetail.AgencyName = appdetails.AgencyName;
+                appdetail.DateofEstablishment = appdetails.DateofEstablishment;
+                appdetail.CompanyAddress = appdetails.CompanyAddress;
+                appdetail.PostalAddress = appdetails.PostalAddress;
+                appdetail.PhoneNum = appdetails.PhoneNum;
+                appdetail.CompanyEmail = appdetails.CompanyEmail;
+                appdetail.CompanyWebsite = appdetails.CompanyWebsite;
+                appdetail.LineOfBusinessId = appdetail.LineOfBusinessId;
+            }
+            return appdetail;
+        }
 
-    }
+        }
 }

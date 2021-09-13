@@ -32,7 +32,7 @@ namespace RSPP.Controllers
         WorkFlowHelper _workflowHelper;
         List<UserMaster> staffJsonList = new List<UserMaster>();
 
-        private ILog log = log4net.LogManager.GetLogger(typeof(CompanyController));
+        private ILog log = log4net.LogManager.GetLogger(typeof(AdminController));
 
         [Obsolete]
         private readonly IHostingEnvironment _hostingEnv;
@@ -838,6 +838,7 @@ namespace RSPP.Controllers
             catch (Exception ex)
             {
                 status = "failed";
+                log.Error(ex.Message);
             }
             return Json(status);
         }
@@ -864,6 +865,7 @@ namespace RSPP.Controllers
             catch (Exception ex)
             {
                 status = "failed";
+                log.Error(ex.Message);
             }
             return Json(status);
         }
@@ -1717,7 +1719,6 @@ namespace RSPP.Controllers
             int totalRecords = 0;
             var today = DateTime.Now.Date;
             var staff = (from u in _context.OutofOffice
-                         //where u.Relieved == _helpersController.getSessionEmail()
                          select new
                          {
                              u.Reliever,
@@ -2270,7 +2271,7 @@ namespace RSPP.Controllers
         {
             string errorMessage = string.Empty;
             ApplicationRequestForm appRequest = null;
-            decimal processFeeAmt = 0, statutoryFeeAmt = 0, Arrears;
+            decimal statutoryFeeAmt = 0, Arrears;
 
             try
             {
@@ -2279,7 +2280,6 @@ namespace RSPP.Controllers
 
                 ViewBag.Paid = false;
                 Arrears = paymentlogdetails == null ? 0 : paymentlogdetails.Arrears;
-                //Session["ViewApplicationAppId"] = applicationId;
                 ViewBag.ExtraPayment = (from e in _context.ExtraPayment where e.ApplicationId == appRequest.ApplicationId select e).FirstOrDefault();
                 if (ViewBag.ExtraPayment != null) { ViewBag.Amount = ViewBag.ExtraPayment.TxnAmount; ViewBag.PaymentStatus = ViewBag.ExtraPayment.Status; }
 
@@ -2412,7 +2412,11 @@ namespace RSPP.Controllers
 
 
 
-
+        //public IActionResult ApplicationDetails(string ApplicationId)
+        //{
+        //    var appdetailvalues = _helpersController.ApplicationDetails(ApplicationId);
+        //    return View(appdetailvalues);
+        //}
 
 
         public ActionResult ViewCertificate(string id)

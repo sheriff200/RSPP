@@ -1,4 +1,4 @@
-﻿@model List<RSPP.Models.DB.ApplicationRequestForm>
+﻿@model RSPP.Models.DB.ApplicationRequestForm
 
 @{
     ViewBag.Title = "Application Details";
@@ -9,13 +9,13 @@
 
 
 <div class="content">
-    <h3 class="lefty">Application Information For Application with Reference Number: @Model.FirstOrDefault()?.ApplicationId</h3>
+    <h3 class="lefty text-primary">Application Information For Application with Reference Number: @Model.ApplicationId</h3>
     <div class="righty">
-        <a href="@Url.Action("ViewApplication", new { applicationId = Model.FirstOrDefault()?.ApplicationId })" class="btn btn-default">Back <i class="icon-arrow-left"></i></a>
+        <a href="@Url.Action("ViewApplication", new { applicationId = Model.ApplicationId })" class="btn btn-danger" style="float:right"><i class="icon-arrow-left"></i> Back </a>
     </div>
-    <hr class="clear" />
+    @*<hr class="clear" />*@
     <div class="row">
-        <input type="hidden" id="maplocation" name="maplocation" value="@Model.FirstOrDefault()?.CompanyAddress" />
+        <input type="hidden" id="maplocation" name="maplocation" value="@Model.CompanyAddress" />
     </div>
 
     <fieldset class="scheduler-border">
@@ -25,26 +25,22 @@
                 <tr>
                     <th><strong>Application Reference No.</strong></th>
                     <th><strong>Agency Name</strong> </th>
-                    <th><strong>Action Role</strong></th>
                     <th><strong>Company Address</strong></th>
                     <th><strong>Company Email</strong></th>
                     <th><strong>Company Website</strong></th>
                     <th><strong>Date of Establishment</strong></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (RSPP.Models.DB.ApplicationRequestForm n in Model)
-                {
+                
                     <tr>
-                        <td>@n.ApplicationId</td>
-                        <td>@n.AgencyName</td>
-                        <td>@n.CompanyAddress</td>
-                        <td>@n.CompanyEmail</td>
-                        <td>@n.CompanyWebsite</td>
-                        <td>@n.DateofEstablishment</td>
+                        <td>@Model.ApplicationId</td>
+                        <td>@Model.AgencyName</td>
+                        <td>@Model.CompanyAddress</td>
+                        <td>@Model.CompanyEmail</td>
+                        <td>@Model.CompanyWebsite</td>
+                        <td>@Model.DateofEstablishment</td>
                     </tr>
-                }
 
             </tbody>
         </table>

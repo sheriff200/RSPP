@@ -97,7 +97,10 @@ namespace RSPP.Helper
                     NextProcessor = appmaster.CompanyEmail;
                     nextUser = _context.UserMaster.Where(u => u.UserEmail == appmaster.CompanyEmail).FirstOrDefault();
                     appmaster.CurrentStageId = mainWkflowNavigation.NextStateId;
-                   
+                    if (Action == "Accept" && mainWkflowNavigation.ActionRole == "REGISTRAR")
+                    {
+                        appmaster.Status = "Approved";
+                    }
                 }
                 else
                 {
@@ -145,10 +148,7 @@ namespace RSPP.Helper
                             NextProcessor = generalClass.GetNextProcessingStaff(_context, appmaster, mainWkflowNavigation.TargetRole, applicationLocation, Action, mainWkflowNavigation.ActionRole);
                             appmaster.CurrentStageId = mainWkflowNavigation.NextStateId;
 
-                            if(Action == "Accept" && mainWkflowNavigation.ActionRole == "REGISTRAR")
-                            {
-                                appmaster.Status = "Approved";
-                            }
+                            
                         }
                         
                     }
@@ -215,24 +215,14 @@ namespace RSPP.Helper
                 }
 
 
-
-
                 var received = (from w in _context.ActionHistory where w.ApplicationId == appmaster.ApplicationId select w).ToList().LastOrDefault();
                 responsewrapper.receivedByRole = received.TargetedToRole;
-                //var allfieldlocation = Convert.ToString(appmaster.CurrentOfficeLocation);
-                //FieldLocation fd = dbCtxt.FieldLocations.Where(f => f.FieldLocationID == allfieldlocation).FirstOrDefault();
-
-                //if (fd !=
-                // default(FieldLocation))
-                //{
-                //    responsewrapper.receivedLocation = fd.Description;
-                //}
-
+                
                 logger.Info("Current State Type =>" + stateType);
 
                 if (stateType == "PROGRESS")
                 {
-                    responsewrapper.value = "Application has been moved To " + responsewrapper.receivedBy + "(" + responsewrapper.receivedByRole + ")";//responsewrapper.receivedBy 
+                    responsewrapper.value = "Application has been moved To " + responsewrapper.receivedBy + "(" + responsewrapper.receivedByRole + ")"; 
                 }
                 else if (stateType == "COMPLETE")
                 {

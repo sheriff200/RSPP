@@ -29,37 +29,35 @@
                         <th>Narration</th>
                         <th>Transaction Date</th>
                         <th>RRR Number</th>
-                        <th>GateWay</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (RSPP.Models.DB.PaymentLog paymentlog in Model)
                     {
-                        <tr>
-                            <td>@(counter += 1)</td>
-                            <td>@paymentlog.ApplicationId</td>
-                            <td>@paymentlog.Description</td>
-                            <td>@paymentlog.TransactionDate.Value.ToString("dd-MMM-yyyy HH:mm")</td>
-                            <td>@paymentlog.Rrreference</td>
-                            <td>@paymentlog.TxnMessage</td>
-                            @if (paymentlog.Status.Contains("INIT"))
+                    <tr>
+                        <td>@(counter += 1)</td>
+                        <td>@paymentlog.ApplicationId</td>
+                        <td>@paymentlog.TxnMessage</td>
+                        <td>@paymentlog.TransactionDate.Value.ToString("dd-MMM-yyyy HH:mm")</td>
+                        <td>@paymentlog.Rrreference</td>
+                        @if (paymentlog.Status.Contains("INIT"))
+                        {
+                            <td><span class="badge badge-warning">Payment Pending</span></td>
+                        }
+                        else
+                        {
+                            if (paymentlog.Status.Contains("AUTH"))
                             {
-                                <td><span class="badge badge-warning">Payment Pending</span></td>
+                                <td><span class="badge badge-success">PAID</span></td>
                             }
-                            else
+                            else if (paymentlog.Status.Contains("FAIL") || paymentlog.Status.Contains("ERROR"))
                             {
-                                if (paymentlog.Status.Contains("AUTH"))
-                                {
-                                    <td><span class="badge badge-success">PAID</span></td>
-                                }
-                                else if (paymentlog.Status.Contains("FAIL") || paymentlog.Status.Contains("ERROR"))
-                                {
-                                    <td><span class="badge badge-danger">paymentlog.Status</span></td>
-                                }
+                                <td><span class="badge badge-danger">paymentlog.Status</span></td>
                             }
+                        }
 
-                        </tr>
+                    </tr>
                     }
                 </tbody>
             </table>

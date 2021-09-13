@@ -35,6 +35,7 @@ namespace RSPP.Models.DB
         public DateTime? ModifiedDate { get; set; }
         public string ApplicationTypeId { get; set; }
         public string PrintedStatus { get; set; }
+        public int? LineOfBusinessId { get; set; }
 
         public virtual Agency Agency { get; set; }
         public virtual ICollection<ActionHistory> ActionHistory { get; set; }

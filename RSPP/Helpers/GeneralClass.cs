@@ -337,9 +337,9 @@ namespace RSPP.Helpers
         public string GenerateCertificateNumber(RSPPdbContext dbCtxt)
         {
             String LicenseNum = null;
-           
-                LicenseNum = "NSC/RPRSPU/";
-            
+
+            LicenseNum = "NSC/RPRSPU/";
+
             CertificateSerialNumber seriallist = (from c in dbCtxt.CertificateSerialNumber select c).FirstOrDefault();
             long result = Convert.ToInt64(seriallist.SerialNumber);
             seriallist.SerialNumber = result + 1;
@@ -347,7 +347,7 @@ namespace RSPP.Helpers
             return LicenseNum + zeroPadder(Convert.ToString(result), 3) + "/" + DateTime.Now.Year;
 
         }
-       
+
         private String zeroPadder(String text, int maxlenght)
         {
             String retText = text;

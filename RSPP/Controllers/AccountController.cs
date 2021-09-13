@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using RSPP.Configurations;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace RSPP.Controllers
 {
@@ -69,6 +71,12 @@ namespace RSPP.Controllers
 
                 if (validateResult == "SUCCESS" && userMaster != null)
                 {
+
+                    //var identity = new ClaimsIdentity(new[]{new Claim(ClaimTypes.Role, userMaster.UserRole),}, CookieAuthenticationDefaults.AuthenticationScheme);
+                    //var principal = new ClaimsPrincipal(identity);
+                    //var getin = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+
                     HttpContext.Session.SetString(sessionEmail, userMaster.UserEmail);
                     HttpContext.Session.SetString(sessionRoleName, userMaster.UserRole);
 
@@ -88,6 +96,9 @@ namespace RSPP.Controllers
                         message = "Admin";
                         return Json(new { Status = status, Message = message });
                     }
+
+                    
+
                 }
                 else
                 {

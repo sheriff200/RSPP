@@ -2579,7 +2579,7 @@ table.dataTable thead .sorting::after {
   background: transparent none repeat scroll 0 0;
   border: 1px solid #ddd;
   box-shadow: none;
-  color: #67757c;
+  color: #030507;
   cursor: default;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {

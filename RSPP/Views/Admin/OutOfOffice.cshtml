@@ -11,8 +11,10 @@
             @using (Html.BeginForm("AddOutofOffice", "Admin", FormMethod.Post, new { id = "addOutofOffice" }))
             {
                 @Html.AntiForgeryToken()
-                <div class="modal fade addstaffmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal" style="vertical-align: middle;  margin:0 auto 0 -20%; width:40%; overflow-y:hidden; overflow-x:hidden; display:block;" role="document">
+            <div class="modal fade addstaffmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
+                <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:40%; margin:0 auto 0 -10%" role="document">
+
+                    @*<div class="modal-dialog modal" style="vertical-align: middle;  margin:0 auto 0 -20%; width:40%; overflow-y:hidden; overflow-x:hidden; display:block;" role="document">*@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -24,7 +26,7 @@
                                 <div class="form-horizontal">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label style="margin-left:17px">Reliever Staff</label>
+                                            <label>Reliever Staff</label>
                                             <div class="form-group">
                                                 <div class="col-sm-10">
                                                     <input id="locationid" name="locationid" type="hidden" />
@@ -35,10 +37,9 @@
                                                 </div>
                                             </div>
 
-                                            <label style="margin-left:17px">Relieved Staff </label>
+                                            <label>Relieved Staff </label>
                                             <div class="form-group">
                                                 <div class="col-md-10">
-                                                    @*<input type="hidden" id="relief" name="relief" value="@ViewBag.UserID " />*@
                                                     @Html.TextBoxFor(model => model.Relieved, new { @class = "form-control Relieved", @required = "" })
                                                     @Html.ValidationMessageFor(model => model.Relieved, "", new { @class = "text-danger" })
 
@@ -47,7 +48,7 @@
                                         </div>
                                         <div class="col-sm-6">
 
-                                            <label style="margin-left:17px">Start Date</label>
+                                            <label>Start Date</label>
                                             <div class="form-group">
                                                 <div class="col-md-10">
                                                     @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", @autocomplete = "off", @required = "" })
@@ -57,7 +58,7 @@
                                             </div>
 
 
-                                            <label style="margin-left:17px">End Date</label>
+                                            <label>End Date</label>
                                             <div class="form-group">
                                                 <div class="col-md-10">
                                                     @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", @autocomplete = "off", @required = "" })
@@ -90,31 +91,62 @@
                         </div>
                     </div>
                 </div>
-            }
-            @using (Html.BeginForm("DeleteOutofOffice", "Admin", FormMethod.Post, new { id = "deleteOutofOffice" }))
-            {
-                <div class="modal fade DeleteUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:25%; margin:0 auto 0 -10%; margin-top:100px" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-danger" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>  Are you Sure You Want to Delete Out of Office?</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-horizontal">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <div class="col-md-9">
-                                                        @Html.HiddenFor(model => model.Relieved, new { @class = "form-control Relieved" })
+                }
+                @using (Html.BeginForm("DeleteOutofOffice", "Admin", FormMethod.Post, new { id = "deleteOutofOffice" }))
+                {
+                    <div class="modal fade DeleteUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
+                        <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:25%; margin:0 auto 0 -10%; margin-top:100px" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title text-danger" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>  Are you Sure You Want to Delete Out of Office?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <div class="col-md-9">
+                                                            @Html.HiddenFor(model => model.Relieved, new { @class = "form-control Relieved" })
 
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-10 col-md-offset-2">
+                                                            <button type="button" class="btn btn-danger" id="DeleteOutofOffices">Delete</button>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @using (Html.BeginForm("EndLeave", "Admin", FormMethod.Post, new { id = "endLeave" }))
+                {
+                    <div class="modal fade Endleave" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
+                        <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:25%; margin:0 auto 0 -10%; margin-top:100px" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>  Are you Sure You Want to End Out of Office?</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="container">
+                                            <div class="row">
+                                                @Html.HiddenFor(model => model.Relieved, new { @class = "form-control Relieved" })
                                                 <div class="form-group">
-                                                    <div class="col-md-10 col-md-offset-2">
-                                                        <button type="button" class="btn btn-danger" id="DeleteOutofOffices">Delete</button>
+                                                    <div class="col-md-10 col-md-offset-1">
+                                                        <button type="button" class="btn btn-success" id="EndLeaves">End Leave</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,183 +157,152 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
 
-            @using (Html.BeginForm("EndLeave", "Admin", FormMethod.Post, new { id = "endLeave" }))
-            {
-                <div class="modal fade Endleave" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal-sm" style="display:inline-block; vertical-align:middle; width:25%; margin:0 auto 0 -10%; margin-top:100px" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>  Are you Sure You Want to End Out of Office?</h4>
-                            </div>
-
-                            <div class="modal-body">
-                                <div class="form-horizontal">
-                                    <div class="container">
-                                        <div class="row">
-                                            @Html.HiddenFor(model => model.Relieved, new { @class = "form-control Relieved" })
-                                            <div class="form-group">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <button type="button" class="btn btn-success" id="EndLeaves">End Leave</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                @using (Html.BeginForm("EditOutofOffice", "Admin", FormMethod.Post, new { id = "editOutofOffice" }))
+                {
+                    <div class="modal fade EditUsermodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
+                        <div class="modal-dialog modal" style="display:inline-block; vertical-align:middle; margin:0 auto 0 -20%; margin-top:100px; overflow-y:hidden; overflow-x:hidden; width:40%" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i> Edit Out of Office</h4>
                                 </div>
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
-            }
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Reliever Staff</label>
+                                                <div class="form-group">
+                                                    <div class="col-sm-10">
+                                                        <input id="locationid" name="locationid" type="hidden" />
+                                                        <input id="roleuser" name="roleuser" type="hidden" />
+                                                        @Html.TextBoxFor(model => model.Reliever, new { @class = "form-control Reliever", @required = "" })
+                                                        @Html.ValidationMessageFor(model => model.Reliever, "", new { @class = "text-danger" })
 
-            @using (Html.BeginForm("EditOutofOffice", "Admin", FormMethod.Post, new { id = "editOutofOffice" }))
-            {
-                <div class="modal fade EditUsermodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-                    <div class="modal-dialog modal" style="display:inline-block; vertical-align:middle; margin:0 auto 0 -20%; margin-top:100px; overflow-y:hidden; overflow-x:hidden; width:40%" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i> Edit Out of Office</h4>
-                            </div>
+                                                    </div>
+                                                </div>
 
-                            <div class="modal-body">
-                                <div class="form-horizontal">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <label style="margin-left:17px">Reliever Staff</label>
-                                            <div class="form-group">
-                                                <div class="col-sm-10">
-                                                    <input id="locationid" name="locationid" type="hidden" />
-                                                    <input id="roleuser" name="roleuser" type="hidden" />
-                                                    @Html.TextBoxFor(model => model.Reliever, new { @class = "form-control Reliever", @required = "" })
-                                                    @Html.ValidationMessageFor(model => model.Reliever, "", new { @class = "text-danger" })
+                                                <label>Relieved Staff</label>
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(model => model.Relieved, new { @class = "form-control Relieved", @required = "", @readonly = "readonly" })
+                                                        @Html.ValidationMessageFor(model => model.Relieved, "", new { @class = "text-danger" })
 
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-6">
 
-                                            <label style="margin-left:17px">Relieved Staff</label>
+                                                <label>Start Date</label>
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control StartDate", @id = "EditStartDate", @autocomplete = "off", @required = "" })
+                                                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                </div>
+
+
+                                                <label>End Date</label>
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control EndDate", @id = "EditEndDate", @autocomplete = "off", @required = "" })
+                                                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group">
-                                                <div class="col-md-10">
-                                                    @Html.TextBoxFor(model => model.Relieved, new { @class = "form-control Relieved", @required = "", @readonly = "readonly" })
-                                                    @Html.ValidationMessageFor(model => model.Relieved, "", new { @class = "text-danger" })
+                                                <div class="col-md-12">
+                                                    @Html.TextAreaFor(model => model.Comment, new { @class = "form-control Comment", @required = "", @style = "resize:none; width:610px; margin-left:17px", @placeholder = "Comments" })
+
+                                                    @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
 
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-
-                                            <label style="margin-left:17px">Start Date</label>
-                                            <div class="form-group">
-                                                <div class="col-md-10">
-                                                    @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control StartDate", @id = "EditStartDate", @autocomplete = "off", @required = "" })
-                                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-
-                                                </div>
-                                            </div>
-
-
-                                            <label style="margin-left:17px">End Date</label>
-                                            <div class="form-group">
-                                                <div class="col-md-10">
-                                                    @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control EndDate", @id = "EditEndDate", @autocomplete = "off", @required = "" })
-                                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
                                         <div class="form-group">
-                                            <div class="col-md-12">
-                                                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control Comment", @required = "", @style = "resize:none; width:610px; margin-left:17px", @placeholder = "Comments" })
-
-                                                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
-
+                                            <div class="col-md-4 col-md-offset-4">
+                                                <button type="button" class="btn btn-success" id="EditOutofOffices"><i class="fa fa-save"></i> Save</button>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-4 col-md-offset-4">
-                                            <button type="button" class="btn btn-success" id="EditOutofOffices"><i class="fa fa-save"></i> Save</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel">
-                        <header class="panel-heading panel-border">
-                            <h3 class="text-primary"> Out of Ofice List </h3>
-                            <span class="tools pull-right">
-                                <button class="btn btn-xs btn-primary" data-toggle="modal" data-target=".addstaffmodal"><span class="glyphicon glyphicon-plus"></span> Create Out of Office</button>
-                            </span>
-                        </header>
+                }
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel">
+                            <header class="panel-heading panel-border">
+                                <h3 class="text-primary"> Out of Ofice List </h3>
+                                <span class="tools pull-right">
+                                    <button class="btn btn-xs btn-primary" data-toggle="modal" data-target=".addstaffmodal"><span class="glyphicon glyphicon-plus"></span> Create Out of Office</button>
+                                </span>
+                            </header>
 
-                        @if (TempData["success"] != null)
-                        {
-                            <div id="success" class="alert alert-success alert-dismissable" role="alert">
+                            @if (TempData["success"] != null)
+                            {
+                                <div id="success" class="alert alert-success alert-dismissable" role="alert">
 
-                                <span class="glyphicon glyphicon-ok"></span> @TempData["success"]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        }
-                        @if (TempData["message"] != null)
-                        {
-                            <div id="message" class="alert alert-danger alert-dismissable" role="alert">
+                                    <span class="glyphicon glyphicon-ok"></span> @TempData["success"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                            @if (TempData["message"] != null)
+                            {
+                                <div id="message" class="alert alert-danger alert-dismissable" role="alert">
 
-                                <span class="glyphicon glyphicon-ok"></span> @TempData["message"]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        }
-                        @if (TempData["AlreadyExist"] != null)
-                        {
-                            <div class="alert alert-danger alert-dismissable" role="alert">
+                                    <span class="glyphicon glyphicon-ok"></span> @TempData["message"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                            @if (TempData["AlreadyExist"] != null)
+                            {
+                                <div class="alert alert-danger alert-dismissable" role="alert">
 
-                                <span class="glyphicon glyphicon-ban-circle"></span> @TempData["AlreadyExist"]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        }
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="staff" style="font-size:small">
-                                    <thead>
-                                        <tr>
-                                            <th><strong>Reliever</strong>
-                                            <th><strong>Relieved Staff</strong> </th>
-                                            <th><strong>Start Date</strong> </th>
-                                            <th><strong>End Date</strong> </th>
-                                            <th><strong>Comment</strong> </th>
-                                            <th><strong>Status</strong> </th>
-                                            <th style="width:5px"></th>
-                                            <th style="width:5px"></th>
-                                            <th style="width:5px"></th>
+                                    <span class="glyphicon glyphicon-ban-circle"></span> @TempData["AlreadyExist"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="staff" style="font-size:small">
+                                        <thead>
+                                            <tr>
+                                                <th><strong>Reliever</strong>
+                                                <th><strong>Relieved Staff</strong> </th>
+                                                <th><strong>Start Date</strong> </th>
+                                                <th><strong>End Date</strong> </th>
+                                                <th><strong>Comment</strong> </th>
+                                                <th><strong>Status</strong> </th>
+                                                <th style="width:5px"></th>
+                                                <th style="width:5px"></th>
+                                                <th style="width:5px"></th>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
     <div style="display:none" id="loadingImage" class="loadingImage">

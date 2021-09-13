@@ -2559,7 +2559,7 @@ table.dataTable thead .sorting::after {
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   border: 1px solid #ddd;
   box-sizing: border-box;
-  color: #67757c;
+/*  color: #67757c;*/
   cursor: pointer;
   display: inline-block;
   min-width: 1.5em;
@@ -2579,17 +2579,17 @@ table.dataTable thead .sorting::after {
   background: transparent none repeat scroll 0 0;
   border: 1px solid #ddd;
   box-shadow: none;
-  color: #67757c;
-  cursor: default;
+/*  color: #67757c;
+*/  cursor: default;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
   background-color: #1976d2;
   border: 1px solid #1976d2;
-  color: white;
-}
+/*  color: white;
+*/}
 .dataTables_wrapper .dataTables_paginate .paginate_button:active {
-  background-color: #67757c;
-  outline: medium none;
+/*  background-color: #67757c;
+*/  outline: medium none;
 }
 .dataTables_wrapper .dataTables_paginate .ellipsis {
   padding: 0 1em;

@@ -7,7 +7,7 @@
 }
 
 <div class="content">
-   
+
     <div role="tabpanel">
 
         <ul class="nav nav-tabs" role="tablist" style="margin-left: 10px;">
@@ -62,46 +62,9 @@
                                     </div>
                                 </div>
 
-
-                                @*<div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label">Company Email</label>
-                &nbsp;<span class="req">*</span>
-                      <div class="col-md-10">
-                          @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control", @readonly = "readonly" })
-                      </div>
-            </div>
-
-
-
-            <div class="form-group">
-                <label class="control-label">Company Name</label>
-                &nbsp;<span class="req">*</span>
-                      <div class="col-md-10">
-                          <div class="input-group">
-                              @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control" })
-
-
-                              <span class="input-group-addon" id="basic-addon1"><i class="fa fa-calendar"></i></span>
-                          </div>
-                      </div>
-            </div>
-
-        </div>*@
-                                @*<div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label">Contact Phone Number</label>
-                &nbsp;<span class="req">*</span>
-                      <div class="col-md-10">
-
-                          @Html.TextBoxFor(model => model.PhoneNum, new { @class = "form-control", @readonly = "readonly" })
-
-                      </div>
-            </div>
-        </div>*@
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </form>
@@ -150,10 +113,8 @@
                             <table class="table dataTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50%;">Document Type</th>
-                                        <th style="width: 10%;">Document Image</th>
-                                        <th style="width: 15%;">Date Added</th>
-                                        <th style="width: 15%;">Date Modified</th>
+                                        <th style="width:50%;">Document Type</th>
+                                        <th style="width:5px">Document Image</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -161,34 +122,33 @@
                                     @foreach (RSPP.Models.DB.UploadedDocuments d in ViewBag.AllCompanyDocument)
                                     {
 
-                                        <tr>
+                                    <tr>
+                                        <td>
+                                            @d.DocumentName
+
+                                        </td>
+                                        @if (d.DocumentName.Contains(".pdf"))
+                                        {
                                             <td>
-                                                @d.DocumentName
+                                                <a href="javascript:FileView('@d.DocumentSource')" class="list-group-item">
+                                                    <img src="@Url.Content("~/images/pdficon.png")" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
+                                                         style="display: inline-block;" />
+                                                </a>
 
                                             </td>
-                                            @if (d.DocumentName.Contains(".pdf"))
-                                            {
-                                                <td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <a href="javascript:FileView('@d.DocumentSource')" class="list-group-item">
+                                                    <img src="@(d.DocumentSource)" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
+                                                         style="display: inline-block;" />
+                                                </a>
 
-                                                    <a href='@(d.DocumentSource)' target="_blank">
-                                                        <img src="@Url.Content("~/images/pdficon.png")" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
-                                                             style="max-height: 40px; max-width: 40px; display: inline-block;" alt="@d.DocumentName" />
-                                                    </a>
+                                            </td>
+                                        }
 
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-
-                                                    <a href='@(d.DocumentSource)' target="_blank" data-name="@d.DocumentName">
-                                                        <img src="@(d.DocumentSource)" class="thumbnail img-thumbnail" data-toggle="tooltip" data-placement="bottom" data-original-title="Uploaded Document"
-                                                             style="max-height: 40px; max-width: 40px; display: inline-block" alt="@d.DocumentName" />
-                                                    </a>
-                                                </td>
-                                            }
-
-                                        </tr>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -462,6 +422,11 @@
                 });
             });
         });
+
+        function FileView(docname) {
+            var url = window.location.origin + "/UploadedFiles/" + docname;
+            window.open(url, '_blank');
+        }
     </script>
 
 }
