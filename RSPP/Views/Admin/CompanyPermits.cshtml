@@ -7,10 +7,10 @@
 
 
 <div class="content">
-    <h2 class="">All Permits/Licenses by &quot;@Model.FirstOrDefault().CompanyEmail&quot;</h2>
+    <h2 class="text-info">All Certificates For &quot;@Model.FirstOrDefault().CompanyEmail&quot;</h2>
     <hr />
 
-    <table class="table table-striped table-bordered table-condensed table-hover dataTable">
+    <table class="table table-striped table-bordered table-condensed table-hover dataTable" id="CertTable">
         <thead>
             <tr>
                 <th>Certificate Number</th>
@@ -25,7 +25,7 @@
         </thead>
 
         <tbody>
-            @foreach (RSPP.Models.DB.ApplicationRequestForm b in Model)
+            @foreach (var b in Model)
             {
             <tr>
                 <td>@b.LicenseReference</td>
@@ -49,31 +49,14 @@
 
 
 @section scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.media.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.metadata.js")"></script>
-    @if (Model.Count > 0)
-    {
-        <script type="text/javascript">
-            $(function () {
-                $('a.media').media({ width: 500, height: 400 });
-            });
-            function loadModal() {
-                $('#myModal').modal({ show: true });
-            }
-        </script>
-    }
+    
     <script type="text/javascript">
         $(function () {
-            $(".use-address").click(function () {
-                var $item = $(this).closest("tr").find(".nr").text();
-
-                    window.open('/Admin/ViewCertificate/' + $item, '_blank');
-            });
-
-            $(".dataTable").dataTable({
+         
+            $("#CertTable").dataTable({
                 "aLengthMenu": [25, 50, 75, 100, 200],
                 'iDisplayLength': 25,
-                columnDefs: [{ orderable: false, "targets": [-1] }],
+                columnDefs: [{ orderable: false, "targets": [-1, -3] }],
                 "language": {
                     "lengthMenu": "Display  _MENU_ records per page",
                     "zeroRecords": "Nothing found - sorry",
@@ -82,6 +65,26 @@
                 },
                 "order": [[1, "desc"]]
             });
+
+            $(".use-address").click(function () {
+                var $item = $(this).closest("tr").find(".nr").text();
+
+                window.open('/Admin/ViewCertificate/' + $item, '_blank');
+            });
+
+
+            //$(".dataTable").dataTable({
+            //    "aLengthMenu": [25, 50, 75, 100, 200],
+            //    'iDisplayLength': 25,
+            //    columnDefs: [{ orderable: false, "targets": [-1] }],
+            //    "language": {
+            //        "lengthMenu": "Display  _MENU_ records per page",
+            //        "zeroRecords": "Nothing found - sorry",
+            //        "infoEmpty": "No records available",
+            //        "infoFiltered": "(filtered from _MAX_ total records)"
+            //    },
+            //    "order": [[1, "desc"]]
+            //});
         });
     </script>
 

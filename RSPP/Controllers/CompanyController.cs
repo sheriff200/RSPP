@@ -421,6 +421,7 @@ namespace RSPP.Controllers
             ViewBag.RRR = RRR;
             ViewBag.Amount = amount;
             ViewBag.MerchantId = generalClass.merchantId;
+            ViewBag.BaseUrl = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
 
             return View();
         }

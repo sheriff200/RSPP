@@ -9,9 +9,7 @@
     GeneralClass generalClass = new GeneralClass();
     string rolename = Context.Session.GetString(AccountController.sessionRoleName).ToString();
     string LoggedinEmail = Context.Session.GetString(AccountController.sessionEmail).ToString();
-
     var getallrelievedstaffscount = (from s in _context.OutofOffice join r in _context.ApplicationRequestForm on s.Relieved equals r.LastAssignedUser where s.Reliever == LoggedinEmail && s.Status == "Started" select s).ToList().Count();
-
 }
 
 <!DOCTYPE html>
@@ -45,25 +43,7 @@
     </environment>
 
 
-    @*<link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/images/coa.png")" />
-
-        <link href="~/css/bootstrap.css" rel="stylesheet" />
-
-
-        <link rel="icon" type="image/png" sizes="16x16" href="~/images/coa.png" />
-        <link href="~/css/select2.min.css" rel="stylesheet" />
-        <link href="~/css/dataTables.min.css" rel="stylesheet" />
-        <link href="~/css/dataTables.checkboxes.css" rel="stylesheet" />
-        <link href="~/css/MainStyle.css" rel="stylesheet" />
-        <link href="~/css/otherStyle.css" rel="stylesheet" />
-        <link href="~/css/site.css" rel="stylesheet">
-        <link href="~/css/jquery-ui.css" rel="stylesheet" />
-
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/regular.css" integrity="sha384-aubIA90W7NxJ+Ly4QHAqo1JBSwQ0jejV75iHhj59KRwVjLVHjuhS3LkDAoa/ltO4" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">*@
-
+   
     <style>
 
        
@@ -265,6 +245,27 @@
 
                         <a href="#" class="has-arrow" aria-expanded="false">
                             <i class="fa fa-table"></i>
+                            <span class="text-white">Dashboard</span>
+                            <span class="more"></span>
+                            <span class="act"></span>
+                        </a>
+
+                        <ul class="child">
+                            <li>
+                                <a href="/Admin/Index" id="MyDesk">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span class="text-white">My Dashboard</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="more main-list">
+
+                        <a href="#" class="has-arrow" aria-expanded="false">
+                            <i class="fa fa-table"></i>
                             <span class="text-white">Desk</span>
                             <span class="more"></span>
                             <span class="act"></span>
@@ -286,7 +287,6 @@
 
                         </ul>
                     </li>
-
 
 
                     <li class="more main-list">
@@ -386,20 +386,20 @@
                                     <span class="text-white">All Payment</span>
                                 </a>
                             </li>
-                            
+
                             @*<li>
-                                <a href="/Admin/AllExtraPayment" id="AllExtraPayment">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i>
-                                    <span class="text-white">All Extra Payment</span>
-                                </a>
-                            </li>*@
+                    <a href="/Admin/AllExtraPayment" id="AllExtraPayment">
+                        <i class="fa fa-folder-open" aria-hidden="true"></i>
+                        <span class="text-white">All Extra Payment</span>
+                    </a>
+                </li>*@
                             <li>
                                 <a href="/Admin/GiveValueList" id="GiveValueList">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                     <span class="text-white">Give Value</span>
                                 </a>
                             </li>
-                           
+
                         </ul>
                     </li>
                     <li class="more main-list">
@@ -507,7 +507,7 @@
 
                     <li>
                         <a href="/Admin/GetRelievedStaffOutofOffice">
-                            <i class="fa fa-users"></i><span class="text-white"> Relieved Staff(s)</span>&nbsp;<i class="label label-danger label-bs"><b>@getallrelievedstaffscount</b></i>@*@generalClass.RelieveStaffCount()*@
+                            <i class="fa fa-users"></i><span class="text-white"> Relieved Staff(s)</span>&nbsp;<i class="label label-danger label-bs"><b>@getallrelievedstaffscount</b></i>
                         </a>
                     </li>
                     <li></li>
@@ -636,28 +636,6 @@
 
     @RenderSection("scripts", required: false)
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </html>
 

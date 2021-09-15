@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="panel">
                 <header class="panel-heading panel-border">
-                    <h3 class="text-primary"> License/Permit/Legacy Application </h3>
+                    <h3 class="text-primary"> Certificate Report </h3>
                     <div class="pull-right">
                         <div class="row">
                             <div class="panel short-states" style="background-color:#eaeef3; margin-right:30px; margin-top:-50px">
@@ -38,7 +38,7 @@
                                 <div class="input-group-addon" style="background-color:yellowgreen"><i class="fa fa-calendar"></i></div>
                                 <div><input type="date" class="maxdate form-control" id="maxdate" autocomplete="off" name="maxdate" placeholder="To" /></div>
                                 <div class="input-group-addon" style="background-color:red">
-                                    <button id="searchdate" class="glyphicon glyphicon-search" style="margin-left:-4px; background-color:red; margin-top:-10px; border:none"></button>
+                                    <button id="searchdate" class="fa fa-search" style="margin-left:-4px; background-color:red; margin-top:-10px; border:none"></button>
                                 </div>
 
                             </div>
@@ -46,7 +46,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <div class="input-group-addon" style="background-color:darkred">
-                                    <span class="glyphicon glyphicon-home"></span>
+                                    <span class="fa fa-home"></span>
                                 </div>
                                 <div><input id="companyname" name="companyname" placeholder="search by company email" class="form-control companyname" /></div>
                             </div>
@@ -252,7 +252,6 @@
             var table = $("#licenselistreport").DataTable({
                 "processing": true,
                 "serverSide": true,
-                //"search": { "search": "Default_filter" },
                 ajax: {
                     url: "/Admin/GetLicenseReport",
                     type: "POST",
@@ -265,7 +264,6 @@
                         'csv', 'excel', 'pdf', 'print'
                     ],
                 },
-                //sDom: 'Blrtip',
                 dom: 'Blfrtip',
                 columns: [
                     { data: "applicationId" }, { data: "applicationTypeId" }, { data: "companyEmail" }, { data: "status" }, { data: "agencyName" }, { data: "licenseIssuedDate" }, { data: "licenseExpiryDate" }]
@@ -340,7 +338,7 @@
 
             table.on('draw', function () {
                 chart1.series[0].setData(chartData(table));
-                chart1.xAxis[0].setData(chartData(table));
+                //chart1.xAxis[0].setData(chartData(table));
             });
 
             //$.getJSON("/Admin/GetLicenseChart", function (data) {

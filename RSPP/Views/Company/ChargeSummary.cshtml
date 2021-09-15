@@ -45,21 +45,14 @@
             </tr>
             <tr><td style="padding-bottom:50px"></td></tr>
             <tr><td></td></tr>
-            @*<tr><td style="padding-left:20px"> <button type="button" id="paymentbtn" class="btn btn-success"><i class="fa fa-id-card"></i> Pay Now</button></td></tr>
-                0a00fa10af47c9218acafb8d389766d31b2b72923a8954cc912c33235aaf0c113776538ce1e21afb027a8ab1c111839e68d69a8d12ef45f796fcabdad0b258ac
-        2547916@ViewBag.AppkeyHashed
-
-            *@
+           
         </tbody>
     </table>
     <form action="https://remitademo.net/remita/ecomm/finalize.reg" method="POST">
-
         <input name="merchantId" value="@ViewBag.MerchantId" type="hidden" />
         <input name="hash" value="@ViewBag.AppkeyHashed" type="hidden" />
         <input name="rrr" value="@ViewBag.RRR" type="hidden" />
-
-        <input name="responseurl" value="https://localhost:44311/Company/PaymentReceipt?ApplicationId=@ViewBag.Applicationid" type="hidden"/>
-
+        <input name="responseurl" value="@ViewBag.BaseUrl/Company/PaymentReceipt?ApplicationId=@ViewBag.Applicationid" type="hidden"/><br />
         <input style="margin-left:200px" type="submit" name="submit_btn" class="btn btn-success" value="Pay Via Remita">
     </form>
 

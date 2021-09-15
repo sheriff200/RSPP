@@ -217,6 +217,7 @@ namespace RSPP.Controllers
                     usermaster.PhoneNum = PhoneNbr;
                     usermaster.Password = Passwrd;
                     usermaster.UserType = "COMPANY";
+                    usermaster.UserRole = "COMPANY";
                     usermaster.UpdatedBy = Email;
                     usermaster.LoginCount = 1;
                     usermaster.LastLogin = DateTime.Now;

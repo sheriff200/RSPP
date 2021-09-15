@@ -7,7 +7,7 @@
 
     <div class="page-title">
         <div class="title_left">
-            <h3>DashBoard</h3>
+            <h2 class="text-info">DashBoard</h2>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -217,20 +217,7 @@
                             showInLegend: true
                         }
                     },
-                    //plotOptions: {
-                    //    pie: {
-                    //        allowPointSelect: true,
-                    //        cursor: 'pointer',
-                    //        depth: 35,
-                    //        dataLabels: {
-                    //            enabled: true,
-                    //            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    //            style: {
-                    //                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    //            }
-                    //        }
-                    //    }
-                    //},
+                   
                     series: [{
                         name: 'Ratio',
                         colorByPoint: true,
@@ -238,8 +225,7 @@
                             { name: 'Approved Application', y: data.approved },
                             { name: 'Rejected Application', y: data.rejected, sliced: true, selected: true },
                             { name: 'Application On Desk', y: data.onDesk },
-                            { name: 'Online App in Process', y: data.onlineInProgress },
-                            { name: 'Application Completed', y: data.processed },
+                            { name: 'Application in Process', y: data.onlineInProgress },
                         ],
                         exporting: true
                     }]
@@ -265,7 +251,7 @@
                         labels: {
                             autoRotation: false
                         },
-                        categories: ['Approved App', 'Rejected App', 'Application On Desk', 'Online App in Process', 'Application Completed']//'Legacy App in Process',
+                        categories: ['Approved App', 'Rejected App', 'Application On Desk', 'Application in Process']
                     },
                    
                     plotOptions: {
@@ -281,7 +267,6 @@
                             [data.rejected],
                             [data.onDesk],
                             [data.onlineInProgress],
-                            [data.processed],
 
                         ]
                     }]

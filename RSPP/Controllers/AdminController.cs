@@ -696,7 +696,14 @@ namespace RSPP.Controllers
         }
 
 
-
+        [HttpGet]
+        public ActionResult CompanyApplications(string userId)
+        {
+            UserMaster up = _context.UserMaster.Where(c => c.UserEmail.Trim() == userId.Trim()).FirstOrDefault();
+            var CompanyApps = (from c in _context.ApplicationRequestForm where c.CompanyEmail == userId select c).ToList();
+            ViewBag.CompanyName = up.CompanyName;
+            return View(CompanyApps);
+        }
 
 
         [HttpGet]
@@ -1825,7 +1832,7 @@ namespace RSPP.Controllers
                          select new
                          {
                              p.ApplicationId,
-                             p.Status,
+                             Status = p.Status == "AUTH"?"Paid":"Pending",
                              p.Rrreference,
                              PaymentId = p.PaymentId.ToString(),
                              TxnAmount = p.TxnAmount.ToString(),
