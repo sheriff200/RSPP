@@ -1,28 +1,27 @@
-﻿
-@model RSPP.Models.DB.ApplicationRequestForm
+﻿@model RSPP.Models.DB.ApplicationRequestForm
 
 @{
-    ViewBag.Title = "ALL Company Certificates";
+    ViewBag.Title = "Certificates";
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
 }
 
-<div class="content" style="margin-top:100px">
-
+<div class="content">
+    <br /><br /><br /><br />
     <div class="row" style="margin-top:-24px">
         <br />
         <div>
-            <h1 style="margin-left:10px" class="text-info">My Certificate</h1>
+            <h1 style="margin-left:10px" class="text-info">My Certificates</h1>
             <div class="clear"></div>
-        </div>
-    </div><br /><br />
+        </div><br />
+    </div>
+
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-striped printedlicense" id="printedlicense" style="font-size:small">
+            <table class="table table-striped allcertificateid" id="allcertificateid" style="font-size:small">
                 <thead>
                     <tr>
-
                         <th><strong>Application Ref</strong>
-                        <th><strong>License Reference</strong>
+                        <th><strong>Certificate Reference</strong>
                         <th><strong>Company Email</strong> </th>
                         <th><strong>Company Address</strong></th>
                         <th><strong>Application Type</strong> </th>
@@ -42,11 +41,12 @@
     </div>
 </div>
 @section Scripts {
-
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.media.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.metadata.js")"></script>*@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            var table = $(".printedlicense").DataTable({
+            var table = $("#allcertificateid").DataTable({
                 "processing": true,
                 "serverSide": true,
                 ajax: {
@@ -62,16 +62,15 @@
                     { data: "licenseReference" },
                     { data: "companyEmail" },
                     { data: "companyAddress" },
-                    { data: "applicationTypeId" },
-                    { data: "agencyName" },
+                    { data: "applicationTypeId", },
+                    { data: "agencyName", },
                     {
                         "render": function (data, type, row) {
 
-                            return "<button class='btn-xs btn-success' onclick=\"ViewPermit('" + row['applicationId']+ "')\"> Download </button>";
+                            return "<button class='btn-xs btn-success' onclick=\"ViewPermit('" + row['applicationId'] + "')\"> Download </button>";
 
                         }
                     }
-
                 ],
                 "columnDefs": [
                     {
@@ -83,9 +82,8 @@
         });
 
         function ViewPermit(appdetails) {
-            window.open('/Company/Certificate/' + appdetails, '_blank');
+            window.open('/Company/ViewCertificate/' + appdetails, '_blank');
         }
     </script>
 }
-
 

@@ -100,6 +100,9 @@ namespace RSPP.Helper
                     if (Action == "Accept" && mainWkflowNavigation.ActionRole == "REGISTRAR")
                     {
                         appmaster.Status = "Approved";
+                    }else if(Action == "Reject")
+                    {
+                        appmaster.Status = "Rejected";
                     }
                 }
                 else

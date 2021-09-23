@@ -30,7 +30,7 @@ namespace RSPP.Helpers
 
         public string PostPaymentUrl = "https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit";
         public string GetPaymentBaseUrl = "https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/";
-
+        public string PortalBaseUrl = "http://rprspu-demo.azurewebsites.net";
 
         public decimal GovAgency = 25000;
         public decimal CargoConsolidators = 10000;

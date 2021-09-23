@@ -19,7 +19,7 @@
         @*<link href="~/css/bootstrap.css" rel="stylesheet" />*@
         <link rel="icon" type="image/png" sizes="16x16" href="~/images/coa.png">
         <link href="~/ela/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
-        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />*@
 
         <link href="~/css/site.css" rel="stylesheet" />
         <link href="~/css/otherStyle.css" rel="stylesheet" />
@@ -50,7 +50,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark  fixed-top" style="box-shadow: 0 3px 5px black; background-color:#073c75">
         <div class="container">
             <a class="navbar-brand">
-                <img src="~/images/NSCnameLOGO.png" width="140" height="55" class="d-inline-block align-top" alt="RSPP Image Logo">
+                <img src="~/images/Logo 2.JPG" width="140" height="55" class="d-inline-block align-top" alt="RSPP Image Logo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -153,57 +153,57 @@
 </html>
 
 
+<environment include="Development">
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/semantic ui/dist/semantic.js"></script>
+    <script src="~/js/dataTables.min.js"></script>
+    <script src="~/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/js/bootstrap-datepicker.js"></script>
 
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-<script src="~/lib/semantic ui/dist/semantic.js"></script>
-<script src="~/js/dataTables.min.js"></script>
-<script src="~/js/jquery.datetimepicker.full.min.js"></script>
-<script src="~/js/bootstrap-datepicker.js"></script>
+    @* Jquery data table scripts *@
+    <script src="~/js/dataTables.buttons.min.js"></script>
+    <script src="~/js/buttons.flash.min.js"></script>
+    <script src="~/js/jszip.min.js"></script>
+    <script src="~/js/pdfmake.min.js"></script>
+    <script src="~/js/vfs_fonts.js"></script>
+    <script src="~/js/buttons.html5.min.js"></script>
+    <script src="~/js/buttons.print.min.js"></script>
+    <script src="~/js/buttons.colVis.min.js"></script>
+    <script src="~/js/dataTables.checkboxes.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    @*<script src="~/js/FunctionScript.js"></script>*@
+    <script src="~/js/jquery.ui.widget.js"></script>
+    <script src="~/js/jquery.iframe-transport.js"></script>
+    <script src="~/js/jquery.fileupload.js"></script>
+    <script src="~/js/bootbox.min.js"></script>
 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+</environment>
 
-@* Jquery data table scripts *@
-<script src="~/js/dataTables.buttons.min.js"></script>
-<script src="~/js/buttons.flash.min.js"></script>
-<script src="~/js/jszip.min.js"></script>
-<script src="~/js/pdfmake.min.js"></script>
-<script src="~/js/vfs_fonts.js"></script>
-<script src="~/js/buttons.html5.min.js"></script>
-<script src="~/js/buttons.print.min.js"></script>
-<script src="~/js/buttons.colVis.min.js"></script>
-<script src="~/js/dataTables.checkboxes.min.js"></script>
-<script src="~/js/jquery.validate.min.js"></script>
-@*<script src="~/js/FunctionScript.js"></script>*@
-<script src="~/js/jquery.ui.widget.js"></script>
-<script src="~/js/jquery.iframe-transport.js"></script>
-<script src="~/js/jquery.fileupload.js"></script>
-<script src="~/js/bootbox.min.js"></script>
+    <script type="text/javascript">
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+        window.setInterval(function () {
+            $.post("/Session/CheckSession", function (response) {
 
+                if ($.trim(response) === "true") {
 
-<script type="text/javascript">
-
-    window.setInterval(function () {
-        $.post("/Session/CheckSession", function (response) {
-
-            if ($.trim(response) === "true") {
-
-                var location = window.location.origin + "/Home/Index";
-                window.location.href = location;
-            }
-        });
-    }, 12000);
+                    var location = window.location.origin + "/Home/Index";
+                    window.location.href = location;
+                }
+            });
+        }, 12000);
 
 
 
 
 
-    function add_chatinline() { var hccid = 89311022; var nt = document.createElement("script"); nt.async = true; nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid; var ct = document.getElementsByTagName("script")[0]; ct.parentNode.insertBefore(nt, ct); }
-    add_chatinline();
-</script>
+        function add_chatinline() { var hccid = 89311022; var nt = document.createElement("script"); nt.async = true; nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid; var ct = document.getElementsByTagName("script")[0]; ct.parentNode.insertBefore(nt, ct); }
+        add_chatinline();
+    </script>

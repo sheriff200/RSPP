@@ -336,18 +336,20 @@ namespace RSPP.Configurations
 
                 var unapprovedapps = (from ah in _context.ActionHistory
                                       join a in _context.ApplicationRequestForm on ah.ApplicationId equals a.ApplicationId
-                                      where a.CompanyEmail == userId && a.Status == "Rejected" && ah.TargetedToRole == "COMPANY" && (ah.Action == "Reject" || ah.Action == "Rejectmk") && a.CurrentStageId == 1 && a.LicenseReference == null
+                                      where a.CompanyEmail == userId && a.Status == "Rejected" && ah.TargetedToRole == "COMPANY" && ah.Action == "Reject" && a.CurrentStageId == 3 && a.LicenseReference == null
                                       select ah).AsEnumerable().OrderByDescending(d => Convert.ToDateTime(d.ActionDate)).GroupBy(d => d.ApplicationId).ToList();
 
-                foreach (var item in unapprovedapps)
+                if (unapprovedapps.Count > 0)
                 {
-                    AllComment.Add(new GeneralCommentModel()
+                    foreach (var item in unapprovedapps)
                     {
-                        Comment = item.FirstOrDefault().Message,
-                        ApplicationID = item.FirstOrDefault().ApplicationId
-                    });
+                        AllComment.Add(new GeneralCommentModel()
+                        {
+                            Comment = item.FirstOrDefault().Message,
+                            ApplicationID = item.FirstOrDefault().ApplicationId
+                        });
+                    }
                 }
-
 
 
             }
@@ -360,7 +362,25 @@ namespace RSPP.Configurations
         }
 
 
+        public List<ApplicationRequestForm> GetApplicationDetails(string useremail, out List<ApplicationRequestForm> Apprequest)
+        {
 
+            Apprequest = new List<ApplicationRequestForm>();
+
+            foreach (ApplicationRequestForm b in _context.ApplicationRequestForm.Where(c => (c.CompanyEmail.Trim() == useremail.Trim())).ToList())
+            {
+
+                Apprequest.Add(new ApplicationRequestForm()
+                {
+                    ApplicationId = b.ApplicationId,
+                    CurrentStageId = b.CurrentStageId,
+                });
+
+
+            }
+
+            return Apprequest;
+        }
 
         public Dictionary<string, int> GetApplicationStatistics(string userId, out string responseMessage, out Dictionary<string, int> applicationStageReference)
         {
@@ -428,7 +448,7 @@ namespace RSPP.Configurations
 
 
 
-                   
+
 
                 }
 

@@ -25,6 +25,7 @@ namespace RSPP.Controllers
         public IConfiguration _configuration;
         GeneralClass generalClass = new GeneralClass();
         ResponseWrapper responseWrapper = new ResponseWrapper();
+        List<ApplicationRequestForm> AppRequest = null;
         HelperController _helpersController;
         UtilityHelper _utilityHelper;
         private ILog log = log4net.LogManager.GetLogger(typeof(CompanyController));
@@ -73,7 +74,9 @@ namespace RSPP.Controllers
                     TempData["Rejectcomment"] = Rejectcomment.Message;
                     TempData["Acceptcomment"] = Rejectcomment.Action;
                 }
+                AppRequest = _helpersController.GetApplicationDetails(companyemail, out AppRequest);
 
+                ViewBag.AllApplicationStageDetails = AppRequest;
 
 
                 var extrapay = (from a in _context.ApplicationRequestForm
@@ -421,7 +424,7 @@ namespace RSPP.Controllers
             ViewBag.RRR = RRR;
             ViewBag.Amount = amount;
             ViewBag.MerchantId = generalClass.merchantId;
-            ViewBag.BaseUrl = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
+            ViewBag.BaseUrl = generalClass.PortalBaseUrl;
 
             return View();
         }
@@ -920,6 +923,7 @@ namespace RSPP.Controllers
         [HttpPost]
         public ActionResult GetAllPermits()
         {
+            var companyemail = _helpersController.getSessionEmail();
             var draw = Request.Form["draw"].FirstOrDefault();
             var start = Request.Form["start"].FirstOrDefault();
             var length = Request.Form["length"].FirstOrDefault();
@@ -935,49 +939,49 @@ namespace RSPP.Controllers
             var today = DateTime.Now.Date;
 
             var staff = (from p in _context.ApplicationRequestForm
-                         where p.LicenseReference != null && p.CompanyEmail == _helpersController.getSessionEmail()
+                         where p.LicenseReference != null && p.CompanyEmail == companyemail
 
                          select new
                          {
-                             p.ApplicationId,
-                             p.LicenseReference,
-                             p.CompanyEmail,
-                             p.CompanyAddress,
-                             p.ApplicationTypeId,
-                             p.AgencyName
+                             applicationId =  p.ApplicationId,
+                             licenseReference = p.LicenseReference,
+                             companyEmail = p.CompanyEmail,
+                             companyAddress = p.CompanyAddress,
+                             applicationTypeId = p.ApplicationTypeId,
+                             agencyName = p.AgencyName
                          });
 
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
-                staff = staff.OrderBy(s => s.ApplicationId + " " + sortColumnDir);
+                staff = staff.OrderBy(s => s.applicationId + " " + sortColumnDir);
             }
             if (!string.IsNullOrEmpty(searchTxt))
             {
-                staff = staff.Where(a => a.ApplicationId.Contains(searchTxt) || a.AgencyName.Contains(searchTxt) || a.LicenseReference.Contains(searchTxt)
-               || a.CompanyEmail.Contains(searchTxt) || a.ApplicationTypeId.Contains(searchTxt) || a.CompanyAddress.Contains(searchTxt));
+                staff = staff.Where(a => a.applicationId.Contains(searchTxt) || a.agencyName.Contains(searchTxt) || a.licenseReference.Contains(searchTxt)
+               || a.companyEmail.Contains(searchTxt) || a.applicationTypeId.Contains(searchTxt) || a.companyAddress.Contains(searchTxt));
             }
             totalRecords = staff.Count();
             var data = staff.Skip(skip).Take(pageSize).ToList();
             switch (sortColumn)
             {
                 case "0":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ApplicationId).ToList() : data.OrderBy(p => p.ApplicationId).ToList();
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.applicationId).ToList() : data.OrderBy(p => p.applicationId).ToList();
                     break;
                 case "1":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.AgencyName).ToList() : data.OrderBy(p => p.AgencyName).ToList();
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.agencyName).ToList() : data.OrderBy(p => p.agencyName).ToList();
                     break;
                 case "2":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ApplicationTypeId).ToList() : data.OrderBy(p => p.ApplicationTypeId).ToList();
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.applicationTypeId).ToList() : data.OrderBy(p => p.applicationTypeId).ToList();
                     break;
                 case "3":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.CompanyEmail).ToList() : data.OrderBy(p => p.CompanyEmail).ToList();
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.companyEmail).ToList() : data.OrderBy(p => p.companyEmail).ToList();
                     break;
                 case "4":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LicenseReference).ToList() : data.OrderBy(p => p.LicenseReference).ToList();
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.licenseReference).ToList() : data.OrderBy(p => p.licenseReference).ToList();
                     break;
                 case "5":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.CompanyAddress).ToList() : data.OrderBy(p => p.CompanyAddress).ToList();
+                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.companyAddress).ToList() : data.OrderBy(p => p.companyAddress).ToList();
                     break;
             }
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data });
