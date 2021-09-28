@@ -104,11 +104,6 @@ namespace RSPP.Helpers
                 paymentRequest.payerEmail = applicationdetails.CompanyEmail;
                 paymentRequest.payerPhone = applicationdetails.PhoneNum;
                 paymentRequest.description = applicationdetails.AgencyName;
-                //paymentRequest.returnSuccessUrl = baseurl + "/Company/PaymentSuccess/" + Applicationid;
-                //paymentRequest.returnFailureUrl = baseurl + "/Company/PaymentSuccess/" + Applicationid;
-                //paymentRequest.returnBankPaymentUrl = baseurl + "/Company/PaymentSuccess/" + Applicationid;
-                //merchantId+serviceTypeId+orderId+totalAmount + apiKey
-
                 string AppkeyHash = generalClass.merchantId + generalClass.ServiceId + Applicationid + Decimal.ToInt32(paymentamonut).ToString() + generalClass.AppKey;
                 string AppkeyHashed = generalClass.GenerateSHA512(AppkeyHash);
                 WebResponse webResponse = RemitaPayment(paymentRequest, AppkeyHashed);
@@ -127,8 +122,8 @@ namespace RSPP.Helpers
                 paymentLog.TxnAmount = paymentamonut;
                 paymentLog.Arrears = 0;
                 paymentLog.TxnMessage = paymentResponse.status;
-                paymentLog.Account = _context.Configuration.Where(c => c.ParamId == "AccountNumber").FirstOrDefault().ParamValue;
-                paymentLog.BankCode = _context.Configuration.Where(c => c.ParamId == "BankCode").FirstOrDefault().ParamValue;
+                paymentLog.Account = generalClass.AccountNumber;
+                paymentLog.BankCode = generalClass.BankCode;
                 paymentLog.RetryCount = 0;
                 paymentLog.Status = "INIT";
 
@@ -151,92 +146,10 @@ namespace RSPP.Helpers
 
 
 
-        public LineOfBusiness Fees(string feename)
+        public LineOfBusiness Fees(int Categoryid)
         {
-            var details = (from a in _context.LineOfBusiness where a.LineOfBusinessName == feename select a).FirstOrDefault();
-            //decimal Amount = 0;
-
-            //if (feename == "Government Agency")
-            //{
-            //    Amount = generalClass.GovAgency;
-            //}
-            //else if (feename == "Cargo Consolidators")
-            //{
-            //    Amount = generalClass.CargoConsolidators;
-            //}
-            //else if (feename == "Chandling")
-            //{
-            //    Amount = generalClass.Chandling;
-
-            //}
-            //else if (feename == "Freight Forwarding")
-            //{
-            //    Amount = generalClass.FreightForwarders;
-
-            //}
-            //else if(feename == "Clearing Agents")
-            //{
-            //    Amount = generalClass.ClearingAgent;
-
-            //}
-            //else if (feename == "Road Haulage")
-            //{
-            //    Amount = generalClass.RoadHaulage;
-
-            //}
-            //else if (feename == "Stevedoring")
-            //{
-            //    Amount = generalClass.Stevedoring;
-
-            //}
-            //else if (feename == "Warehousing")
-            //{
-            //    Amount = generalClass.Warehousing;
-
-            //}
-            //else if (feename == "Port Terminal")
-            //{
-            //    Amount = generalClass.SeaPortTerminal;
-
-            //}
-            //else if (feename == "ICD")
-            //{
-            //    Amount = generalClass.ICD;
-
-            //}
-            //else if (feename == "Off Dock Terminal")
-            //{
-            //    Amount = generalClass.OffDockTerminal;
-
-            //}
-            //else if (feename == "Dry Port")
-            //{
-            //    Amount = generalClass.DryPort;
-
-            //}
-            //else if (feename == "Shipping Agency")
-            //{
-            //    Amount = generalClass.ShippingAgency;
-
-            //}
-            //else if (feename == "Shipping Company/Line")
-            //{
-            //    Amount = generalClass.ShippingCompanyLine;
-
-            //}
-            //else if (feename == "Users")
-            //{
-            //    Amount = generalClass.Users;
-
-            //}
-            //else if (feename == "OtherPortServiceProviders")
-            //{
-            //    Amount = generalClass.OtherPortServiceProviders;
-
-            //}
-
-
-
+            var details = (from a in _context.LineOfBusiness where a.LineOfBusinessId == Categoryid select a).FirstOrDefault();
+           
             return details;
         }
 

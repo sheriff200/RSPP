@@ -117,7 +117,10 @@
             $(".dataTable").dataTable({
                 "aLengthMenu": [25, 50, 75, 100, 200],
                 'iDisplayLength': 25,
-                'dom': 'Blfrtip',
+                "dom": 'Bfrtip',
+                "buttons": [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 'columnDefs': [{ orderable: false, "targets": [-1] }],
                 "language": {
                     "lengthMenu": "Display  _MENU_ records per page",

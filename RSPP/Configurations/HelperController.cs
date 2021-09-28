@@ -123,9 +123,6 @@ namespace RSPP.Configurations
                 List<string> UserRoles = userMaster.UserRole.Split(',').ToList();
                 List<short> AllStages = _context.WorkFlowNavigation.Where(c => UserRoles.Contains(c.ActionRole)).Select(c => c.CurrentStageId).Distinct().ToList();
                 Logger.Info("User Stages =>" + string.Join(",", AllStages.ToArray()));
-                //ApplicationRequestForm appmaster = _context.ApplicationRequestForm.Where(c => c.ApplicationId.Trim() == allRequest.FirstOrDefault().ApplicationId).FirstOrDefault();
-                var currentstage = (from u in _context.ApplicationRequestForm where u.LastAssignedUser == getSessionEmail() select new { u.CurrentStageId }).FirstOrDefault();
-
                 foreach (ApplicationRequestForm appRequest in _context.ApplicationRequestForm.Where(a => AllStages.Contains((short)a.CurrentStageId)).ToList())
                 {
 
@@ -133,7 +130,7 @@ namespace RSPP.Configurations
                     {
                         foreach (var item in AllStages)
                         {
-                            if ((appRequest.CurrentStageId == item) && getSessionEmail() == appRequest.LastAssignedUser)
+                            if (((appRequest.CurrentStageId == item) && getSessionEmail() == appRequest.LastAssignedUser) || (userMaster.UserEmail == appRequest.LastAssignedUser))
                             {
                                 if (UserRoles.Contains("OFFICER") || UserRoles.Contains("SUPERVISOR") || UserRoles.Contains("REGISTRAR"))
                                 {
@@ -994,5 +991,342 @@ namespace RSPP.Configurations
             return appdetail;
         }
 
+
+
+        public List<WorkFlowNavigation> GetWorkFlow()
+        {
+            List<WorkFlowNavigation> workflowInfo = new List<WorkFlowNavigation>();
+
+            var workflowlist = (from a in _context.WorkFlowNavigation select a).ToList();
+
+
+            foreach (var item in workflowlist)
+            {
+                workflowInfo.Add(new WorkFlowNavigation()
+                {
+                    WorkFlowId = item.WorkFlowId,
+                    Action = item.Action,
+                    ActionRole = item.ActionRole,
+                    CurrentStageId = item.CurrentStageId,
+                    NextStateId = item.NextStateId,
+                    TargetRole = item.TargetRole,
+                });
+            }
+            return workflowInfo;
         }
+
+
+        public List<WorkFlowState> GetWorkFlowState()
+        {
+            List<WorkFlowState> workflowstateInfo = new List<WorkFlowState>();
+            var workflowstatelist = (from a in _context.WorkFlowState select a).ToList();
+            foreach (var item in workflowstatelist)
+            {
+                workflowstateInfo.Add(new WorkFlowState()
+                {
+                    StateId = item.StateId,
+                    StateName = item.StateName,
+                    StateType = item.StateType,
+                    Progress = item.Progress,
+                });
+            }
+
+            return workflowstateInfo;
+        }
+
+
+
+        public List<LineOfBusiness> GetPaymentConfig()
+        {
+            List<LineOfBusiness> paymentcategory = new List<LineOfBusiness>();
+
+            var paymentcategorylist = (from a in _context.LineOfBusiness select a).ToList();
+
+
+            foreach (var item in paymentcategorylist)
+            {
+                paymentcategory.Add(new LineOfBusiness()
+                {
+                    LineOfBusinessId = item.LineOfBusinessId,
+                    LineOfBusinessName = item.LineOfBusinessName,
+                    Amount = item.Amount,
+                    FormTypeId = item.FormTypeId
+                });
+            }
+            return paymentcategory;
+        }
+
+
+        public List<Role> RoleConfig()
+        {
+            List<Role> roles = new List<Role>();
+            var rolelist = (from r in _context.Role select r).ToList();
+            foreach (var item in rolelist)
+            {
+                roles.Add(new Role()
+                {
+                    RoleId = item.RoleId,
+                    Description = item.Description
+                });
+            }
+            return roles;
+        }
+
+        public string UpdateWorkFlowRecord(int WorkFlowId, string Action, string ActionRole, short CurrentStageID, short NextStateID, string TargetRole)
+        {
+            var result = "";
+            try
+            {
+                var WorkflowRec = (from w in _context.WorkFlowNavigation where w.WorkFlowId == WorkFlowId select w).FirstOrDefault();
+
+                if (WorkflowRec != null)
+                {
+
+                    WorkflowRec.Action = Action;
+                    WorkflowRec.ActionRole = ActionRole;
+                    WorkflowRec.CurrentStageId = CurrentStageID;
+                    WorkflowRec.NextStateId = NextStateID;
+                    WorkflowRec.TargetRole = TargetRole;
+                    _context.SaveChanges();
+                    result = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+        public string AddWorkFlowRecord(string Action, string ActionRole, short CurrentStageID, short NextStateID, string TargetRole)
+        {
+            var result = "";
+            try
+            {
+                WorkFlowNavigation WorkflowRec = new WorkFlowNavigation();
+
+                if (WorkflowRec != null)
+                {
+                    WorkflowRec.Action = Action;
+                    WorkflowRec.ActionRole = ActionRole;
+                    WorkflowRec.CurrentStageId = CurrentStageID;
+                    WorkflowRec.NextStateId = NextStateID;
+                    WorkflowRec.TargetRole = TargetRole;
+                    _context.WorkFlowNavigation.Add(WorkflowRec);
+                    _context.SaveChanges();
+                    result = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+        public string AddWorkFlowStageRecord(string Currentstagename, string Currentstagetype, string currentstagepercentage)
+        {
+            var result = "";
+            try
+            {
+                WorkFlowState WorkflowRec = new WorkFlowState();
+                short stageid = (from w in _context.WorkFlowState select w.StateId).ToList().LastOrDefault();
+                if (WorkflowRec != null)
+                {
+                    WorkflowRec.StateId = Convert.ToInt16(stageid+1);
+                    WorkflowRec.StateName = Currentstagename;
+                    WorkflowRec.StateType = Currentstagetype;
+                    WorkflowRec.Progress = currentstagepercentage;
+                    _context.WorkFlowState.Add(WorkflowRec);
+                    _context.SaveChanges();
+                    result = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+
+        public string UpdateWorkFlowStageRecord(short Updatestageid, string Updatecurrentstagename, string Updatecurrentstagetype, string Updatecurrentstagepercentage)
+        {
+            var result = "";
+            try
+            {
+                var WorkflowRec = (from w in _context.WorkFlowState where w.StateId == Updatestageid select w).FirstOrDefault();
+
+                if (WorkflowRec != null)
+                {
+                    WorkflowRec.StateName = Updatecurrentstagename;
+                    WorkflowRec.StateType = Updatecurrentstagetype;
+                    WorkflowRec.Progress = Updatecurrentstagepercentage;
+                    _context.SaveChanges();
+                    result = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+        public string AddPaymentConfig(string Paymentname, decimal Amount, int Formtypeid)
+        {
+             var result = "";
+            try
+            {
+                var lineofbusinessid = (from l in _context.LineOfBusiness select l.LineOfBusinessId).ToList().LastOrDefault();
+                LineOfBusiness lineOfBusiness = new LineOfBusiness();
+                if(lineofbusinessid != 0)
+                {
+                    lineOfBusiness.LineOfBusinessId = lineofbusinessid + 1;
+                    lineOfBusiness.LineOfBusinessName = Paymentname;
+                    lineOfBusiness.Amount = Amount;
+                    lineOfBusiness.FormTypeId = Formtypeid;
+                    _context.LineOfBusiness.Add(lineOfBusiness);
+                    _context.SaveChanges();
+                    result = "success";
+                }
+
+            }catch(Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+        public string UpdatePaymentConfig(int UpdatepaymentId, string Updatepaymentname, decimal Updateamount, int Updateformtypeid)
+        {
+            var result = "";
+            try
+            {
+                var paymentcat = (from w in _context.LineOfBusiness where w.LineOfBusinessId == UpdatepaymentId select w).FirstOrDefault();
+
+                if (paymentcat != null)
+                {
+
+                    paymentcat.LineOfBusinessName = Updatepaymentname;
+                    paymentcat.Amount = Updateamount;
+                    paymentcat.FormTypeId = Updateformtypeid;
+                    _context.SaveChanges();
+                    result = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+
+
+        public string AddRole(string Roleid, string Roledescription)
+        {
+            var result = "";
+            try
+            {
+                var role = (from r in _context.Role where r.RoleId == Roleid select r).FirstOrDefault();
+                Role roles = new Role();
+                if (role == null)
+                {
+                    roles.RoleId = Roleid;
+                    roles.Description = Roledescription;
+                    _context.Role.Add(roles);
+                    _context.SaveChanges();
+                    result = "success";
+                }
+                else
+                {
+                    result = "exist";
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+        public string DeleteRole(string Updateroleid)
+        {
+            var result = "";
+            try
+            {
+                var deleterole = (from r in _context.Role where r.RoleId == Updateroleid select r).FirstOrDefault();
+
+                _context.Role.Remove(deleterole);
+                _context.SaveChanges();
+                result = "success";
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+        public string DeleteWorkFlowStage(short Stageid)
+        {
+            var result = "";
+            try
+            {
+                var delete = (from r in _context.WorkFlowState where r.StateId == Stageid select r).FirstOrDefault();
+                _context.WorkFlowState.Remove(delete);
+                _context.SaveChanges();
+                result = "success";
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+        public string DeleteWorkFlow(int Workflowid)
+        {
+            var result = "";
+            try
+            {
+                var delete = (from r in _context.WorkFlowNavigation where r.WorkFlowId == Workflowid select r).FirstOrDefault();
+                _context.WorkFlowNavigation.Remove(delete);
+                _context.SaveChanges();
+                result = "success";
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+        public string DeleteFees(int lineofbusinessid)
+        {
+            var result = "";
+            try
+            {
+                var delete = (from r in _context.LineOfBusiness where r.LineOfBusinessId == lineofbusinessid select r).FirstOrDefault();
+                _context.LineOfBusiness.Remove(delete);
+                _context.SaveChanges();
+                result = "success";
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
+
+
+
+    }
 }

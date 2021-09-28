@@ -52,7 +52,7 @@
 
 
             <div class="row form-group">
-                <label class="control-label col-md-2">Category</label>
+                <label class="control-label col-md-2">Application Category</label>
                 <div class="col-md-4">
                     <select class="form-control agency" required="required" id="txtagency" name="txtagency"></select>
                 </div>
@@ -61,7 +61,7 @@
             <div class="row form-group">
                 <label class="control-label col-md-2">Date of Establishment(with CAC)</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", required = "required", @readonly = "readonly" })
+                    @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", autocomplete="off", required = "required", @readonly = "readonly" })
                 </div>
 
 
@@ -82,7 +82,7 @@
 
                 <label class="control-label col-md-2">Phone Number</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.PhoneNum, new { @class = "form-control PhoneNum", required = "required" })
+                    @Html.TextBoxFor(model => model.PhoneNum, new { @class = "form-control PhoneNum", autocomplete = "off", required = "required" })
                 </div>
             </div>
 
@@ -92,13 +92,13 @@
             <div class="row form-group">
                 <label class="control-label col-md-2">Company Email</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", required = "required", @type = "email", @readonly = "readonly" })
+                    @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control", required = "required", autocomplete = "off", @type = "email", @readonly = "readonly" })
                 </div>
 
 
                 <label class="control-label col-md-2">Company Website</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control CompanyWebsite", required = "required" })
+                    @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control CompanyWebsite", autocomplete = "off", required = "required" })
                 </div>
             </div>
 
@@ -122,27 +122,27 @@
             </div>
 
             <div id="Agencyid2" style="display:none">
-                <div class="row form-group">
+                <!--<div class="row form-group">
                     <div id="Logisticslineofbusinesshide">
                         <label class="control-label col-md-2">Line Of Business</label>
                         <div class="col-md-10" style="margin-left:230px; margin-top:-30px">
                             <input type="radio" class="Logistics" id="CargoConsolidators" name="LogisticsServices" value="Cargo Consolidators/De-Consolidators"><b> Cargo Consolidators/De-Consolidators</b>
                             <input type="radio" class="Logistics" id="Chandling" name="LogisticsServices" value="Chandling"> <b>Chandling</b>
-                            <input type="radio" class="Logistics" id="FreightForwardingClearingAgents" name="LogisticsServices" value="Freight Forwarders and Clearing Agent"> <b>Freight Forwarders and Clearing Agent</b>
+                            <input type="radio" class="Logistics" id="FreightForwardingClearingAgents" name="LogisticsServices" value="Freight Forwarders and Clearing Agent"> <b>Freight Forwarders and Clearing Agent</b>-->
                             @*<input type="radio" class="Logistics" id="FreightForwarding" name="LogisticsServices" value="Freight Forwarding"><b> Freight Forwarding</b>*@
-                            <input type="radio" class="Logistics" id="RoadHaulage" name="LogisticsServices" value="Hauliers (Truckers)"> <b>Hauliers (Truckers)</b>
+                            <!--<input type="radio" class="Logistics" id="RoadHaulage" name="LogisticsServices" value="Hauliers (Truckers)"> <b>Hauliers (Truckers)</b>
                             <input type="radio" class="Logistics" id="Stevedoring" name="LogisticsServices" value="Stevedoring"> <b>Stevedoring</b>
-                            <input type="radio" class="Logistics" id="Warehousing" name="LogisticsServices" value="Warehousing"> <b>Warehousing</b>
+                            <input type="radio" class="Logistics" id="Warehousing" name="LogisticsServices" value="Warehousing"> <b>Warehousing</b>-->
                             @*<input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>*@
 
 
-                        </div>
+                        <!--</div>
                     </div>
 
                     
                 
 
-            </div>
+            </div>-->
 
                 <div id="displayLogisticsLOBTxtbox" style="display:none">
                     <div class="row form-group">
@@ -157,13 +157,13 @@
                 <div class="row form-group">
                     <label class="control-label col-md-2">Customs License Number</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="CustomLicenseNum" name="CustomLicenseNum" />
+                        <input type="text" class="form-control" id="CustomLicenseNum" autocomplete="off" name="CustomLicenseNum" />
                     </div>
 
 
                     <label class="control-label col-md-2">Customs License Expiry Date</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" readonly id="CustomLicenseExpiryDate" name="CustomLicenseExpiryDate" />
+                        <input type="text" class="form-control" readonly id="CustomLicenseExpiryDate" autocomplete="off" name="CustomLicenseExpiryDate" />
 
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                 <div class="row form-group">
                     <label class="control-label col-md-2">CRFFN Registration Number</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="CrffnRegistrationNum" name="CrffnRegistrationNum" />
+                        <input type="text" class="form-control" id="CrffnRegistrationNum" autocomplete="off" name="CrffnRegistrationNum" />
                     </div>
 
 
@@ -187,7 +187,7 @@
                 <div class="row form-group">
                     <label class="control-label col-md-2">Other License/Certification Number</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="OtherLicense" name="OtherLicense" />
+                        <input type="text" class="form-control" id="OtherLicense" autocomplete="off" name="OtherLicense" />
                     </div>
 
 
@@ -213,14 +213,14 @@
             <div id="Agencyid3" style="display:none">
                 <div class="row form-group" style="font-size:12px" id="portoffdockradiobtnhide">
 
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <b>Line Of Business:</b>
                         <input type="radio" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminalLineOfBusiness" value="Sea Port Terminal"> Sea Port Terminal
                         <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="ICD"> ICD
                         <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="Off Dock Terminal"> Off Dock Terminal
                         <input type="radio" class="LineOfBusinessTerminals" id="DryPortTerminal" name="PortTerminalLineOfBusiness" value="Dry Port"> Dry Port
 
-                    </div>
+                    </div>*@
 
                     <div class="col-md-4">
                         <b>Status of Terminal:</b>
@@ -243,9 +243,6 @@
                         <input type="radio" class="CargoTypeTerminals" id="CargoTypeWet" name="PortTerminalCargoType" value="Wet"> Wet
                         <input type="radio" class="CargoTypeTerminals" id="CargoTypeOthers" name="PortTerminalCargoType" value="CargoTypeOthers"> Others
                         <textarea type="text" class="form-control" style="display:none" id="portoffdockCargoType" name="portoffdockCargoType"></textarea>
-
-
-
                     </div>
 
                 </div>
@@ -313,11 +310,11 @@
             <div id="Agencyid4" style="display:none">
                 <div class="row form-group" id="shippingradiobtnhide">
                     <label class="control-label col-md-2"></label>
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <b>Line Of Business:</b>
                         <input type="radio" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgencyLineofBusiness" value="Shipping Agency (Non Vessel Operating Agency)"> Shipping Agency (Non Vessel Operating Agency)
                         <input type="radio" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingAgencyLineofBusiness" value="Shipping Company/Line"> Shipping Company/Line
-                    </div>
+                    </div>*@
                     <div class="col-md-4">
                         <b>Cargo Type</b>
                         <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingAgencyCargoType" value="Bulk"> Bulk
@@ -380,11 +377,11 @@
 
                 <div id="Agencyid6" style="display:none">
                     <div class="row form-group">
-                        <div class="col-md-6" id="userportradiobtnhide" style="font-size:12px">
+                        @*<div class="col-md-6" id="userportradiobtnhide" style="font-size:12px">
                             <b>Line Of Business:</b>
                             <input type="radio" class="LineofBusinessUsers" id="IndividualCategory" name="LineofBusinessUsers" value="Individual Category (Importer & Exporter)"> Individual Category (Importer & Exporter)
                             <input type="radio" class="LineofBusinessUsers" id="CorporateCategory" name="LineofBusinessUsers" value="Corporate Category (Manufacturers, Oil Companies & Others)"> Corporate Category (Manufacturers, Oil Companies & Others)
-                        </div>                            
+                        </div>*@                            
                         
                         <label class="control-label col-md-2 userporttxtboxhide" style="display:none">Line Of Business</label>
                         <div class="col-md-4 userporttxtboxhide" id="userporttxtboxhide" style="display:none">
@@ -745,13 +742,13 @@
                                 $("#Agencyid6").hide();
                             }
                             else if (data.agencyId === 6) {
-                                $("#userportradiobtnhide").hide();
+                                //$("#userportradiobtnhide").hide();
                                 $(".userporttxtboxhide").show();
                                 $("#userportLineOfBusiness").val(data.category);
                                 $("#userportAnyOtherInfo").val(data.anyOtherInfo);
                                 $("#userportLineOfBusiness").attr("readonly", true);
                                 $("#userportAnyOtherInfo").attr("readonly", true);
-                                $("#Agencyid1").hise();
+                                $("#Agencyid1").hide();
                                 $("#Agencyid2").hide();
                                 $("#Agencyid3").hide();
                                 $("#Agencyid4").hide();
@@ -766,7 +763,7 @@
 
 
 
-            $(".txtcertnum").ready(function () {//get all Suitability Rference Number in the dropdownlist
+            $(".txtcertnum").ready(function () {
                 var html = "";
                 $(".txtcertnum").html("");
 
@@ -786,17 +783,17 @@
 
 
 
-            $(".agency").ready(function () {//get all Suitability Rference Number in the dropdownlist
+            $(".agency").ready(function () {
                 var html = "";
                 $(".agency").html("");
 
-                $.getJSON("/Company/GetAllAgencies",
+                $.getJSON("/Company/GetAllCategory",
                     {},
                     function (datas) {
                         debugger;
                         $(".agency").append("<option></option>");
                         $.each(datas, function (key, val) {
-                            html += "<option value=" + val.agencyId + ">" + val.agencyName + "</option>";
+                            html += "<option value=" + val.lineOfBusinessId + ">" + val.lineOfBusinessName + "</option>";
                         });
                         $(".agency").append(html);
                     });
@@ -806,18 +803,23 @@
 
 
 
-            var agencyID = 0;
+            var categoryid = 0;
 
 
             $(".agency").on("change", function () {
                 debugger;
-                agencyID = Number($("#txtagency option:selected").val());
-                agencyname = $("#txtagency option:selected").text();
-                $("#AgencyName").val(agencyname);
-                $("#AgencyId").val(agencyID);
+                categoryid = Number($("#txtagency option:selected").val());
+                var categoryname = $("#txtagency option:selected").text();
+                
+                $.getJSON("/Company/GetFees", {Categoryid: categoryid }, function (data) {
 
-                if (agencyID === 1) {
+                    $("#AgencyName").val(categoryname);
+                    $("#AgencyId").val(data.formid);
+                    $("#fees").val(data.feeamount);
+                    $("#lineofbusinessid").val(categoryid);
+                    if (data.formid === 1) {
                     $("#Agencyid1").show();
+
                     $("#Agencyid2").hide();
                     $("#Agencyid3").hide();
                     $("#Agencyid4").hide();
@@ -832,22 +834,15 @@
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
                     $("#otherportLineOfBusiness").attr("required", false);
                     $("#userportAnyOtherInfo").attr("required", false);
-
-                    $.getJSON("/Company/GetFees", { "feename":"Government Agency"}, function (data) {
-                        $("#fees").val(data.feeamount);
-                        $("#lineofbusinessid").val(data.lineofbusinessid);
-
-                    });
-
-
-
-                } else if (agencyID === 2) {
+                    
+                    } else if (data.formid === 2) {
                     $("#Agencyid1").hide();
                     $("#Agencyid2").show();
                     $("#Agencyid3").hide();
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
                     $("#Agencyid6").hide();
+                    $("#LogisticsLineOfBusiness").val(categoryname);
                     $("#CustomLicenseNum").attr("required", true);
                     $("#CustomLicenseExpiryDate").attr("required", true);
                     $("#CrffnRegistrationNum").attr("required", true);
@@ -856,27 +851,27 @@
                     $("#ServicesProvidedInPort").attr("required", false);
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
                     $("#otherportLineOfBusiness").attr("required", false);
-
-
+                    
                 }
 
-                else if (agencyID === 3) {
+                    else if (data.formid === 3) {
                     $("#Agencyid1").hide();
                     $("#Agencyid2").hide();
                     $("#Agencyid3").show();
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
                     $("#Agencyid6").hide();
-
+                    $("#portoffdockLineOfBusiness").val(categoryname); 
                  }
 
-                else if (agencyID === 4) {
+                    else if (data.formid === 4) {
                     $("#Agencyid1").hide();
                     $("#Agencyid2").hide();
                     $("#Agencyid3").hide();
                     $("#Agencyid4").show();
                     $("#Agencyid5").hide();
-                    $("#Agencyid6").hide();
+                    $("#Agencyid6").hide(); 
+                    $("#ShippingagencyLineOfBusiness").val(categoryname); 
                     $("#VesselLinesRepresentedInNigeria").attr("required", true);
                     $("#userportAnyOtherInfo").attr("required", false);
                     $("#CustomLicenseNum").attr("required", false);
@@ -885,9 +880,9 @@
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
                     $("#otherportLineOfBusiness").attr("required", false);
-
+                       
                 }
-                else if (agencyID === 5) {
+                    else if (data.formid === 5) {
 
                     $("#Agencyid1").hide();
                     $("#Agencyid2").hide();
@@ -904,13 +899,9 @@
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
 
-                    $.getJSON("/Company/GetFees", { "feename": "OtherPortServiceProviders" }, function (data) {
-                        $("#fees").val(data.feeamount);
-                        $("#lineofbusinessid").val(data.lineofbusinessid);
-                    });
                 }
 
-                else if (agencyID === 6) {
+                    else if (data.formid === 6) {
 
                     $("#Agencyid1").hide();
                     $("#Agencyid2").hide();
@@ -918,7 +909,7 @@
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
                     $("#Agencyid6").show();
-
+                    $("#userportLineOfBusiness").val(categoryname); 
                     $("#userportAnyOtherInfo").attr("required", true);
                     $("#otherportLineOfBusiness").attr("required", false);
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
@@ -927,11 +918,12 @@
                     $("#CrffnRegistrationNum").attr("required", false);
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
+                
 
                 }
 
             });
-
+            });
 
 
             $("#CustomLicenseExpiryDate, #CrffnRegistratonExpiryDate, #OtherLicenseExpiryDate").datepicker({
@@ -940,53 +932,53 @@
             });
 
 
-            $(".Logistics").on("change", function () {
-                debugger;
-                var logistic = $(".Logistics:checked").val();
+            //$(".Logistics").on("change", function () {
+            //    debugger;
+            //    var logistic = $(".Logistics:checked").val();
 
 
-                var logisticlist = [];
-
-
-
-
-                if (logistic === "LogisticsOthers") {
-                    $("#LogisticsLineOfBusiness").show();
-                    $("#LogisticsLineOfBusiness").attr("required", true);
-                } else {
-                    $("#LogisticsLineOfBusiness").hide();
-                    $.each($(".Logistics:checked"), function () {
-                        logisticlist.push($(this).val());
-                    });
-                    $("#LogisticsLineOfBusiness").val(logisticlist.join(", "));
-                }
-                var FeeTypeName = $(".Logistics:checked").val();
-
-                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
-                    $("#fees").val(data.feeamount);
-                    $("#lineofbusinessid").val(data.lineofbusinessid);
-                });
-            });
+            //    var logisticlist = [];
 
 
 
-            $(".LineOfBusinessTerminals").on("change", function () {
 
-                debugger;
-                var LineOfBusinessTerminalslist = [];
-                $.each($(".LineOfBusinessTerminals:checked"), function () {
-                    LineOfBusinessTerminalslist.push($(this).val());
-                });
-                $("#portoffdockLineOfBusiness").val(LineOfBusinessTerminalslist.join(", "));
+            //    if (logistic === "LogisticsOthers") {
+            //        $("#LogisticsLineOfBusiness").show();
+            //        $("#LogisticsLineOfBusiness").attr("required", true);
+            //    } else {
+            //        $("#LogisticsLineOfBusiness").hide();
+            //        $.each($(".Logistics:checked"), function () {
+            //            logisticlist.push($(this).val());
+            //        });
+            //        $("#LogisticsLineOfBusiness").val(logisticlist.join(", "));
+            //    }
+            //    var FeeTypeName = $(".Logistics:checked").val();
 
-                var FeeTypeName = $(".LineOfBusinessTerminals:checked").val();
+            //    $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+            //        $("#fees").val(data.feeamount);
+            //        $("#lineofbusinessid").val(data.lineofbusinessid);
+            //    });
+            //});
 
-                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
-                    $("#fees").val(data.feeamount);
-                    $("#lineofbusinessid").val(data.lineofbusinessid);
-                });
 
-            });
+
+            //$(".LineOfBusinessTerminals").on("change", function () {
+
+            //    debugger;
+            //    var LineOfBusinessTerminalslist = [];
+            //    $.each($(".LineOfBusinessTerminals:checked"), function () {
+            //        LineOfBusinessTerminalslist.push($(this).val());
+            //    });
+            //    $("#portoffdockLineOfBusiness").val(LineOfBusinessTerminalslist.join(", "));
+
+            //    var FeeTypeName = $(".LineOfBusinessTerminals:checked").val();
+
+            //    $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+            //        $("#fees").val(data.feeamount);
+            //        $("#lineofbusinessid").val(data.lineofbusinessid);
+            //    });
+
+            //});
 
 
             $(".StatusTerminals").on("change", function () {
@@ -1028,38 +1020,38 @@
 
 
 
-            $(".LineofBusinessUsers").on("change", function () {
-                var portoffdocklist = [];
-                $.each($(".LineofBusinessUsers:checked"), function () {
-                    portoffdocklist.push($(this).val());
-                });
-                $("#userportLineOfBusiness").val(portoffdocklist.join(", "));
+            //$(".LineofBusinessUsers").on("change", function () {
+            //    var portoffdocklist = [];
+            //    $.each($(".LineofBusinessUsers:checked"), function () {
+            //        portoffdocklist.push($(this).val());
+            //    });
+            //    $("#userportLineOfBusiness").val(portoffdocklist.join(", "));
 
-                var FeeTypeName = $(".LineofBusinessUsers:checked").val();
+            //    var FeeTypeName = $(".LineofBusinessUsers:checked").val();
 
-                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
-                    $("#fees").val(data.feeamount);
-                    $("#lineofbusinessid").val(data.lineofbusinessid);
-                });
-            });
-
-
+            //    $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+            //        $("#fees").val(data.feeamount);
+            //        $("#lineofbusinessid").val(data.lineofbusinessid);
+            //    });
+            //});
 
 
-            $(".LineOfBusinessShipping").on("change", function () {
-                var portoffdocklist = [];
-                $.each($(".LineOfBusinessShipping:checked"), function () {
-                    portoffdocklist.push($(this).val());
-                });
-                $("#ShippingagencyLineOfBusiness").val(portoffdocklist.join(", "));
 
-                var FeeTypeName = $(".LineOfBusinessShipping:checked").val();
 
-                $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
-                    $("#fees").val(data.feeamount);
-                    $("#lineofbusinessid").val(data.lineofbusinessid);
-                });
-            });
+            //$(".LineOfBusinessShipping").on("change", function () {
+            //    var portoffdocklist = [];
+            //    $.each($(".LineOfBusinessShipping:checked"), function () {
+            //        portoffdocklist.push($(this).val());
+            //    });
+            //    $("#ShippingagencyLineOfBusiness").val(portoffdocklist.join(", "));
+
+            //    var FeeTypeName = $(".LineOfBusinessShipping:checked").val();
+
+            //    $.getJSON("/Company/GetFees", { "feename": FeeTypeName }, function (data) {
+            //        $("#fees").val(data.feeamount);
+            //        $("#lineofbusinessid").val(data.lineofbusinessid);
+            //    });
+            //});
 
 
             $(".ShippingCargoType").on("change", function () {
@@ -1091,22 +1083,12 @@
 
             $('#addbtn').click(function (e) {
                 e.preventDefault();
-
-                if (agencyID === 2) {
-                    var LogisticsLineOfBusiness = $("#LogisticsLineOfBusiness").val();
-                    if (LogisticsLineOfBusiness === "") {
-                        alert("Please check/select line of business");
-                        return false;
-                    }
-                }
-                else if (agencyID === 3) {
-                    var portoffdockLineOfBusiness = $("#portoffdockLineOfBusiness").val();
+                var agencyID = $("#AgencyId").val();
+                
+                 if (agencyID === 3) {
                     var StatusOfTerminal = $("#StatusOfTerminal").val();
                     var portoffdockCargoType = $("#portoffdockCargoType").val();
-                    if (portoffdockLineOfBusiness === "") {
-                        alert("Please check/select Line of Business");
-                        return false;
-                    } else if (StatusOfTerminal === "") {
+                    if (StatusOfTerminal === "") {
                         alert("Please check/select Status of Terminal");
                         return false;
                     } else if (portoffdockCargoType === "") {
@@ -1116,12 +1098,8 @@
 
                 }
                 else if (agencyID === 4) {
-                    var ShippingagencyLineOfBusiness = $("#ShippingagencyLineOfBusiness").val();
                     var ShippingagencyCargoType = $("#ShippingagencyCargoType").val();
-                    if (ShippingagencyLineOfBusiness === "") {
-                        alert("Please check/select Line of Business");
-                        return false;
-                    } else if (ShippingagencyCargoType === "") {
+                    if (ShippingagencyCargoType === "") {
                         alert("Please check/select Cargo Type");
                         return false;
                     }
@@ -1140,8 +1118,6 @@
 
                         for (var i = 0; i < TerminalName.length; i++) {
                             debugger;
-                            //var tks = TankId[i] == "" || TankId[i] == null ? 0 : TankId[i].value.trim();
-
                             Terminals.push({
                                 "TerminalName": TerminalName[i].value.trim(),
                                 "TerminalLocation": TerminalLocation[i].value.trim(),

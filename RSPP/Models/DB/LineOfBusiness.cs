@@ -8,5 +8,6 @@ namespace RSPP.Models.DB
         public int LineOfBusinessId { get; set; }
         public string LineOfBusinessName { get; set; }
         public decimal Amount { get; set; }
+        public int? FormTypeId { get; set; }
     }
 }

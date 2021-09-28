@@ -5,6 +5,8 @@
 }
 <div class="content">
     <div class="row">
+        @*<label id="appstatus"></label>
+        <input id="myappstatus" />*@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
@@ -78,7 +80,7 @@
 
 
                             <div style="margin-top:-20px" class="col-md-12">
-                                <table class="table table-striped table-bordered table-responsive applicationreport" style="font-size:small">
+                                <table class="table table-striped table-bordered table-responsive applicationreport" id="applicationreport" style="font-size:small">
                                     <thead>
                                         <tr>
                                             <th><strong>ApplicationID</strong>
@@ -95,7 +97,9 @@
                         </div>
                     </div>
                 </div>
-            </div></div></div>
+            </div>
+        </div>
+    </div>
     <div class="jumbotron">
         <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
         <div id="container1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
@@ -131,6 +135,7 @@
                             datemax1 = $(".maxdate").val();
                             table.draw();
                         });
+                       
 
                         var table = $(".applicationreport").DataTable({
                             "processing": true,
@@ -142,21 +147,25 @@
                                     d.mymax = $("#maxdate").val();
                                 },
                                 type: "POST",
-                                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
                             },
-                            dom: 'Blfrtip',
-                            columns: [
-                                { data: "applicationId" }, { data: "status" }, { data: "companyEmail" }, { data: "agencyName" }, { data: "licenseIssuedDate" }, { data: "licenseExpiryDate"}
+                            "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                            "dom": 'Bfrtip',
+                            "buttons": [
+                                'copy', 'csv', 'excel', 'pdf', 'print'
+                            ], 
+                            "columns": [
+                                { data: "applicationId" },
+                                { data: "status" },
+                                
+
+                                { data: "companyEmail" }, { data: "agencyName" }, { data: "licenseIssuedDate" }, { data: "licenseExpiryDate" }
                             ],
 
+                           
+
+                           
                         });
-
-
-
-
-
-
-                        //var container = $('<div/>').insertAfter(table.table().container());
+                       
 
                         var chart = Highcharts.chart('container', {
                             chart: {
@@ -189,14 +198,14 @@
                                 },
                             ],
                         });
-
-                       
-
-                      
+                        debugger;
+                        var dt = table.columns(1).data().toArray();
+                            
+                            
+                            
                                 
                             
-
-
+                        
                         var chart1 = Highcharts.chart('container1', {
                             chart: {
                                 type: 'column',
@@ -204,13 +213,9 @@
                             title: {
                                 text: 'Application Bar Chart',
                             },
-                            //accessibility: {
-                            //    point: {
-                            //        valueSuffix: '%'
-                            //    }
-                            //},
+                           
                             plotOptions: {
-                                pie: {
+                                column: {
                                     allowPointSelect: true,
                                     cursor: 'pointer',
                                     dataLabels: {
@@ -221,19 +226,32 @@
                                     }
                                 }
                             },
+                            
+                            tooltip: {
+                                backgroundColor: '#FFF',
+                            },
+                            legend: {
+                                shadow: false
+                            },
                             xAxis: {
-                                categories: ['Approvals']
+                                categories: [],
+                                                          
+                                labels: {
+                                    rotation: -45,
+                                }
                                 },
-                            series: [
-                                {
-                                    data: chartData(table),
-                                },
-                            ],
+                            series: [{
+                                name: 'Count',
+                                type: 'column',
+                                colorByPoint: true,
+                                data: chartData(table),
+                                showInLegend: true,
+                                }]
                         });
 
 
 
-                        // On each draw, update the data in the chart
+                         //On each draw, update the data in the chart
                         table.on('draw', function () {
                             chart1.series[0].setData(chartData(table));
                         });
@@ -241,6 +259,14 @@
                         table.on('draw', function () {
                             chart.series[0].setData(chartData(table));
                         });
+
+
+
+
+
+
+
+
 
 
 
@@ -383,14 +409,13 @@
 
                         // And map it to the format highcharts uses
                         return $.map(counts, function (val, key) {
+                           
                             return {
                                 name: key,
                                 y: val,
                             };
                         });
                     }
-
-
 
                </script>
             }

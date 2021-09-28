@@ -53,10 +53,13 @@
                 ajax: {
                     url: "/Admin/GetNonPrintedLicense",
                     type: "POST",
-                    "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 
                 },
-                dom: 'Blfrtip',
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 columns: [
                    
                     { data: "applicationId" },

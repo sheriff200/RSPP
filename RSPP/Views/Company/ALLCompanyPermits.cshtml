@@ -10,10 +10,10 @@
     <div class="row" style="margin-top:-24px">
         <br />
         <div>
-            <h1 style="margin-left:10px" class="text-info">My Certificates</h1>
+            <h2 style="margin-left:10px" class="text-info">My Certificates</h2>
             <div class="clear"></div>
-        </div><br />
-    </div>
+        </div>
+    </div><br /><br />
 
     <div class="row">
         <div class="col-md-12">
@@ -50,12 +50,15 @@
                 "processing": true,
                 "serverSide": true,
                 ajax: {
-                    url: "/Company/GetAllPermits",
+                    url: "/Company/GetAllCertificate",
                     type: "POST",
                     "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 
                 },
-                dom: 'Blfrtip',
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 columns: [
 
                     { data: "applicationId" },

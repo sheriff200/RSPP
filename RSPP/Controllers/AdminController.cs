@@ -1061,114 +1061,110 @@ namespace RSPP.Controllers
 
         public ActionResult WorkFlow()
         {
-            List<WorkFlowNavigation> workflowInfo = new List<WorkFlowNavigation>();
-
-            var workflowlist = (from a in _context.WorkFlowNavigation select a).ToList();
-
-
-            foreach (var item in workflowlist)
-            {
-                workflowInfo.Add(new WorkFlowNavigation()
-                {
-                    WorkFlowId = item.WorkFlowId,
-                    Action = item.Action,
-                    ActionRole = item.ActionRole,
-                    CurrentStageId = item.CurrentStageId,
-                    NextStateId = item.NextStateId,
-                    TargetRole = item.TargetRole,
-                });
-            }
-
             ViewBag.UserLoginEmail = _helpersController.getSessionRoleName();
-
-            return View(workflowInfo);
+            return View(_helpersController.GetWorkFlow());
         }
 
-
-
         [HttpPost]
-        public ActionResult UpdateWorkFlowRecord(int WorkFlowId, string Action, string ActionRole, short CurrentStageID, short NextStateID, string TargetRole)
+        public JsonResult UpdateWorkFlowRecord(int WorkFlowId, string Action, string ActionRole, short CurrentStageID, short NextStateID, string TargetRole)
         {
-            var result = "";
-            try
-            {
-                var WorkflowRec = (from w in _context.WorkFlowNavigation where w.WorkFlowId == WorkFlowId select w).FirstOrDefault();
-
-                if (WorkflowRec != null)
-                {
-
-                    WorkflowRec.Action = Action;
-                    WorkflowRec.ActionRole = ActionRole;
-                    WorkflowRec.CurrentStageId = CurrentStageID;
-                    WorkflowRec.NextStateId = NextStateID;
-                    WorkflowRec.TargetRole = TargetRole;
-                    _context.SaveChanges();
-                    result = "success";
-                }
-            }
-            catch (Exception ex)
-            {
-                result = ex.Message;
-            }
-
+            string result = _helpersController.UpdateWorkFlowRecord(WorkFlowId, Action, ActionRole, CurrentStageID, NextStateID, TargetRole);
             return Json(result);
         }
 
 
 
         [HttpPost]
-        public ActionResult AddWorkFlowRecord(string Action, string ActionRole, short CurrentStageID, short NextStateID, string TargetRole)
+        public JsonResult AddWorkFlowRecord(string Action, string ActionRole, short CurrentStageID, short NextStateID, string TargetRole)
         {
-            var result = "";
-            try
-            {
-                WorkFlowNavigation WorkflowRec = new WorkFlowNavigation();
-
-                if (WorkflowRec != null)
-                {
-
-                    WorkflowRec.Action = Action;
-                    WorkflowRec.ActionRole = ActionRole;
-                    WorkflowRec.CurrentStageId = CurrentStageID;
-                    WorkflowRec.NextStateId = NextStateID;
-                    WorkflowRec.TargetRole = TargetRole;
-                    _context.SaveChanges();
-                    result = "success";
-                }
-            }
-            catch (Exception ex)
-            {
-                result = ex.Message;
-            }
-
+            string result = _helpersController.AddWorkFlowRecord(Action, ActionRole, CurrentStageID, NextStateID, TargetRole);
             return Json(result);
         }
 
 
+        [HttpGet]
+        public ActionResult WorkFlowState()
+        {
+            ViewBag.UserLoginEmail = _helpersController.getSessionRoleName();
+            return View(_helpersController.GetWorkFlowState());
+        }
+
+        [HttpPost]
+        public JsonResult UpdateWorkFlowStageRecord(short Updatestageid, string Updatecurrentstagename, string Updatecurrentstagetype, string Updatecurrentstagepercentage)
+        {
+            string result = _helpersController.UpdateWorkFlowStageRecord(Updatestageid, Updatecurrentstagename, Updatecurrentstagetype, Updatecurrentstagepercentage);
+            return Json(result);
+        }
 
 
+        [HttpPost]
+        public JsonResult AddWorkFlowStageRecord(string Currentstagename,string Currentstagetype, string currentstagepercentage)
+        {
+            string result = _helpersController.AddWorkFlowStageRecord(Currentstagename, Currentstagetype, currentstagepercentage);
+            return Json(result);
+        }
+
+        public  ActionResult PaymentConfig()
+        {
+            return View(_helpersController.GetPaymentConfig());
+        }
+        [HttpPost]
+        public JsonResult PostPaymentConfig(string Paymentname, decimal Amount, int Formtypeid)
+        {
+            string result = _helpersController.AddPaymentConfig(Paymentname, Amount, Formtypeid);
+            return Json(result);
+        }
+        [HttpPost]
+        public JsonResult UpdatePaymentConfig(int UpdatepaymentId, string Updatepaymentname, decimal Updateamount, int Updateformtypeid)
+        {
+            string result = _helpersController.UpdatePaymentConfig(UpdatepaymentId, Updatepaymentname, Updateamount, Updateformtypeid);
+            return Json(result);
+        }
 
 
+        public ActionResult RoleConfig()
+        {
+            return View(_helpersController.RoleConfig());
+        }
 
 
+        [HttpPost]
+        public JsonResult AddRole(string Roleid, string Roledescription)
+        {
+            string result = _helpersController.AddRole(Roleid, Roledescription);
+            return Json(result);
+        }
 
-
-
-
-
-
-
-
-
+        [HttpPost]
+        public JsonResult DeleteRole(string Updateroleid)
+        {
+            string result = _helpersController.DeleteRole(Updateroleid);
+            return Json(result);
+        }
+        [HttpPost]
+        public JsonResult DeleteWorkFlowStage(short Stageid)
+        {
+            string result = _helpersController.DeleteWorkFlowStage(Stageid);
+            return Json(result);
+        }
+        [HttpPost]
+        public JsonResult DeleteWorkFlow(int Workflowid)
+        {
+            string result = _helpersController.DeleteWorkFlow(Workflowid);
+            return Json(result);
+        }
+        [HttpPost]
+        public JsonResult DeleteFees(int lineofbusinessid)
+        {
+            string result = _helpersController.DeleteFees(lineofbusinessid);
+            return Json(result);
+        }
+        
         [HttpGet]
         public ActionResult GiveValueList()
         {
             return View();
         }
-
-
-
-
 
 
         [HttpPost]

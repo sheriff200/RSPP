@@ -869,7 +869,7 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult GetCertificateNumber()
+        public JsonResult GetCertificateNumber()
         {
             var certificatelist = (from a in _context.ApplicationRequestForm where a.LicenseReference != null && a.CompanyEmail == _helpersController.getSessionEmail() select new { a.LicenseReference }).ToList();
             return Json(certificatelist);
@@ -879,15 +879,15 @@ namespace RSPP.Controllers
 
 
 
-        public ActionResult GetAllAgencies()
+        public JsonResult GetAllCategory()
         {
-            var Agencydetails = (from a in _context.Agency select new { a.AgencyId, a.AgencyName }).ToList();
+            var Agencydetails = (from a in _context.LineOfBusiness select new { a.LineOfBusinessId, a.LineOfBusinessName }).ToList();
             return Json(Agencydetails);
         }
 
 
 
-        public ActionResult AllAgencyFees()
+        public JsonResult AllAgencyFees()
         {
             var Feedetails = (from a in _context.PaymentCategory select new { PaymentAmount = Convert.ToDecimal(a.PaymentAmount).ToString("N"), a.PaymentCategoryName }).ToList();
             return Json(Feedetails);
@@ -921,7 +921,7 @@ namespace RSPP.Controllers
 
 
         [HttpPost]
-        public ActionResult GetAllPermits()
+        public ActionResult GetAllCertificate()
         {
             var companyemail = _helpersController.getSessionEmail();
             var draw = Request.Form["draw"].FirstOrDefault();
@@ -939,8 +939,7 @@ namespace RSPP.Controllers
             var today = DateTime.Now.Date;
 
             var staff = (from p in _context.ApplicationRequestForm
-                         where p.LicenseReference != null && p.CompanyEmail == companyemail
-
+                         where (p.LicenseReference != null && p.CompanyEmail == companyemail)
                          select new
                          {
                              applicationId =  p.ApplicationId,
@@ -963,27 +962,6 @@ namespace RSPP.Controllers
             }
             totalRecords = staff.Count();
             var data = staff.Skip(skip).Take(pageSize).ToList();
-            switch (sortColumn)
-            {
-                case "0":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.applicationId).ToList() : data.OrderBy(p => p.applicationId).ToList();
-                    break;
-                case "1":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.agencyName).ToList() : data.OrderBy(p => p.agencyName).ToList();
-                    break;
-                case "2":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.applicationTypeId).ToList() : data.OrderBy(p => p.applicationTypeId).ToList();
-                    break;
-                case "3":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.companyEmail).ToList() : data.OrderBy(p => p.companyEmail).ToList();
-                    break;
-                case "4":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.licenseReference).ToList() : data.OrderBy(p => p.licenseReference).ToList();
-                    break;
-                case "5":
-                    data = sortColumnDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.companyAddress).ToList() : data.OrderBy(p => p.companyAddress).ToList();
-                    break;
-            }
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data });
 
         }
@@ -1101,12 +1079,12 @@ namespace RSPP.Controllers
 
 
 
-        public JsonResult GetFees(string feename)
+        public JsonResult GetFees(int Categoryid)
         {
 
-            var details = _utilityHelper.Fees(feename);
+            var details = _utilityHelper.Fees(Categoryid);
 
-            return Json(new { feeamount = details.Amount, lineofbusinessid = details.LineOfBusinessId});
+            return Json(new { feeamount = details.Amount, formid = details.FormTypeId});
         }
 
 

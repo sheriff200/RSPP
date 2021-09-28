@@ -28,17 +28,16 @@
 
         <link href="~/css/MainStyle.css" rel="stylesheet" />
         <link href="~/css/otherStyle.css" rel="stylesheet" />
-        <link href="~/css/dataTables.min.css" rel="stylesheet" />
-        <link href="~/css/dataTables.bootstrap.css" rel="stylesheet" />
-        <link href="~/css/buttons.dataTables.min.css" rel="stylesheet" />
-        <link href="~/css/dataTables.checkboxes.css" rel="stylesheet" />
         <link href="~/css/jquery-ui.css" rel="stylesheet" />
+        @*<link rel="stylesheet" type="text/css" href="https: //cdn.datatables.net/1.11.2/css/jquery.dataTables.css">*@
+        <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/regular.css" integrity="sha384-aubIA90W7NxJ+Ly4QHAqo1JBSwQ0jejV75iHhj59KRwVjLVHjuhS3LkDAoa/ltO4" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.semanticui.min.css" />
 
     </environment>
 
@@ -166,9 +165,9 @@
 </head>
 <body>
 
-    <div id="loading" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
+    @*<div id="loading" style="width: 100%; height: 100%; top:0; left:0; position:fixed; display:block; opacity:0.7; background-color:#fff; z-index:99; text-align:center">
         <img id="loading-image" style="position:absolute; top:100px; left:50%; z-index:100" src="~/Images/spinning.gif" />
-    </div>
+    </div>*@
     <div class="navbar navbar-fixed-top og_Head" style="background-color:#7eaa86" role="navigation">
         <div class="navbar-header" style="float:left">
             <div class="navbar-brand navbar-left">
@@ -197,7 +196,7 @@
                 <ul class="nav navbar-nav pull-right">
 
                     <li>
-                        <a title="Manage" href="@Url.Action("ChangePassword","Admin")" class="text-white"><b>WELCOME &nbsp;@Context.Session.GetString(AccountController.sessionStaffName).ToString()</b></a>
+                        <a title="Manage" href="@Url.Action("ChangePassword","Admin")" class="text-white"><b>WELCOME &nbsp;@Context.Session.GetString(AccountController.sessionStaffName).ToString().ToUpper()</b></a>
                     </li>
                     <li>
                         <button type="submit" class="initLogoff ad"><i class="fa fa-power-off" style="font-size: 22px; color:red" title="LogOut"></i></button>
@@ -317,7 +316,7 @@
 
                         </ul>
                     </li>
-                    @if (rolename == "REGISTRAR")
+                    @if (rolename == "REGISTRAR" || rolename == "SUPERADMIN" || rolename == "ICT")
                     {
                     <li class="more main-list">
 
@@ -433,7 +432,7 @@
                         </ul>
                     </li>
 
-                    @if (rolename == "SUPERADMIN")
+                    @if (rolename == "SUPERADMIN" || rolename == "ICT"|| rolename == "REGISTRAR")
                     {
                     <li class="more main-list">
 
@@ -448,10 +447,33 @@
                             <li>
                                 <a href="/Admin/UpdateFacilityInfo" id="UpdateFacilityInfo">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
-                                    <span class="text-white">Settings</span>
+                                    <span class="text-white">Application Settings</span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="/Admin/RoleConfig" id="RoleConfig">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                    <span class="text-white">Role</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/PaymentConfig" id="PaymentConfig">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                    <span class="text-white">Fees</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/WorkFlow" id="WorkFlow">
+                                    <i class="fa fa-recycle" aria-hidden="true"></i>
+                                    <span class="text-white">WorkFlow</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/WorkFlowState" id="WorkFlowState">
+                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                    <span class="text-white">WorkFlow Stages</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     }
@@ -548,12 +570,13 @@
 
     <environment include="Development">
 
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+        @*<script src="https: //ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
+        </script>*@
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
@@ -561,21 +584,19 @@
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
-
-        <script src="~/js/jquery-ui.min.js"></script>
-        <script src="~/js/dataTables.min.js"></script>
-        <script src="~/js/dataTablesbuttons.min.js"></script>
-        @*<script src="~/js/jquery.dataTables.min.js"></script>*@
-        <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
-        <script src="~/js/buttons.flash.min.js"></script>
-        <script src="~/js/jszip.min.js"></script>
-        <script src="~/js/pdfmake.min.js"></script>
-        <script src="~/js/vfs_fonts.js"></script>
-        <script src="~/js/buttons.html5.min.js"></script>
-        <script src="~/js/buttons.print.min.js"></script>
-        <script src="~/js/buttons.colVis.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        @*<script src="~/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https: //cdn.datatables.net/1.11.2/js/jquery.dataTables.js"></script>*@
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
+        <script src=" https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
         <script src="~/js/dataTables.checkboxes.min.js"></script>
-        <script src="~/js/sidebarmenu.js"></script>
+        @*<script src="~/js/sidebarmenu.js"></script>*@
         <script src="~/js/jquery.datetimepicker.full.min.js"></script>
         <script src="~/js/jquery.validate.min.js"></script>
         <script src="~/js/bootbox.min.js"></script>
@@ -618,15 +639,14 @@
         }, 12000);
 
 
-        $(document).ready(function () {
-            $('#loading').hide()
-                .ajaxStart(function () {
-                    $(this).show();
-                })
-                .ajaxStop(function () {
-                    $(this).hide();
-                });
-        })
+        //$(document).ready(function () {
+        //    $('#loading').hide().ajaxStart(function () {
+        //            $(this).show();
+        //        })
+        //        .ajaxStop(function () {
+        //            $(this).hide();
+        //        });
+        //})
 
 
 

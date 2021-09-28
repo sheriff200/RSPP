@@ -69,14 +69,12 @@
     <Build Include="dbo\Tables\ExtraPayment.sql" />
     <Build Include="dbo\Tables\GovernmentAgency.sql" />
     <Build Include="dbo\Tables\Logistics_Service_Provider.sql" />
-    <Build Include="dbo\Tables\Menu.sql" />
     <Build Include="dbo\Tables\MissingDocuments.sql" />
     <Build Include="dbo\Tables\Other_Port_Service_Provider.sql" />
     <Build Include="dbo\Tables\OutofOffice.sql" />
     <Build Include="dbo\Tables\PaymentLog.sql" />
     <Build Include="dbo\Tables\Port_Off_Dock_Terminal_Operator.sql" />
     <Build Include="dbo\Tables\Role.sql" />
-    <Build Include="dbo\Tables\RoleFunctionalityMapping.sql" />
     <Build Include="dbo\Tables\Shipping_Agency.sql" />
     <Build Include="dbo\Tables\UserLogin.sql" />
     <Build Include="dbo\Tables\UserMaster.sql" />
@@ -86,6 +84,7 @@
     <Build Include="dbo\Tables\PaymentCategory.sql" />
     <Build Include="dbo\Tables\LineOfBusiness.sql" />
     <Build Include="dbo\Tables\CertificateSerialNumber.sql" />
+    <Build Include="dbo\Tables\UserOfPortService.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="RSPP_Database.refactorlog" />

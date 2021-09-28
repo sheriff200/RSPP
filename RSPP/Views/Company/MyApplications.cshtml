@@ -35,7 +35,7 @@
                     <th>#</th>
                     <th>Reference Number</th>
                     <th>Company Email</th>
-                    <th>Agency Name</th>
+                    <th>Application Category</th>
                     <th>Date Applied</th>
                     <th>Status</th>
                     <th></th>
@@ -78,21 +78,21 @@
 
                                 else if (appmaster.Status == "Approved")
                                 {
-                                    <strong class="badge" style="background-color:green">Approved</strong>
+                                    <strong class="badge badge-success btn btn-sm"><b>Approved</b></strong>
                                 }
                                 else if (appmaster.Status == "Payment Completed")
                                 {
-                                    <strong class="badge" style="background-color:green">Payment Completed</strong>
+                                    <strong class="badge badge-success btn btn-sm"><b>Payment Completed</b></strong>
 
                                 }
                                 else if (appmaster.Status == "Payment Failed")
                                 {
-                                    <strong class="badge" style="background-color:red">Payment Failed</strong>
+                                    <strong class="badge badge-danger btn btn-sm"><b>Payment Failed</b></strong>
 
                                 }
                                 else
                                 {
-                                    <strong class="badge" style="background-color:sandybrown">Processing</strong>
+                                    <strong class="badge badge-warning btn btn-sm"><b>Processing</b></strong>
                                 }
                             </td>
 
@@ -127,6 +127,10 @@
                 "aLengthMenu": [10, 25, 50, 75, 100, 200],
                 'iDisplayLength': 10,
                 columnDefs: [{ orderable: false, "targets": [0, -1] }],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 "language": {
                     "lengthMenu": "Display  _MENU_ records",
                     "zeroRecords": "No record found",

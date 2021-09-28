@@ -25,7 +25,6 @@ namespace RSPP.Models.DB
         public virtual DbSet<GovernmentAgency> GovernmentAgency { get; set; }
         public virtual DbSet<LineOfBusiness> LineOfBusiness { get; set; }
         public virtual DbSet<LogisticsServiceProvider> LogisticsServiceProvider { get; set; }
-        public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<MissingDocuments> MissingDocuments { get; set; }
         public virtual DbSet<OtherPortServiceProvider> OtherPortServiceProvider { get; set; }
         public virtual DbSet<OutofOffice> OutofOffice { get; set; }
@@ -33,7 +32,6 @@ namespace RSPP.Models.DB
         public virtual DbSet<PaymentLog> PaymentLog { get; set; }
         public virtual DbSet<PortOffDockTerminalOperator> PortOffDockTerminalOperator { get; set; }
         public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<RoleFunctionalityMapping> RoleFunctionalityMapping { get; set; }
         public virtual DbSet<ShippingAgency> ShippingAgency { get; set; }
         public virtual DbSet<UploadedDocuments> UploadedDocuments { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
@@ -46,8 +44,8 @@ namespace RSPP.Models.DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True;");
                 optionsBuilder.UseSqlServer("Server=tcp:staging-servers.database.windows.net,1433;Initial Catalog=RPRSPU_DB;Persist Security Info=False;User ID=serveradmin;Password=*123*brandonetech#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False");
+                //optionsBuilder.UseSqlServer("Server=tcp:staging-servers.database.windows.net,1433;Initial Catalog=RPRSPU_DB;Persist Security Info=False;User ID=serveradmin;Password=*123*brandonetech#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False");
 
             }
         }

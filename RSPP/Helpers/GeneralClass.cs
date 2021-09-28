@@ -27,28 +27,9 @@ namespace RSPP.Helpers
         public string ServiceId = "4430731";
         public string AccountNumber = "0230188961016";
         public string BankCode = "000";
-
         public string PostPaymentUrl = "https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit";
         public string GetPaymentBaseUrl = "https://remitademo.net/remita/exapp/api/v1/send/api/echannelsvc/";
-        public string PortalBaseUrl = "http://rprspu-demo.azurewebsites.net";
-
-        public decimal GovAgency = 25000;
-        public decimal CargoConsolidators = 10000;
-        public decimal Chandling = 5000;
-        public decimal FreightForwarders = 5000;
-        public decimal ClearingAgent = 5000;
-        public decimal RoadHaulage = 5000;
-        public decimal Stevedoring = 5000;
-        public decimal Warehousing = 5000;
-        public decimal SeaPortTerminal = 20000; 
-        public decimal ICD = 25000;
-        public decimal OffDockTerminal = 10000;
-        public decimal DryPort = 25000;
-        public decimal ShippingAgency = 10000;
-        public decimal ShippingCompanyLine = 50000;
-        public decimal Users = 5000;
-        public decimal OtherPortServiceProviders = 5000;
-        
+        public string PortalBaseUrl = "http://rprspu-demo.azurewebsites.net";        
         private Object lockThis = new object();
 
 

@@ -5,16 +5,18 @@
 
     }
 
-    <div class="content">
+<div class="content">
 
-
+    @using (Html.BeginForm("UpdateFacilityRecord", "Admin", FormMethod.Post, new { @id = "formid" }))
+    {
+        @Html.AntiForgeryToken()
 
         <div class="modal fade updaterecordmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
-            <div class="modal-dialog modal" style="vertical-align: middle; margin:0 auto 0 -20%; overflow-y:hidden; overflow-x:hidden; display:block;" role="document">
+            <div class="modal-dialog modal" style="margin:0 auto 0 -20%; margin-top:30%; height:100%; overflow-y:hidden; overflow-x:hidden; display:block;" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-success" id="exampleModalLabel"><span class="glyphicon glyphicon-hand-down"></span> Update Facility Record</h4>
+                        <h4 class="modal-title text-success" id="exampleModalLabel"><span class="fa fa-hand-o-down"></span> Update Applicant Record</h4>
                     </div>
 
                     <div class="modal-body">
@@ -81,14 +83,14 @@
                             </div>
                         </div>
 
-                        <span style="margin-left:200px"> <button class="btn btn-success" id="facupdaterecord"><span class="glyphicon glyphicon-save"></span> Update Record</button></span>
+                        <span style="margin-left:200px"> <button class="btn btn-success" id="facupdaterecord"><span class="fa fa-save"></span> Update Record</button></span>
 
                     </div>
 
                 </div>
             </div>
         </div>
-
+    }
 
 
 
@@ -101,7 +103,7 @@
                         <thead>
                             <tr>
 
-                                
+
 
                                 <th><strong>Application Ref</strong>
                                 <th><strong>Agency Name</strong> </th>
@@ -124,12 +126,12 @@
                                     <td>@n.CompanyAddress</td>
                                     <td>@n.LastAssignedUser</td>
                                     <td>@n.AppliedDate</td>
-                                    <td><button class="btn btn-success btn-xs" onclick="CompanyJs('@n.ApplicationID', '@n.AgencyName', '@n.CompanyEmail', '@n.ApplicationTypeId', '@n.CompanyAddress','@n.CurrentStageId', '@n.LastAssignedUser')" id="updatebtn"><span class="glyphicon glyphicon-eye-open"></span> Update</button></td>
+                                    <td><button class="btn btn-success btn-xs" onclick="CompanyJs('@n.ApplicationID', '@n.AgencyName', '@n.CompanyEmail', '@n.ApplicationTypeId', '@n.CompanyAddress','@n.CurrentStageId', '@n.LastAssignedUser')" id="updatebtn"><i class="fa fa-eye"></i> Update</button></td>
                                 </tr>
                             }
 
-                     
-                            </tbody>
+
+                        </tbody>
                     </table>
                 </fieldset>
             </div>
