@@ -105,6 +105,7 @@ namespace RSPP.Models
     {
         public int DocId { get; set; }
         public string DocumentName { get; set; }
+        public string UploadedDocName { get; set; }
         public string IsMandatory { get; set; }
         public string DocumentSource { get; set; }
         public string ApplicationId { get; set; }

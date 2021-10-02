@@ -484,21 +484,44 @@ namespace RSPP.Controllers
 
         public ActionResult DocumentUpload(string ApplicationId)
         {
+            ViewBag.Rejectioncomments = _helpersController.AllHistoryComment(_helpersController.getSessionEmail());
             List<DocUpload> DocList = new List<DocUpload>();
             var linseofbusinessid = (from a in _context.ApplicationRequestForm where a.ApplicationId == ApplicationId select a.LineOfBusinessId).FirstOrDefault();
             var doclist = (from d in _context.Documents where d.LineOfBusinessId == linseofbusinessid select d).ToList();
+            var uploadeddoc = (from d in _context.UploadedDocuments where d.ApplicationId == ApplicationId select d).ToList();
             ViewBag.MyApplicationID = ApplicationId;
-            if (doclist != null)
+            ViewBag.UploadedDocCount = uploadeddoc.Count;
+            if (uploadeddoc.Count == 0)
             {
-                foreach (var item in doclist)
+                if (doclist.Count > 0)
                 {
+                    foreach (var item in doclist)
+                    {
+                        DocList.Add(new DocUpload()
+                        {
+
+                            DocumentName = item.DocumentName,
+                            DocId = item.DocId,
+                            IsMandatory = item.IsMandatory
+
+                        });
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in uploadeddoc)
+                {
+                    var docnamesplit = item.DocumentName.ToString().Split('_');
+                    var uploadedfilenamesplit = item.DocumentSource.ToString().Split('_').Last();
+
                     DocList.Add(new DocUpload()
                     {
-
-                        DocumentName = item.DocumentName,
-                        DocId = item.DocId,
-                        IsMandatory = item.IsMandatory
-
+                        DocumentName = docnamesplit[0],
+                        DocId = item.DocumentUploadId,
+                        IsMandatory = "Y",
+                        DocumentSource = item.DocumentSource,
+                        UploadedDocName = uploadedfilenamesplit
                     });
                 }
             }
@@ -541,6 +564,21 @@ namespace RSPP.Controllers
                             }
                             await _context.SaveChangesAsync();
                         }
+                       
+                        if (MyFile.Count > 0)
+                        {
+                            foreach (var item in MyFile)
+                            {
+                                var fileName = Path.GetFileName(appid[0] + "_" + item.FileName);
+                                var filePath = Path.Combine(_hostingEnv.WebRootPath, "UploadedFiles", fileName);
+                                if (System.IO.File.Exists(filePath))
+                                {
+                                    // If file found, delete it 
+                                    System.IO.File.Delete(filePath);
+                                }
+                            }
+                        }
+                        
                     }
 
 
@@ -1093,6 +1131,13 @@ namespace RSPP.Controllers
             string resultrrr = "";
             decimal amt = 0;
             var checkRRRExit = (from a in _context.PaymentLog where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+            var checkGovAgency = (from a in _context.ApplicationRequestForm where a.ApplicationId == ApplicationId select a).FirstOrDefault();
+            if(checkGovAgency?.AgencyId == 1)
+            {
+                checkGovAgency.CurrentStageId = 3;
+                _context.SaveChanges();
+                return RedirectToAction("DocumentUpload", new { ApplicationId = ApplicationId});
+            }
             if (checkRRRExit == null)
             {
                 amt = Convert.ToDecimal(Amount);

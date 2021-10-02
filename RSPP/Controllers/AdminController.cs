@@ -2322,8 +2322,6 @@ namespace RSPP.Controllers
                 ViewBag.CompanyUploadedDocument = _helpersController.UploadedCompanyDocument(appRequest.ApplicationId);
 
 
-
-
                 if (_helpersController.isPaymentMade(applicationId, out errorMessage))
                 {
                     ViewBag.Paid = true;

@@ -18,65 +18,90 @@
 <div class="padd-t form-horizontal">
     @using (Html.BeginForm("DocumentUpload", "Company", FormMethod.Post, new { @id = "frmUpload", @enctype = "multipart/form-data", role = "form", @class = "form-horizontal" }))
     {
-        
-        <table class="table-bordered table-condensed table-active comfacdoc">
-            <thead>
+
+    <table class="table-bordered table-condensed table-active comfacdoc">
+
+        @if (ViewBag.Rejectioncomments.Count > 0)
+        {
+            foreach (var ah in ViewBag.Rejectioncomments)
+            {
+                <marquee class="text-danger"><b>Reason For Rejection=> @ah.Comment.</b></marquee>
+            }
+        }
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Document Name</th>
+                <th>Select file <span class="text-danger">(Max 4MB; Only images & PDF files are allowed)</span></th>
+                <th>File Name</th>
+                <th>File Image</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (RSPP.Models.DocUpload item in Model)
+            {
                 <tr>
-                    <th>#</th>
-                    <th>Document Name</th>
-                    <th>Select file <span class="text-danger">(Max 4MB; Only images & PDF files are allowed)</span></th>
-                    <th>File Name</th>
-                    <th>File Image</th>
+                    <td>@(counter +=1)</td>
+                    <td>
+                        <input type="hidden" name="txtApplicationId" id="txtApplicationId" value="@ViewBag.MyApplicationID" />
+                        <input type="hidden" name="txtDocumentId[]" id="@("docid_"+item.DocId)" value="@item.DocId" />
+                        <input type="hidden" name="txtDocumentName" id="txtDocumentName" value="@item.DocumentName" />
+                        <input type="hidden" class="docsource" name="txtDocumentsource" id=@("txtDocumentsource-"+item.DocId) value="@item.UploadedDocName" />
+                        @item.DocumentName
+                    </td>
+                    <td>
+
+                        <label for="@("filebtn"+item.DocId)" id="MyFileLabel" class="custom-file-upload btn btn-info">
+                            <i class="fa fa-upload"></i>
+                            @if (ViewBag.UploadedDocCount == 0)
+                            {
+                                <span>Upload File</span>
+                            }
+                            else
+                            {<span>Re-Upload File</span>}
+                        </label>
+                        <input type="file" name="MyFile" id="@("filebtn"+ item.DocId)" style="display: none;" multiple class="docUpload" required="required" accept="image/gif, image/png, image/jpeg, application/pdf" data-i="@(item.DocId)" onchange="ValidateSingleInput(this);" />
+                        <div id="@("extFileName-"+item.DocId)" class="File"></div>
+                    </td>
+
+
+                    <td>
+                        <div>
+                            <b>
+                                @if (ViewBag.UploadedDocCount == 0)
+                                {
+                                    <label class="@("imagename-"+item.DocId)"></label>
+                                }
+                                else
+                                {
+                                    <label class="@("imagename-"+item.DocId)">@item.UploadedDocName</label>
+
+                                }
+                            </b>
+                        </div>
+                    </td>
+                    <td>
+                        @if (ViewBag.UploadedDocCount == 0)
+                        {
+                            <a class="@("url-"+item.DocId)" href="#" title="">
+                                <img src="" alt="File image" class="@("fileuploaded-"+item.DocId) center-cropped" style="border:groove; height:90px; width:90px" /><br />
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="@("url-"+item.DocId)" href="@Url.Content("~/UploadedFiles/"+item.DocumentSource)" title="" target="_blank">
+                                <img src="@Url.Content("~/UploadedFiles/"+item.DocumentSource)" alt="File image" class="@("fileuploaded-"+item.DocId) center-cropped" style="border:groove; height:90px; width:90px" /><br />
+                            </a>
+                        }
+
+                    </td>
 
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (RSPP.Models.DocUpload item in Model)
-                {
-                    <tr>
-                        <td>@(counter +=1)</td>
-                        <td>
-
-                            <input type="hidden" name="txtApplicationId" id="txtApplicationId" value="@ViewBag.MyApplicationID" />
-                            <input type="hidden" name="txtDocumentId[]" id="@("docid_"+item.DocId)" value="@item.DocId" />
-                            <input type="hidden" name="txtDocumentName" id="txtDocumentName" value="@item.DocumentName" />
-                            <input type="hidden" class="docsource" name="txtDocumentsource" id=@("txtDocumentsource-"+item.DocId) />
-
-                            @item.DocumentName
-                        </td>
-                        <td>
-
-                           
-                            <label for="@("filebtn"+item.DocId)" id="MyFile" class="custom-file-upload btn btn-info">
-                                <i class="fa fa-upload"></i> Upload File
-                            </label>
-
-                            <input type="file" name="MyFile" id="@("filebtn"+ item.DocId)" style="display: none;" multiple class="docUpload" required="required" accept="image/gif, image/png, image/jpeg, application/pdf" data-i="@(item.DocId)" onchange="ValidateSingleInput(this);" />
-                            <div id="@("extFileName-"+item.DocId)" class="File"></div>
-
-
-
-                        </td>
-
-
-                        <td>
-                            <div>
-                                <b><label id="@("imagename-"+item.DocId)"></label></b>
-                            </div>
-                        </td>
-                        <td>
-                            <a id='@("url-"+item.DocId)' href="#" title="">
-                                <img id="@("fileuploaded-"+item.DocId)" src="" alt="File image" class="center-cropped" style="border:groove; height:90px; width:90px" /><br />
-                            </a>
-
-
-                        </td>
-
-                    </tr>
-                }
-            </tbody>
-        </table><br />
-        <button type="submit" class="btn btn-primary btn-default round" id="submitbtn" style="margin-left:550px">Submit Document</button>
+            }
+        </tbody>
+    </table><br />
+        <button type="submit" onclick="return confirm('Are you sure the uploaded documents are valid?')" class="btn btn-primary btn-default round" id="submitbtn" style="margin-left:550px">Submit Document</button>
     }
 
 
@@ -246,7 +271,7 @@
                         var sFileName = oInput.value;
 
                         $("#txtDocumentsource-" + i).val(oInput.value.replace(/C:\\fakepath\\/i, ''));
-                        $("#imagename-" + i).text(oInput.value.replace(/C:\\fakepath\\/i, ''));
+                        $(".imagename-" + i).text(oInput.value.replace(/C:\\fakepath\\/i, ''));
                         readURL(oInput, i, extension);
 
 
@@ -278,10 +303,10 @@
 
                     reader.onload = function (e) {
                         if (extensions === "pdf") {
-                            $('#fileuploaded-' + fileid).attr('src', '@Url.Content("~/images/pdficon.png")');
+                            $('.fileuploaded-' + fileid).attr('src', '@Url.Content("~/images/pdficon.png")');
                         } else {
-                            $('#fileuploaded-' + fileid).attr('src', e.target.result);
-                            $('#url-' + fileid).attr('href', e.target.result);
+                            $('.fileuploaded-' + fileid).attr('src', e.target.result);
+                            $('.url-' + fileid).attr('href', e.target.result);
 
                         }
                     }

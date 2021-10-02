@@ -16,50 +16,19 @@
 
 <div class="padd-t form-horizontal">
 
-
-
     <br /><br />
-
-    @*<table class="table-condensed table-warning table-responsive" style="font-size:20px">
-
-            <thead>
-                <tr>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding-left:20px; padding-top:25px"><b class="text-success">Application Reference Number:</b><span class="text-primary"> @ViewBag.Applicationid</span></td>
-
-                </tr>
-                <tr>
-                    <td style="padding-left:20px"><b class="text-success">Remita Retrival Reference (RRR):</b> <span id="PaymentName" class="text-primary">@ViewBag.RRR</span></td>
-                </tr>
-                <tr>
-                    <td style="padding-left:20px"><b class="text-success">Payment Category:</b> <span id="PaymentName" class="text-primary">@ViewBag.AgencyName</span></td>
-                </tr>
-                <tr>
-                    <td style="padding-left:20px"><b class="text-success">Payment Amount:</b> <span class="text-danger">₦</span><span id="paymentamount" class="text-primary">@ViewBag.Amount</span></td>
-                </tr>
-                <tr>
-                    <td style="padding-left:20px"><b class="text-success">Payment Status:</b><span id="paymentamount" class="text-danger"> Payment Pending</span></td>
-                </tr>
-                <tr><td style="padding-bottom:50px"></td></tr>
-                <tr><td></td></tr>
-
-            </tbody>
-        </table>*@
-
     <div class="row xrow" style="margin-left:25%">
         <div class="col-md-8 col-md-offset-1">
             <div style="color: gray; font-size: 14px; box-sizing: border-box;">
 
                 <div style="background-color: #ece8d4; width:700px; min-height:200px;">
                     <div style="padding: 10px 30px 30px 30px;">
+                        <button id="btn" type="button" style="float:right" onclick="printDiv()" class="btn btn-warning"><i class="fa fa-print"></i><b>Print</b></button>
 
                         <h3 style="text-align: center; font-weight: 300; padding-bottom: 8px; border-bottom: 1px solid #ddd;"><b class="text-success">Awaiting Payment</b></h3>
 
                         <p style="text-align: right; font-size: 14px;"></p>
-                        <div>
+                        <div id='DivIdToPrint'>
                             <b class="text-danger">Details Of The Transaction Is Listed Below:</b> <br /><br />
                             <ul style="font-family:Cambria; font-size:large">
                                 <li><b class="text-danger">Application ID:</b><strong class="text-success"> @ViewBag.Applicationid</strong></li>
@@ -76,9 +45,9 @@
                     <input name="hash" value="@ViewBag.AppkeyHashed" type="hidden" />
                     <input name="rrr" value="@ViewBag.RRR" type="hidden" />
                     <input name="responseurl" value="@ViewBag.BaseUrl/Company/PaymentReceipt?ApplicationId=@ViewBag.Applicationid" type="hidden" /><br>
-                    <input style="margin-left:300px" type="submit" name="submit_btn" class="btn btn-success" value="Pay Now">
+                    <button name="submit_btn" type="submit" style="margin-left:300px" class="btn btn-success"><i class="fa fa-money"></i> <b>Pay Now</b></button>
+                   @*<input style="margin-left:300px" type="submit" name="submit_btn" class="btn btn-success" value="Pay Now">*@
                 </form>
-
             </div>
         </div>
     </div>
@@ -95,71 +64,6 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
-            //$("#hidepaymentdetails").hide();
-
-
-            //$(".paymentcat").ready(function () {
-            //    debugger;
-            //    var html = "";
-            //    $(".paymentcat").html("");
-
-            //    $.getJSON("/Company/AllAgencyFees",
-            //        {},
-            //        function (datas) {
-            //            debugger;
-            //            $(".paymentcat").append("<option></option>");
-            //            $.each(datas, function (key, val) {
-            //                html += "<option value=" + val.paymentAmount + ">" + val.paymentCategoryName + "</option>";
-            //            });
-            //            $(".paymentcat").append(html);
-            //        });
-            //});
-
-
-            //$(".paymentcat").on("change", function () {
-            //    debugger;
-            //    paymentamount = $("#paymentcat option:selected").val();
-            //    paymentname = $("#paymentcat option:selected").text();
-            //    if (paymentamount != "") {
-            //        $("#hidepaymentdetails").show();
-            //        $("#txtPaymentName").val(paymentname);
-            //        $("#PaymentName").text(paymentname);
-            //        $("#txtpaymentamount").val(paymentamount);
-            //        $("#paymentamount").text(paymentamount);
-            //    } else {
-            //        $("#hidepaymentdetails").hide();
-
-            //    }
-
-
-
-            //});
-
-
-
-            //$('#paymentbtn').click(function (e) {
-            //    e.preventDefault();
-            //    debugger;
-            //    if ($("#formid").valid()) {
-
-            //        var Applicationid = $("#appid").val();
-            //        var txtPaymentName = $("#txtPaymentName").val();
-            //        var txtpaymentamount = $("#txtpaymentamount").val();
-
-            //        $.post("/Company/ChargeSummary", { applicationid: Applicationid, PaymentName: txtPaymentName, paymentamount: txtpaymentamount }, function (data) {
-
-            //            if (data.status === "success") {
-            //                window.location = "/Company/DocumentUpload?ApplicationId=" + Applicationid;
-            //            } else {
-            //                alert(data.message);
-            //            }
-
-            //        });
-            //    }
-            //});
-
-
 
             $('#bypassbtn').click(function (e) {
                 e.preventDefault();
@@ -182,9 +86,23 @@
                 }
             });
 
-
-
         });
+
+        function printDiv() {
+
+            var divToPrint = document.getElementById('DivIdToPrint');
+
+            var newWin = window.open('', 'Print-Window');
+
+            newWin.document.open();
+
+            newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+            newWin.document.close();
+
+            setTimeout(function () { newWin.close(); }, 10);
+
+        }
     </script>
 
 }

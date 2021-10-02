@@ -78,7 +78,7 @@ namespace RSPP.Configurations
                 foreach (ApplicationRequestForm appRequest in _context.ApplicationRequestForm.Where(a => AllStages.Contains((short)a.CurrentStageId)).ToList())
                 {
                     
-                        if (isPaymentMade(appRequest.ApplicationId, out errorMessage))
+                        if (isPaymentMade(appRequest.ApplicationId, out errorMessage) || appRequest.AgencyId == 1)
                         {
                             foreach (var item in AllStages)
                             {
@@ -126,7 +126,7 @@ namespace RSPP.Configurations
                 foreach (ApplicationRequestForm appRequest in _context.ApplicationRequestForm.Where(a => AllStages.Contains((short)a.CurrentStageId)).ToList())
                 {
 
-                    if (isPaymentMade(appRequest.ApplicationId, out errorMessage))
+                    if (isPaymentMade(appRequest.ApplicationId, out errorMessage) || appRequest.AgencyId == 1)
                     {
                         foreach (var item in AllStages)
                         {
@@ -921,9 +921,8 @@ namespace RSPP.Configurations
 
             var details = (from a in _context.ApplicationRequestForm
                            join u in _context.UserMaster on a.CompanyEmail equals u.UserEmail
-                           join f in _context.PaymentLog on a.ApplicationId equals f.ApplicationId
                            where a.ApplicationId == id
-                           select new { f.TxnAmount, a.CompanyEmail, u.CompanyName, a.ApplicationId, a.LicenseReference, a.LicenseExpiryDate, a.LicenseIssuedDate, a.AgencyName }).FirstOrDefault();
+                           select new {a.CompanyEmail, u.CompanyName, a.ApplicationId, a.LicenseReference, a.LicenseExpiryDate, a.LicenseIssuedDate, a.AgencyName }).FirstOrDefault();
 
 
 
