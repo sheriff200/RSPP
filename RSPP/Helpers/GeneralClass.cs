@@ -180,9 +180,9 @@ namespace RSPP.Helpers
         {
             var result = "";
             var message = "";
-            var apiKey = "nsc2018#";
+            var password = "nsc2018#";
             var username = "nscregistration@shipperscouncil.gov.ng";
-            var emailFrom = "rspp-noreply@nscregistration.gov.ng";
+            var emailFrom = "rprspu-noreply@nscregistration.gov.ng";
             var Host = "webmail.shipperscouncil.gov.ng";
             var Port = 25;
 
@@ -193,7 +193,7 @@ namespace RSPP.Helpers
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.EnableSsl = true;
-            client.Credentials = new System.Net.NetworkCredential(username, apiKey);
+            client.Credentials = new System.Net.NetworkCredential(username, password);
             _mail.From = new MailAddress(emailFrom);
             _mail.To.Add(new MailAddress(email));
             _mail.Subject = subject;

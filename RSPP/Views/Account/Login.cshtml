@@ -154,6 +154,7 @@
 
                 if ($("#forgotpasswordformid").valid()) {
                     $(".loadingImage").show();
+                    $(".ForgotPasswordmodal").modal('hide')
                     var email = $("#forgotpasswordemail").val();
                     $.post("/Account/ForgotPassword", { Email: email }, function (data) {
                         $(".loadingImage").hide();

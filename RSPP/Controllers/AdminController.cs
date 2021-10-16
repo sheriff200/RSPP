@@ -610,15 +610,10 @@ namespace RSPP.Controllers
         [HttpGet]
         public ActionResult GetApplicationChart(ApplicationRatio Appobj)
         {
-            var applicationstatus = (from a in _context.ApplicationRequestForm select a).ToList();
-            if (applicationstatus.Count > 0)
-            {
-                Appobj.Initiated = applicationstatus.Select(a=>a.Status=="ACTIVE").Count();
-                Appobj.Approved = applicationstatus.Select(a => a.Status == "Approved").Count(); ;
-                Appobj.Processing = applicationstatus.Select(a => a.Status == "Processing").Count();
-                Appobj.Rejected = applicationstatus.Select(a => a.Status == "Rejected").Count();
-            }
-
+                Appobj.Initiated = (from a in _context.ApplicationRequestForm where a.Status == "ACTIVE" select a).ToList().Count();
+                Appobj.Approved = (from a in _context.ApplicationRequestForm where a.Status == "Approved" select a).ToList().Count();
+                Appobj.Processing = (from a in _context.ApplicationRequestForm where a.Status == "Processing" select a).ToList().Count();
+                Appobj.Rejected = (from a in _context.ApplicationRequestForm where a.Status == "Rejected" select a).ToList().Count();
             return Json(Appobj);
         }
 
@@ -1316,7 +1311,7 @@ namespace RSPP.Controllers
 
 
 
-        public ActionResult LicenseReport()
+        public ActionResult CertificateReport()
         {
 
 
@@ -1351,8 +1346,8 @@ namespace RSPP.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
             var today = DateTime.Now.Date;
-            var staff = (from p in _context.ApplicationRequestForm
-                         where p.LicenseReference != null
+            var staff = (from p in _context.ApplicationRequestForm where p.LicenseReference != null && p.LicenseReference != ""
+
                          select new
                          {
                              p.ApplicationId,
@@ -1810,13 +1805,11 @@ namespace RSPP.Controllers
         }
 
 
-        public ActionResult GetLicenseChart(LicenseRatio licenseobj)
+        public ActionResult GetLicenseChart()
         {
-            int totalLicense = (from s in _context.ApplicationRequestForm where s.LicenseReference != null select s).ToList().Count();
-
-            licenseobj.totalLicense = totalLicense;
-            licenseobj.Legacy = 0;
-            return Json(licenseobj);
+            PaymentChart certificateobj = new PaymentChart();
+            certificateobj = _helpersController.CertificateChartList(certificateobj);
+            return Json(certificateobj);
         }
 
 

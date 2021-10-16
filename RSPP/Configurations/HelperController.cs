@@ -1380,7 +1380,28 @@ namespace RSPP.Configurations
 
 
 
-
+        public PaymentChart CertificateChartList(PaymentChart paymentchart)
+        {
+            paymentchart.Bargo_Operators = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Barge Operators" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.CargoConsolidators_DeConsolidators = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Cargo Consolidators/De-Consolidators" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.Chandling = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Chandling" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.DryPortOperator = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Dry Port Operator" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.FreightForwarders_ClearingAgents = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Freight forwarders and Clearing agents" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.Haulers_Truckers = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Haulers/Truckers" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.ICD = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "ICD" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.Logististics_Service_Provider = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Logistics Service Providers" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.Stevedoring_Warehousing = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Stevedoring/Warehousing" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.SeaportTerminalOperator = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Seaport Terminal Operator" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.OffDockTerminalOperator = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Off-Dock Terminal Operator" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.ShippingAgency = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Shipping Agency (Non Vessel Operating)" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.ShippingCompany_Line = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Shipping Company/Line" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.ShippersAssociation = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Shippers Association" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.CargoSurveyor = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Cargo Surveyors" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.IndividualCategory = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Individual Category (Importer & Exporter)" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.CorperateCategory = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Corporate Category (Manufacturers, Oil Companies & Others)" && a.LicenseReference != null select a).ToList().Count();
+            paymentchart.OtherPortServiceProviders = (Nullable<long>)(from a in _context.ApplicationRequestForm where a.AgencyName == "Other Port Service Providers" && a.LicenseReference != null select a).ToList().Count();
+            return paymentchart;
+        }
 
 
     }
