@@ -45,7 +45,6 @@ namespace RSPP.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-
             return View();
         }
 
@@ -246,7 +245,43 @@ namespace RSPP.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult ForgotPassword(string Email)
+        {
+            string msg = "";
+            var checkifemailexist = (from u in _context.UserMaster where u.UserEmail == Email select u).FirstOrDefault();
+            if(checkifemailexist == null)
+            {
+                msg = "The email " + Email + " does not exist on this portal";
+            }
+            else
+            {
+                Random rnd = new Random();
+                int value = rnd.Next(100000, 999999);
+                string password = "nsc-" + value;
+                string content = "Your New Password is "+ password;
+                string subject = "Forgot Password Activation Link";
+                var sendmail = generalClass.ForgotPasswordEmailMessage(Email, subject, content, generalClass.Encrypt(password));
+                 if(sendmail == "failed")
+                {
+                    msg = "Unable to send activation link to "+ Email+". Please try again later.";
+                }
+                else {
+                    msg = "Activation link was successfully sent to " + Email;
+                }
+            }
+            return Json(new {message = msg });
+        }
 
-        
+
+        public ActionResult PasswordActivation(string Email, string Password)
+        {
+            var updatepassword = (from u in _context.UserMaster where u.UserEmail == Email select u).FirstOrDefault();
+            updatepassword.Password = Password;
+            _context.SaveChanges();
+            return RedirectToAction("Login");
+        }
+
+
     }
 }

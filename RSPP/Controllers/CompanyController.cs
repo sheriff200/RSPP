@@ -188,6 +188,8 @@ namespace RSPP.Controllers
                 appdetails.AgencyId = model.AgencyId;
                 appdetails.CurrentStageId = 1;
                 appdetails.PrintedStatus = "Not Printed";
+                appdetails.NameOfAssociation = model.NameOfAssociation;
+                appdetails.CacregNum = model.CacregNum;
                 appdetails.LineOfBusinessId = Convert.ToInt32(Request.Form["lineofbusinessid"]);
                 if (checkappexist == null)
                 {
@@ -295,7 +297,7 @@ namespace RSPP.Controllers
                         userofportservice.ApplicationId = checkappexist == null ? generatedapplicationid : model.ApplicationId;
                         userofportservice.Category = Request.Form["userportLineOfBusiness"].ToString();
                         userofportservice.AnyOtherInfo = Request.Form["userportAnyOtherInfo"].ToString();
-
+                        userofportservice.NepcRegNo = Request.Form["nepcregnum"].ToString();
                         if (model.ApplicationId == null)
                         {
                             _context.Add(userofportservice);
@@ -763,6 +765,8 @@ namespace RSPP.Controllers
                                           a.PostalAddress,
                                           a.PhoneNum,
                                           a.CompanyAddress,
+                                          a.CacregNum,
+                                          a.NameOfAssociation,
                                           g.ServicesProvidedInPort,
                                           g.AnyOtherRelevantInfo,
                                           TxnAmount = (from a in _context.PaymentLog where a.ApplicationId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
@@ -893,6 +897,7 @@ namespace RSPP.Controllers
                                           a.PostalAddress,
                                           a.PhoneNum,
                                           a.CompanyAddress,
+                                          g.NepcRegNo,
                                           g.AnyOtherInfo,
                                           g.Category,
                                           TxnAmount = (from a in _context.PaymentLog where a.ApplicationId == details.ApplicationId select a.TxnAmount).FirstOrDefault()
@@ -919,7 +924,7 @@ namespace RSPP.Controllers
 
         public JsonResult GetAllCategory()
         {
-            var Agencydetails = (from a in _context.LineOfBusiness select new { a.LineOfBusinessId, a.LineOfBusinessName }).ToList();
+            var Agencydetails = (from a in _context.LineOfBusiness orderby a.OrderId ascending select new { a.LineOfBusinessId, a.LineOfBusinessName}).ToList();
             return Json(Agencydetails);
         }
 
@@ -1142,7 +1147,7 @@ namespace RSPP.Controllers
             {
                 amt = Convert.ToDecimal(Amount);
                 var baseUrl = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
-                resultrrr = _utilityHelper.GeneratePaymentReference(ApplicationId, baseUrl, _helpersController.getSessionCompanyName(), amt);
+                resultrrr = _utilityHelper.GeneratePaymentReference(ApplicationId, baseUrl, checkGovAgency.AgencyName, amt);
             }
             else
             {

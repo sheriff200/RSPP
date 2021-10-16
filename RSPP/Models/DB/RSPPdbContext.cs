@@ -44,9 +44,7 @@ namespace RSPP.Models.DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:staging-servers.database.windows.net,1433;Initial Catalog=RPRSPU_DB;Persist Security Info=False;User ID=serveradmin;Password=*123*brandonetech#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False");
-                //optionsBuilder.UseSqlServer("Server=tcp:staging-servers.database.windows.net,1433;Initial Catalog=RPRSPU_DB;Persist Security Info=False;User ID=serveradmin;Password=*123*brandonetech#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False");
-
+                optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True;");
             }
         }
 
@@ -122,6 +120,11 @@ namespace RSPP.Models.DB
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CacregNum)
+                    .HasColumnName("CACRegNum")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CompanyAddress).IsUnicode(false);
 
                 entity.Property(e => e.CompanyEmail)
@@ -149,6 +152,10 @@ namespace RSPP.Models.DB
                     .IsUnicode(false);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.NameOfAssociation)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.PhoneNum)
                     .HasMaxLength(30)
@@ -301,7 +308,9 @@ namespace RSPP.Models.DB
 
             modelBuilder.Entity<LineOfBusiness>(entity =>
             {
-                entity.Property(e => e.LineOfBusinessId).ValueGeneratedNever();
+                entity.HasKey(e => e.OrderId);
+
+                entity.Property(e => e.OrderId).ValueGeneratedNever();
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
 
@@ -360,25 +369,6 @@ namespace RSPP.Models.DB
                     .WithMany(p => p.LogisticsServiceProvider)
                     .HasForeignKey(d => d.ApplicationId)
                     .HasConstraintName("FK_Logistics_Service_Provider_ApplicationRequestForm");
-            });
-
-            modelBuilder.Entity<Menu>(entity =>
-            {
-                entity.Property(e => e.MenuId)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IconName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Status)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<MissingDocuments>(entity =>
@@ -574,19 +564,6 @@ namespace RSPP.Models.DB
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<RoleFunctionalityMapping>(entity =>
-            {
-                entity.HasKey(e => new { e.RoleId, e.FuncId });
-
-                entity.Property(e => e.RoleId)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FuncId)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<ShippingAgency>(entity =>
             {
                 entity.ToTable("Shipping_Agency");
@@ -733,6 +710,10 @@ namespace RSPP.Models.DB
                     .IsUnicode(false);
 
                 entity.Property(e => e.Category)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NepcRegNo)
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });

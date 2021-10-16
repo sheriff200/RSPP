@@ -205,4 +205,27 @@ namespace RSPP.Models
         public string Status { get; set; }
     }
 
+    public class PaymentChart
+    {
+        public Nullable<long> Bargo_Operators { get; set; }
+        public Nullable<long> CargoConsolidators_DeConsolidators { get; set; }
+        public Nullable<long> Chandling { get; set; }
+        public Nullable<long> DryPortOperator { get; set; }
+        public Nullable<long> FreightForwarders_ClearingAgents { get; set; }
+        public Nullable<long> Haulers_Truckers { get; set; }
+        public Nullable<long> ICD { get; set; }
+        public Nullable<long> Logististics_Service_Provider { get; set; }
+        public Nullable<long> Stevedoring_Warehousing { get; set; }
+        public Nullable<long> SeaportTerminalOperator { get; set; }
+        public Nullable<long> OffDockTerminalOperator { get; set; }
+        public Nullable<long> ShippingAgency { get; set; }
+        public Nullable<long> ShippingCompany_Line { get; set; }
+        public Nullable<long> ShippersAssociation { get; set; }
+        public Nullable<long> CargoSurveyor { get; set; }
+        public Nullable<long> IndividualCategory { get; set; }
+        public Nullable<long> CorperateCategory { get; set; }
+        public Nullable<long> OtherPortServiceProviders { get; set; }
+
+    }
+
 }

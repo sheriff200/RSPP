@@ -36,6 +36,8 @@ namespace RSPP.Models.DB
         public string ApplicationTypeId { get; set; }
         public string PrintedStatus { get; set; }
         public int? LineOfBusinessId { get; set; }
+        public string CacregNum { get; set; }
+        public string NameOfAssociation { get; set; }
 
         public virtual Agency Agency { get; set; }
         public virtual ICollection<ActionHistory> ActionHistory { get; set; }

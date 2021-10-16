@@ -202,7 +202,6 @@ namespace RSPP.Controllers
             try
             {
 
-
                 var user = (from u in _context.UserMaster where u.UserEmail == email select u).FirstOrDefault();
                 var staffname = Request.Form["Fullname"].ToString();
                 var sname = staffname.ToString().Split(' ');
@@ -1772,22 +1771,43 @@ namespace RSPP.Controllers
 
         public ActionResult PaymentList()
         {
+            PaymentChart chart = new PaymentChart();
             var mypayment = (from s in _context.PaymentLog where s.Status == "AUTH" select s).ToList();
-
             var totalpayment = mypayment.Sum(s => s.TxnAmount);
             decimal Sumtotalpayment = Convert.ToDecimal(totalpayment);
-
-
-
-
             TempData["totalpaymentcount"] = mypayment.ToList().Count();
-
             TempData["Sumtotalpayment"] = Sumtotalpayment.ToString("N") + " (" + generalClass.NumberToWords(Convert.ToInt64(Sumtotalpayment)) + ")";
+            var paymentlist = _helpersController.PaymentChartList(chart);
+            ViewBag.BargeOperators = Convert.ToDecimal(paymentlist.Bargo_Operators).ToString("N");
+            ViewBag.CargoConsolidatorsDeConsolidators = Convert.ToDecimal(paymentlist.CargoConsolidators_DeConsolidators).ToString("N");
+            ViewBag.Chandling = Convert.ToDecimal(paymentlist.Chandling).ToString("N");
+            ViewBag.DryPortOperator = Convert.ToDecimal(paymentlist.DryPortOperator).ToString("N");
+            ViewBag.FreightForwardersClearingAgents = Convert.ToDecimal(paymentlist.FreightForwarders_ClearingAgents).ToString("N");
+            ViewBag.HaulersTruckers = Convert.ToDecimal(paymentlist.Haulers_Truckers).ToString("N");
+            ViewBag.ICD = Convert.ToDecimal(paymentlist.ICD).ToString("N");
+            ViewBag.LogististicsServiceProvider = Convert.ToDecimal(paymentlist.Logististics_Service_Provider).ToString("N");
+            ViewBag.StevedoringWarehousing = Convert.ToDecimal(paymentlist.Stevedoring_Warehousing).ToString("N");
+            ViewBag.SeaportTerminalOperator = Convert.ToDecimal(paymentlist.SeaportTerminalOperator).ToString("N");
+            ViewBag.OffDockTerminalOperator = Convert.ToDecimal(paymentlist.OffDockTerminalOperator).ToString("N");
+            ViewBag.ShippersAssociation = Convert.ToDecimal(paymentlist.ShippersAssociation).ToString("N");
+            ViewBag.CargoSurveyor = Convert.ToDecimal(paymentlist.CargoSurveyor).ToString("N");
+            ViewBag.IndividualCategory = Convert.ToDecimal(paymentlist.IndividualCategory).ToString("N");
+            ViewBag.CorperateCategory = Convert.ToDecimal(paymentlist.CorperateCategory).ToString("N");
+            ViewBag.OtherPortServiceProviders = Convert.ToDecimal(paymentlist.OtherPortServiceProviders).ToString("N");
+            ViewBag.GrandTotal = Math.Round(Convert.ToDecimal(ViewBag.BargeOperators) + Convert.ToDecimal(ViewBag.CargoConsolidatorsDeConsolidators) + Convert.ToDecimal(ViewBag.Chandling) + Convert.ToDecimal(ViewBag.DryPortOperator) + Convert.ToDecimal(ViewBag.FreightForwardersClearingAgents) + Convert.ToDecimal(ViewBag.HaulersTruckers) + Convert.ToDecimal(ViewBag.ICD) 
+                + Convert.ToDecimal(ViewBag.LogististicsServiceProvider) + Convert.ToDecimal(ViewBag.StevedoringWarehousing) + Convert.ToDecimal(ViewBag.SeaportTerminalOperator) + Convert.ToDecimal(ViewBag.OffDockTerminalOperator) + Convert.ToDecimal(ViewBag.ShippersAssociation)
+                +Convert.ToDecimal(ViewBag.CargoSurveyor) + Convert.ToDecimal(ViewBag.IndividualCategory) + Convert.ToDecimal(ViewBag.CorperateCategory) + Convert.ToDecimal(ViewBag.OtherPortServiceProviders), 2).ToString("N");
+
             return View();
         }
 
 
-
+        public JsonResult PaymentChartReport()
+        {
+            PaymentChart paymentchart = new PaymentChart();
+            paymentchart = _helpersController.PaymentChartList(paymentchart);
+            return Json(paymentchart);
+        }
 
 
         public ActionResult GetLicenseChart(LicenseRatio licenseobj)

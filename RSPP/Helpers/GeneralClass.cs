@@ -159,6 +159,61 @@ namespace RSPP.Helpers
 
 
 
+        public string ForgotPasswordTemplate(string email, string subject, string content, string EncrptedPassword)
+        {
+            string body = "<div>";
+            body += "<div style='width: 700px; background-color: #ece8d4; padding: 5px 0 5px 0;'><img style='width: 98%; height: 120px; display: block; margin: 0 auto;' src='http://www.shipperstradedata.gov.ng/ServiceProvider/images/DesktopLogoImage.bmp' alt='Logo'/></div>";
+            body += "<div class='text-left' style='background-color: #ece8d4; width: 700px; min-height: 200px;'>";
+            body += "<div style='padding: 10px 30px 30px 30px;'>";
+            body += "<h5 style='text-align: center; font-weight: 300; padding-bottom: 10px; border-bottom: 1px solid #ddd;'>" + subject + "</h5>";
+            body += "<p>Dear Sir/Madam,</p>";
+            body += "<p style='line-height: 30px; text-align: justify;'>Kindly go to <a href='http://rprspu-demo.azurewebsites.net/Account/PasswordActivation?Email=" + email + "&Password=" + EncrptedPassword + "'>"+content+"</a></p>";
+
+            body += "<p style='line-height: 30px; text-align: justify;'>" + content + "</p>";
+            body += "<br>";
+            body += "<p>Kindly go to <a href='http://rprspu-demo.azurewebsites.net/Account/PasswordActivation?Email=" + email + "&Password="+ EncrptedPassword + "'>Please click on this activation link to activate your new password</a></p>";
+            body += "<p>Nigerian Shipper's Council<br/> <small>(RSPP) </small></p> </div>";
+            body += "<div style='padding:10px 0 10px; 10px; background-color:#888; color:#f9f9f9; width:700px;'> &copy; " + DateTime.Now.Year + " Nigerian Shipper's Council &minus; NSC Nigeria</div></div></div>";
+            return body;
+        }
+        public string ForgotPasswordEmailMessage(string email, string subject, string content, string EncrptedPassword)
+        {
+            var result = "";
+            var message = "";
+            var apiKey = "nsc2018#";
+            var username = "nscregistration@shipperscouncil.gov.ng";
+            var emailFrom = "rspp-noreply@nscregistration.gov.ng";
+            var Host = "webmail.shipperscouncil.gov.ng";
+            var Port = 25;
+
+            var msgBody = ForgotPasswordTemplate(email, subject, content, EncrptedPassword);
+
+            MailMessage _mail = new MailMessage();
+            SmtpClient client = new SmtpClient(Host, Port);
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.EnableSsl = true;
+            client.Credentials = new System.Net.NetworkCredential(username, apiKey);
+            _mail.From = new MailAddress(emailFrom);
+            _mail.To.Add(new MailAddress(email));
+            _mail.Subject = subject;
+            _mail.IsBodyHtml = true;
+            _mail.Body = msgBody;
+            try
+            {
+                client.Send(_mail);
+                result = "success";
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                result = "failed";
+            }
+            return result;
+        }
+
+
+
 
 
 
@@ -173,7 +228,7 @@ namespace RSPP.Helpers
             body += "<p>Dear Sir/Madam,</p>";
             body += "<p style='line-height: 30px; text-align: justify;'>" + content + "</p>";
             body += "<br>";
-            body += "<p>Kindly go to <a href='https://shipperstradedata.gov.ng/'>RSPP PORTAL(CLICK HERE)</a></p>";
+            body += "<p>Kindly go to <a href='http://rprspu-demo.azurewebsites.net'>RSPP PORTAL(CLICK HERE)</a></p>";
             body += "<p>Nigerian Shipper's Council<br/> <small>(RSPP) </small></p> </div>";
             body += "<div style='padding:10px 0 10px; 10px; background-color:#888; color:#f9f9f9; width:700px;'> &copy; " + DateTime.Now.Year + " Nigerian Shipper's Council &minus; NSC Nigeria</div></div></div>";
             return body;
@@ -183,11 +238,11 @@ namespace RSPP.Helpers
         public string SendStaffEmailMessage(string staffemail, string subject, string content)
         {
             var result = "";          
-            var apiKey = "BNW5He3DoWQAJVMkeMlEzPTtbYIXNveS4t+GuGtXzxQJ";
-            var username = "AKIAQCM2OPFBW35OSTFV";
-            var emailFrom = "rspp-noreply@shipperstradedata.gov.ng";
-            var Host = "email-smtp.us-west-2.amazonaws.com";
-            var Port = 587;
+            var apiKey = "nsc2018#";
+            var username = "nscregistration@shipperscouncil.gov.ng";
+            var emailFrom = "rspp-noreply@nscregistration.gov.ng";
+            var Host = "webmail.shipperscouncil.gov.ng";
+            var Port = 25;
 
             var msgBody = StaffMessageTemplate(subject, content);
 

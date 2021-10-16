@@ -59,16 +59,17 @@
             </div>
 
             <div class="row form-group">
-                <label class="control-label col-md-2">Date of Establishment(with CAC)</label>
-                <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control", autocomplete="off", required = "required", @readonly = "readonly" })
-                </div>
-
 
                 <label class="control-label col-md-2">Company Address</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control CompanyAddress", required = "required" })
+                    @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control CompanyAddress", autocomplete = "off", required = "required" })
                 </div>
+                <label class="control-label col-md-2 hideDoE">Date of Establishment</label>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.DateofEstablishment, new { @class = "form-control hideDoE", autocomplete = "off", required = "required", @readonly = "readonly" })
+                </div>
+
+
             </div>
 
 
@@ -123,26 +124,26 @@
 
             <div id="Agencyid2" style="display:none">
                 <!--<div class="row form-group">
-                    <div id="Logisticslineofbusinesshide">
-                        <label class="control-label col-md-2">Line Of Business</label>
-                        <div class="col-md-10" style="margin-left:230px; margin-top:-30px">
-                            <input type="radio" class="Logistics" id="CargoConsolidators" name="LogisticsServices" value="Cargo Consolidators/De-Consolidators"><b> Cargo Consolidators/De-Consolidators</b>
-                            <input type="radio" class="Logistics" id="Chandling" name="LogisticsServices" value="Chandling"> <b>Chandling</b>
-                            <input type="radio" class="Logistics" id="FreightForwardingClearingAgents" name="LogisticsServices" value="Freight Forwarders and Clearing Agent"> <b>Freight Forwarders and Clearing Agent</b>-->
-                            @*<input type="radio" class="Logistics" id="FreightForwarding" name="LogisticsServices" value="Freight Forwarding"><b> Freight Forwarding</b>*@
-                            <!--<input type="radio" class="Logistics" id="RoadHaulage" name="LogisticsServices" value="Hauliers (Truckers)"> <b>Hauliers (Truckers)</b>
-                            <input type="radio" class="Logistics" id="Stevedoring" name="LogisticsServices" value="Stevedoring"> <b>Stevedoring</b>
-                            <input type="radio" class="Logistics" id="Warehousing" name="LogisticsServices" value="Warehousing"> <b>Warehousing</b>-->
-                            @*<input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>*@
+    <div id="Logisticslineofbusinesshide">
+        <label class="control-label col-md-2">Line Of Business</label>
+        <div class="col-md-10" style="margin-left:230px; margin-top:-30px">
+            <input type="radio" class="Logistics" id="CargoConsolidators" name="LogisticsServices" value="Cargo Consolidators/De-Consolidators"><b> Cargo Consolidators/De-Consolidators</b>
+            <input type="radio" class="Logistics" id="Chandling" name="LogisticsServices" value="Chandling"> <b>Chandling</b>
+            <input type="radio" class="Logistics" id="FreightForwardingClearingAgents" name="LogisticsServices" value="Freight Forwarders and Clearing Agent"> <b>Freight Forwarders and Clearing Agent</b>-->
+                @*<input type="radio" class="Logistics" id="FreightForwarding" name="LogisticsServices" value="Freight Forwarding"><b> Freight Forwarding</b>*@
+                <!--<input type="radio" class="Logistics" id="RoadHaulage" name="LogisticsServices" value="Hauliers (Truckers)"> <b>Hauliers (Truckers)</b>
+    <input type="radio" class="Logistics" id="Stevedoring" name="LogisticsServices" value="Stevedoring"> <b>Stevedoring</b>
+    <input type="radio" class="Logistics" id="Warehousing" name="LogisticsServices" value="Warehousing"> <b>Warehousing</b>-->
+                @*<input type="checkbox" class="Logistics" id="LogisticsOthers" name="LogisticsOthers" value="LogisticsOthers"> <b>Others</b>*@
 
 
-                        <!--</div>
-                    </div>
+                <!--</div>
+            </div>
 
-                    
-                
 
-            </div>-->
+
+
+    </div>-->
 
                 <div id="displayLogisticsLOBTxtbox" style="display:none">
                     <div class="row form-group">
@@ -155,31 +156,25 @@
                 </div>
 
                 <div class="row form-group">
-                    <label class="control-label col-md-2">Customs License Number</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="CustomLicenseNum" autocomplete="off" name="CustomLicenseNum" />
-                    </div>
-
-
                     <label class="control-label col-md-2">Customs License Expiry Date</label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" readonly id="CustomLicenseExpiryDate" autocomplete="off" name="CustomLicenseExpiryDate" />
-
+                    </div>
+                    <label class="control-label col-md-2 hidecustomcertificatenum">Customs License Number</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control hidecustomcertificatenum" id="CustomLicenseNum" autocomplete="off" name="CustomLicenseNum" />
                     </div>
                 </div>
 
 
                 <div class="row form-group">
-                    <label class="control-label col-md-2">CRFFN Registration Number</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="CrffnRegistrationNum" autocomplete="off" name="CrffnRegistrationNum" />
-                    </div>
-
-
                     <label class="control-label col-md-2">CRFFN Registration Expiry Date</label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" readonly id="CrffnRegistratonExpiryDate" name="CrffnRegistratonExpiryDate" />
-
+                    </div>
+                    <label class="control-label col-md-2 CRFFNRgeNum">CRFFN Registration Number</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control CRFFNRgeNum" id="CrffnRegistrationNum" autocomplete="off" name="CrffnRegistrationNum" />
                     </div>
                 </div>
 
@@ -198,73 +193,87 @@
                     </div>
                 </div>
 
-
                 <div class="row form-group">
-                    <label class="control-label col-md-2">Any Other Relevant Info</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" id="LogisticsAnyOtherRelevantInfo" name="LogisticsAnyOtherRelevantInfo" cols="3" rows="3"></textarea>
+                        <label class="control-label col-md-2 hideassociation">Name of Association</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.NameOfAssociation, new { @class = "form-control hideassociation", autocomplete = "off", required = "required" })
 
-                    </div>
-                </div>
-            </div>
+                        </div>
 
-
-
-            <div id="Agencyid3" style="display:none">
-                <div class="row form-group" style="font-size:12px" id="portoffdockradiobtnhide">
-
-                    @*<div class="col-md-4">
-                        <b>Line Of Business:</b>
-                        <input type="radio" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminalLineOfBusiness" value="Sea Port Terminal"> Sea Port Terminal
-                        <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="ICD"> ICD
-                        <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="Off Dock Terminal"> Off Dock Terminal
-                        <input type="radio" class="LineOfBusinessTerminals" id="DryPortTerminal" name="PortTerminalLineOfBusiness" value="Dry Port"> Dry Port
-
-                    </div>*@
-
-                    <div class="col-md-4">
-                        <b>Status of Terminal:</b>
-                        <input type="radio" class="StatusTerminals" id="PortTerminalStatus" name="PortTerminalStatusOfTerminal" value="Concession"> Concession
-                        <input type="radio" class="StatusTerminals" id="OffDockTerminalStatus" name="PortTerminalStatusOfTerminal" value="PPP"> PPP
-                        <input type="radio" class="StatusTerminals" id="ClearingAgentsStatus" name="PortTerminalStatusOfTerminal" value="Lease Agreement"> Lease Agreement
-                        <input type="radio" class="StatusTerminals" id="OtherStatusTerminal" name="PortTerminalStatusOfTerminal" value="StatusTerminalOthers"> Others
-
-                        <textarea type="text" class="form-control" style="display:none" id="StatusOfTerminal" name="StatusOfTerminal"></textarea>
-
-
-                    </div>
-
-                    <div class="col-md-4">
-                        <b>Cargo Type:</b>
-                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeBulk" name="PortTerminalCargoType" value="Bulk"> Bulk
-                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeContainer" name="PortTerminalCargoType" value="Container"> Container
-                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeDry" name="PortTerminalCargoType" value="Dry"> Dry
-                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeRoRo" name="PortTerminalCargoType" value="Ro-Ro"> Ro-Ro
-                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeWet" name="PortTerminalCargoType" value="Wet"> Wet
-                        <input type="radio" class="CargoTypeTerminals" id="CargoTypeOthers" name="PortTerminalCargoType" value="CargoTypeOthers"> Others
-                        <textarea type="text" class="form-control" style="display:none" id="portoffdockCargoType" name="portoffdockCargoType"></textarea>
+                        <label class="control-label col-md-2">CAC Registration Number</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.CacregNum, new { @class = "form-control", autocomplete = "off", required = "required" })
                     </div>
 
                 </div>
 
-                <div class="row form-group" style="font-size:12px; display:none" id="portoffdockhide">
-                    <div class="col-md-4">
-                        <b>Line Of Business</b>
-                        <input type="text" class="form-control" id="portoffdockLineOfBusiness" name="portoffdockLineOfBusiness"/>
+                    <div class="row form-group">
+                        <label class="control-label col-md-2">Any Other Relevant Info</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" id="LogisticsAnyOtherRelevantInfo" name="LogisticsAnyOtherRelevantInfo" cols="3" rows="3"></textarea>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="Agencyid3" style="display:none">
+                    <div class="row form-group" style="font-size:12px" id="portoffdockradiobtnhide">
+
+                        @*<div class="col-md-4">
+                    <b>Line Of Business:</b>
+                    <input type="radio" class="LineOfBusinessTerminals" id="PortTerminal" name="PortTerminalLineOfBusiness" value="Sea Port Terminal"> Sea Port Terminal
+                    <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="ICD"> ICD
+                    <input type="radio" class="LineOfBusinessTerminals" id="OffDockTerminal" name="PortTerminalLineOfBusiness" value="Off Dock Terminal"> Off Dock Terminal
+                    <input type="radio" class="LineOfBusinessTerminals" id="DryPortTerminal" name="PortTerminalLineOfBusiness" value="Dry Port"> Dry Port
+
+                </div>*@
+
+                        <div class="col-md-4">
+                            <b>Status of Terminal:</b>
+                            <input type="radio" class="StatusTerminals" id="PortTerminalStatus" name="PortTerminalStatusOfTerminal" value="Concession"> Concession
+                            <input type="radio" class="StatusTerminals" id="OffDockTerminalStatus" name="PortTerminalStatusOfTerminal" value="PPP"> PPP
+                            <input type="radio" class="StatusTerminals" id="ClearingAgentsStatus" name="PortTerminalStatusOfTerminal" value="Lease Agreement"> Lease Agreement
+                            <input type="radio" class="StatusTerminals" id="OtherStatusTerminal" name="PortTerminalStatusOfTerminal" value="StatusTerminalOthers"> Others
+
+                            <textarea type="text" class="form-control" style="display:none" id="StatusOfTerminal" name="StatusOfTerminal"></textarea>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <b>Cargo Type:</b>
+                            <input type="radio" class="CargoTypeTerminals" id="CargoTypeBulk" name="PortTerminalCargoType" value="Bulk"> Bulk
+                            <input type="radio" class="CargoTypeTerminals" id="CargoTypeContainer" name="PortTerminalCargoType" value="Container"> Container
+                            <input type="radio" class="CargoTypeTerminals" id="CargoTypeDry" name="PortTerminalCargoType" value="Dry"> Dry
+                            <input type="radio" class="CargoTypeTerminals" id="CargoTypeRoRo" name="PortTerminalCargoType" value="Ro-Ro"> Ro-Ro
+                            <input type="radio" class="CargoTypeTerminals" id="CargoTypeWet" name="PortTerminalCargoType" value="Wet"> Wet
+                            <input type="radio" class="CargoTypeTerminals" id="CargoTypeOthers" name="PortTerminalCargoType" value="CargoTypeOthers"> Others
+                            <textarea type="text" class="form-control" style="display:none" id="portoffdockCargoType" name="portoffdockCargoType"></textarea>
+                        </div>
 
                     </div>
-                    <div class="col-md-4">
-                        <b>Status of Terminal</b>
-                        <input type="text" class="form-control" id="StatusOfTerminal" name="StatusOfTerminal"/>
 
+                    <div class="row form-group" style="font-size:12px; display:none" id="portoffdockhide">
+                        <div class="col-md-4">
+                            <b>Line Of Business</b>
+                            <input type="text" class="form-control" id="portoffdockLineOfBusiness" name="portoffdockLineOfBusiness" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <b>Status of Terminal</b>
+                            <input type="text" class="form-control" id="StatusOfTerminal" name="StatusOfTerminal" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <b>Cargo Type</b>
+                            <input type="text" class="form-control" id="portoffdockCargoType" name="portoffdockCargoType" />
+
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <b>Cargo Type</b>
-                        <input type="text" class="form-control" id="portoffdockCargoType" name="portoffdockCargoType"/>
 
-                    </div></div>
 
-                  
                     <table class="table table-bordered table-striped" id="mytable" style="width:100%">
 
                         <thead>
@@ -296,7 +305,7 @@
                     </table>
                     @*</div>
 
-        </div>*@
+            </div>*@
 
                     <div class="row form-group">
                         <label class="control-label col-md-1">Any Other Relevant Info</label>
@@ -307,57 +316,68 @@
                 </div>
 
 
-            <div id="Agencyid4" style="display:none">
-                <div class="row form-group" id="shippingradiobtnhide">
-                    <label class="control-label col-md-2"></label>
-                    @*<div class="col-md-4">
-                        <b>Line Of Business:</b>
-                        <input type="radio" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgencyLineofBusiness" value="Shipping Agency (Non Vessel Operating Agency)"> Shipping Agency (Non Vessel Operating Agency)
-                        <input type="radio" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingAgencyLineofBusiness" value="Shipping Company/Line"> Shipping Company/Line
-                    </div>*@
-                    <div class="col-md-4">
-                        <b>Cargo Type</b>
-                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingAgencyCargoType" value="Bulk"> Bulk
-                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeContainer" name="ShippingAgencyCargoType" value="Container"> Container
-                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeDry" name="ShippingAgencyCargoType" value="Dry"> Dry
-                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeRoRo" name="ShippingAgencyCargoType" value="Ro-Ro"> Ro-Ro
-                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeWet" name="ShippingAgencyCargoType" value="Wet"> Wet
-                        <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeOthers" name="ShippingAgencyCargoType" value="ShippingCargoTypeOthers"> Others
+                <div id="Agencyid4" style="display:none">
+                    <div class="row form-group" id="shippingradiobtnhide">
+                        <label class="control-label col-md-2"></label>
+                        @*<div class="col-md-4">
+                <b>Line Of Business:</b>
+                <input type="radio" class="LineOfBusinessShipping" id="ShippingAgency" name="ShippingAgencyLineofBusiness" value="Shipping Agency (Non Vessel Operating Agency)"> Shipping Agency (Non Vessel Operating Agency)
+                <input type="radio" class="LineOfBusinessShipping" id="ShippingCompany" name="ShippingAgencyLineofBusiness" value="Shipping Company/Line"> Shipping Company/Line
+            </div>*@
+                        <div class="col-md-4">
+                            <b>Cargo Type</b>
+                            <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeBulk" name="ShippingAgencyCargoType" value="Bulk"> Bulk
+                            <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeContainer" name="ShippingAgencyCargoType" value="Container"> Container
+                            <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeDry" name="ShippingAgencyCargoType" value="Dry"> Dry
+                            <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeRoRo" name="ShippingAgencyCargoType" value="Ro-Ro"> Ro-Ro
+                            <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeWet" name="ShippingAgencyCargoType" value="Wet"> Wet
+                            <input type="radio" class="ShippingCargoType" id="ShippingCargoTypeOthers" name="ShippingAgencyCargoType" value="ShippingCargoTypeOthers"> Others
+                        </div>
                     </div>
+
+
+
+                    <div class="row form-group" style="display:none" id="shippingtxtboxhide">
+                        <label class="control-label col-md-2">Line Of Business</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="ShippingagencyLineOfBusiness" name="ShippingagencyLineOfBusiness" />
+                        </div>
+
+
+                        <label class="control-label col-md-2">Cargo Type</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="ShippingagencyCargoType" name="ShippingagencyCargoType" />
+                        </div>
+                    </div>
+
+                    <div class="row form-group" style="display:none" id="NpaNimasatxtboxhide">
+                        <label class="control-label col-md-2">NPA Registration No.</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="nparegnum" name="nparegnum" />
+                        </div>
+
+
+                        <label class="control-label col-md-2">NIMASA Registration No.</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="nimasaregnum" name="nimasaregnum" />
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <label class="control-label col-md-2">Vessel/Lines Represented in Nigeria</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" id="VesselLinesRepresentedInNigeria" name="VesselLinesRepresentedInNigeria" cols="3" rows="3"></textarea>
+                        </div>
+
+                        <label class="control-label col-md-2">Any Other Relevant Info</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" id="ShippingagencyAnyOtherInfo" name="ShippingagencyAnyOtherInfo" cols="3" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
                 </div>
-
-
-
-                <div class="row form-group" style="display:none" id="shippingtxtboxhide">
-                    <label class="control-label col-md-2">Line Of Business</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="ShippingagencyLineOfBusiness" name="ShippingagencyLineOfBusiness" />
-                    </div>
-
-
-                    <label class="control-label col-md-2">Cargo Type</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="ShippingagencyCargoType" style="display:none" name="ShippingagencyCargoType"/>
-                    </div>
-                </div>
-
-
-
-
-                <div class="row form-group">
-                    <label class="control-label col-md-2">Vessel/Lines Represented in Nigeria</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" id="VesselLinesRepresentedInNigeria" name="VesselLinesRepresentedInNigeria" cols="3" rows="3"></textarea>
-                    </div>
-
-                    <label class="control-label col-md-2">Any Other Relevant Info</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" id="ShippingagencyAnyOtherInfo" name="ShippingagencyAnyOtherInfo" cols="3" rows="3"></textarea>
-                    </div>
-
-                </div>
-
-            </div>
 
                 <div id="Agencyid5" style="display:none">
                     <div class="row form-group">
@@ -378,11 +398,11 @@
                 <div id="Agencyid6" style="display:none">
                     <div class="row form-group">
                         @*<div class="col-md-6" id="userportradiobtnhide" style="font-size:12px">
-                            <b>Line Of Business:</b>
-                            <input type="radio" class="LineofBusinessUsers" id="IndividualCategory" name="LineofBusinessUsers" value="Individual Category (Importer & Exporter)"> Individual Category (Importer & Exporter)
-                            <input type="radio" class="LineofBusinessUsers" id="CorporateCategory" name="LineofBusinessUsers" value="Corporate Category (Manufacturers, Oil Companies & Others)"> Corporate Category (Manufacturers, Oil Companies & Others)
-                        </div>*@                            
-                        
+            <b>Line Of Business:</b>
+            <input type="radio" class="LineofBusinessUsers" id="IndividualCategory" name="LineofBusinessUsers" value="Individual Category (Importer & Exporter)"> Individual Category (Importer & Exporter)
+            <input type="radio" class="LineofBusinessUsers" id="CorporateCategory" name="LineofBusinessUsers" value="Corporate Category (Manufacturers, Oil Companies & Others)"> Corporate Category (Manufacturers, Oil Companies & Others)
+        </div>*@
+
                         <label class="control-label col-md-2 userporttxtboxhide" style="display:none">Line Of Business</label>
                         <div class="col-md-4 userporttxtboxhide" id="userporttxtboxhide" style="display:none">
                             <input class="form-control col-md-12" id="userportLineOfBusiness" name="userportLineOfBusiness" />
@@ -391,9 +411,16 @@
                         <div class="col-md-4">
                             <textarea class="form-control" id="userportAnyOtherInfo" name="userportAnyOtherInfo" cols="3" rows="3"></textarea>
                         </div>
+                            <label class="control-label col-md-2 nepcregnumhide" style="display:none">NEPC Registration number</label>
+                            <div class="col-md-4 nepcregnumhide" style="display:none">
+                                <input class="form-control" id="nepcregnum" name="nepcregnum" placeholder="For Exporters Only" />
+                            </div>
 
                     </div>
-                    </div>
+
+
+
+                </div>
 
 
                 <br />
@@ -620,6 +647,8 @@
                             $("#CompanyWebsite").val(data.companyWebsite);
                             $("#fees").val(data.txnAmount);
                             $("#lineofbusinessid").val(data.lineOfBusinessId);
+                            $("#NameOfAssociation").val(data.nameOfAssociation);
+                            $("#CacregNum").val(data.cacregNum);
                             document.getElementById("DateofEstablishment").style.pointerEvents = "none";
                             document.getElementById("CompanyAddress").style.pointerEvents = "none";
                             document.getElementById("PostalAddress").style.pointerEvents = "none";
@@ -744,6 +773,7 @@
                             else if (data.agencyId === 6) {
                                 //$("#userportradiobtnhide").hide();
                                 $(".userporttxtboxhide").show();
+                                $("#nepcregnum").val(data.nepcRegNo);
                                 $("#userportLineOfBusiness").val(data.category);
                                 $("#userportAnyOtherInfo").val(data.anyOtherInfo);
                                 $("#userportLineOfBusiness").attr("readonly", true);
@@ -810,13 +840,17 @@
                 debugger;
                 categoryid = Number($("#txtagency option:selected").val());
                 var categoryname = $("#txtagency option:selected").text();
-                
-                $.getJSON("/Company/GetFees", {Categoryid: categoryid }, function (data) {
 
+                $.getJSON("/Company/GetFees", {Categoryid: categoryid }, function (data) {
+                    debugger;
                     $("#AgencyName").val(categoryname);
                     $("#AgencyId").val(data.formid);
                     $("#fees").val(data.feeamount);
                     $("#lineofbusinessid").val(categoryid);
+                    $(".hideDoE").show();
+                    $(".hidecustomcertificatenum").show();
+                    $(".CRFFNRgeNum").show();
+
                     if (data.formid === 1) {
                     $("#Agencyid1").show();
 
@@ -824,7 +858,8 @@
                     $("#Agencyid3").hide();
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
-                    $("#Agencyid6").hide();
+                        $("#Agencyid6").hide();
+                        $(".nepcregnumhide").hide();
                     $("#ServicesProvidedInPort").attr("required", true);
 
                     $("#CustomLicenseNum").attr("required", false);
@@ -834,14 +869,15 @@
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
                     $("#otherportLineOfBusiness").attr("required", false);
                     $("#userportAnyOtherInfo").attr("required", false);
-                    
+
                     } else if (data.formid === 2) {
                     $("#Agencyid1").hide();
                     $("#Agencyid2").show();
                     $("#Agencyid3").hide();
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
-                    $("#Agencyid6").hide();
+                        $("#Agencyid6").hide();
+                        $(".nepcregnumhide").hide();
                     $("#LogisticsLineOfBusiness").val(categoryname);
                     $("#CustomLicenseNum").attr("required", true);
                     $("#CustomLicenseExpiryDate").attr("required", true);
@@ -850,8 +886,20 @@
                     $("#userportAnyOtherInfo").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
-                    $("#otherportLineOfBusiness").attr("required", false);
-                    
+                        $("#otherportLineOfBusiness").attr("required", false);
+                        if (categoryid === 2) {
+                            $(".hideDoE").hide();
+                            $("#DateofEstablishment").attr("required", false);
+                        }
+                        else if (categoryid === 5 || categoryid === 6) {
+                            $(".CRFFNRgeNum").hide();
+                            $("#CrffnRegistrationNum").attr("required", false);
+                        }
+                       else if (categoryid === 3) {
+                            $(".hidecustomcertificatenum").hide();
+                            $("#CustomLicenseNum").attr("required", false);
+                        }
+
                 }
 
                     else if (data.formid === 3) {
@@ -860,8 +908,14 @@
                     $("#Agencyid3").show();
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
-                    $("#Agencyid6").hide();
-                    $("#portoffdockLineOfBusiness").val(categoryname); 
+                        $("#Agencyid6").hide();
+                        $(".nepcregnumhide").hide();
+                        $("#portoffdockLineOfBusiness").val(categoryname);
+                        if (categoryid === 8) {
+                            $(".hideDoE").hide();
+                            $("#DateofEstablishment").attr("required", false);
+                        }
+                       
                  }
 
                     else if (data.formid === 4) {
@@ -870,8 +924,9 @@
                     $("#Agencyid3").hide();
                     $("#Agencyid4").show();
                     $("#Agencyid5").hide();
-                    $("#Agencyid6").hide(); 
-                    $("#ShippingagencyLineOfBusiness").val(categoryname); 
+                        $("#Agencyid6").hide();
+                        $(".nepcregnumhide").hide();
+                    $("#ShippingagencyLineOfBusiness").val(categoryname);
                     $("#VesselLinesRepresentedInNigeria").attr("required", true);
                     $("#userportAnyOtherInfo").attr("required", false);
                     $("#CustomLicenseNum").attr("required", false);
@@ -879,8 +934,12 @@
                     $("#CrffnRegistrationNum").attr("required", false);
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
-                    $("#otherportLineOfBusiness").attr("required", false);
-                       
+                        $("#otherportLineOfBusiness").attr("required", false);
+                        $("#NpaNimasatxtboxhide").show();
+                        $("#nparegnum").attr("required", true);
+                        $("#nimasaregnum").attr("required", true);
+                        
+
                 }
                     else if (data.formid === 5) {
 
@@ -889,6 +948,7 @@
                     $("#Agencyid3").hide();
                     $("#Agencyid4").hide();
                     $("#Agencyid5").show();
+                    $(".nepcregnumhide").hide();
                     $("#Agencyid6").hide();
                     $("#otherportLineOfBusiness").attr("required", true);
                     $("#userportAnyOtherInfo").attr("required", false);
@@ -898,7 +958,7 @@
                     $("#CrffnRegistrationNum").attr("required", false);
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
                     $("#ServicesProvidedInPort").attr("required", false);
-
+                       
                 }
 
                     else if (data.formid === 6) {
@@ -909,7 +969,7 @@
                     $("#Agencyid4").hide();
                     $("#Agencyid5").hide();
                     $("#Agencyid6").show();
-                    $("#userportLineOfBusiness").val(categoryname); 
+                    $("#userportLineOfBusiness").val(categoryname);
                     $("#userportAnyOtherInfo").attr("required", true);
                     $("#otherportLineOfBusiness").attr("required", false);
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
@@ -917,9 +977,11 @@
                     $("#CustomLicenseExpiryDate").attr("required", false);
                     $("#CrffnRegistrationNum").attr("required", false);
                     $("#CrffnRegistratonExpiryDate").attr("required", false);
-                    $("#ServicesProvidedInPort").attr("required", false);
-                
-
+                        $("#ServicesProvidedInPort").attr("required", false);
+                        if (categoryid === 14) {
+                            $(".nepcregnumhide").show();
+                        }
+                   
                 }
 
             });
@@ -1073,7 +1135,7 @@
             $('#addbtn').click(function (e) {
                 e.preventDefault();
                 var agencyID = $("#AgencyId").val();
-                
+
                  if (agencyID === 3) {
                     var StatusOfTerminal = $("#StatusOfTerminal").val();
                     var portoffdockCargoType = $("#portoffdockCargoType").val();

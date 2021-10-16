@@ -1327,5 +1327,61 @@ namespace RSPP.Configurations
 
 
 
+
+        public PaymentChart PaymentChartList(PaymentChart paymentchart)
+        {
+            string res = string.Empty;
+
+            var paymentlist = (from l in _context.PaymentLog
+                                join a in _context.ApplicationRequestForm on l.ApplicationId equals a.ApplicationId
+                                select new
+                                {
+                                    ApplicationId = l.ApplicationId,
+                                    BargoOperators = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Barge Operators" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    CargoConsolidators_DeConsolidators = (Nullable<long>)(from abu in _context.PaymentLog where a.AgencyName == "Cargo Consolidators/De-Consolidators" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    Chandling = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Chandling" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    DryPortOperator = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Dry Port Operator" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    Freightforwarders_Clearingagents = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Freight forwarders and Clearing agents" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    Haulers_Truckers = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Haulers/Truckers" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    ICD = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "ICD" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    LogisticsServiceprovider = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Logistics Service Providers" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    Stevedoring_Warehousing = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Stevedoring/Warehousing" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    SeaportTerminalOperator = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Seaport Terminal Operator" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    OffDockTerminalOperator = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Off-Dock Terminal Operator" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    ShippingAgency = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Shipping Agency (Non Vessel Operating)" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    ShippingCompany_Line = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Shipping Company/Line" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    ShippersAssociation = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Shippers Association" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    CargoSurveyors = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Cargo Surveyors" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    IndividualCategory = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Individual Category (Importer & Exporter)" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    CorporateCategory= (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Corporate Category (Manufacturers, Oil Companies & Others)" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                    OtherPortServiceProviders = (Nullable<long>)(from abi in _context.PaymentLog where a.AgencyName == "Other Port Service Providers" && l.Status == "AUTH" select l.TxnAmount).FirstOrDefault(),
+                                }).ToList().GroupBy(x => x.ApplicationId).Select(x => x.LastOrDefault()).ToList();
+
+            paymentchart.Bargo_Operators = paymentlist.ToList().Sum(x => x.BargoOperators);
+            paymentchart.CargoConsolidators_DeConsolidators = paymentlist.ToList().Sum(x => x.CargoConsolidators_DeConsolidators);
+            paymentchart.Chandling = paymentlist.ToList().Sum(x => x.Chandling);
+            paymentchart.DryPortOperator = paymentlist.ToList().Sum(x => x.DryPortOperator);
+            paymentchart.FreightForwarders_ClearingAgents = paymentlist.ToList().Sum(x => x.Freightforwarders_Clearingagents);
+            paymentchart.Haulers_Truckers = paymentlist.ToList().Sum(x => x.Haulers_Truckers);
+            paymentchart.ICD = paymentlist.ToList().Sum(x => x.ICD);
+            paymentchart.Logististics_Service_Provider = paymentlist.ToList().Sum(x => x.LogisticsServiceprovider);
+            paymentchart.Stevedoring_Warehousing = paymentlist.ToList().Sum(x => x.Stevedoring_Warehousing);
+            paymentchart.SeaportTerminalOperator = paymentlist.ToList().Sum(x => x.SeaportTerminalOperator);
+            paymentchart.OffDockTerminalOperator = paymentlist.ToList().Sum(x => x.OffDockTerminalOperator);
+            paymentchart.ShippingAgency = paymentlist.ToList().Sum(x => x.ShippingAgency);
+            paymentchart.ShippingCompany_Line = paymentlist.ToList().Sum(x => x.ShippingCompany_Line);
+            paymentchart.ShippersAssociation = paymentlist.ToList().Sum(x => x.ShippersAssociation);
+            paymentchart.CargoSurveyor = paymentlist.ToList().Sum(x => x.CargoSurveyors);
+            paymentchart.IndividualCategory = paymentlist.ToList().Sum(x => x.IndividualCategory);
+            paymentchart.CorperateCategory = paymentlist.ToList().Sum(x => x.CorporateCategory);
+            paymentchart.OtherPortServiceProviders = paymentlist.ToList().Sum(x => x.OtherPortServiceProviders);
+            return paymentchart;
+        }
+
+
+
+
+
+
     }
 }

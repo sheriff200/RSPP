@@ -42,13 +42,56 @@
         @Scripts.Render("~/bundles/jqueryval")*@
 
 
+    @using (Html.BeginForm("ForgotPassword", "Account", FormMethod.Post, new { @id = "forgotpasswordformid" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="container">
+            <div class="modal fade ForgotPasswordmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="calenderModalLabel">
+                <div class="modal-dialog" style="display:inline-block; vertical-align:middle; margin:0 auto 0 40%; width:450px; height:500px; margin-top:40px" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title text-success" id="exampleModalLabel"><i class="fa fa-hand-o-down"></i>Activation link will be sent to your email</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <label style="font-family:Cambria; font-weight:bold">Enter Email</label>
+                                    <input class="form-control col-sm-11" id="forgotpasswordemail" placeholder="Enter email registered with this portal" type="email" name="forgotpasswordemail" required="" autocomplete="off"/><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-4">
+                                        <button type="button" id="forgotpasswordbtn" class="btn btn-success">Submit</button>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "formid" }))
     {
         @Html.AntiForgeryToken()
 
 
         <div class="container">
+
             <center>
+
                 <div style="margin-top: 175px">
 
                     <div style="background-color:white; max-width: 400px; padding:30px; border-radius:4px; box-shadow: 0 17px 50px 0 rgba(0,0,0,0.19),0 12px 15px 0 rgba(0,0,0,0.24); overflow: hidden; opacity:0.9" class="text-left">
@@ -77,10 +120,10 @@
 
                         <br />
 
-
                         <div id="RegDiv">
+                            <div><a href="#" id="forgotpassword" style="float:right" class="text-success" data-toggle="modal" data-target=".ForgotPasswordmodal">Forgot Password?</a></div>
                             <button class="col-lg-12 col-sm-12 col-xs-12 btn btn-success" id="btnlogin" type="submit" style="height:45px;"> Login </button>
-                            <span class="text-success" style="font-size:12px">Don't have an existing account on this portal? <a href="/Account/AccountRegister" style="text-decoration:underline">Register here</a></span>
+                            <span class="text-success" style="font-size:12px; float:left">Don't have an existing account on this portal? <a href="/Account/AccountRegister" style="text-decoration:underline">Register here</a></span>
 
                         </div>
 
@@ -99,14 +142,31 @@
         </div>
     }
     <script src="~/js/jquery-3.3.1.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.validate.min.js"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
 
+
+            $("#forgotpasswordbtn").click(function (e) {
+                e.preventDefault();
+
+                if ($("#forgotpasswordformid").valid()) {
+                    $(".loadingImage").show();
+                    var email = $("#forgotpasswordemail").val();
+                    $.post("/Account/ForgotPassword", { Email: email }, function (data) {
+                        $(".loadingImage").hide();
+                        alert(data.message);
+                    });
+                }
+
+            });
+
+
             $("#btnlogin").click(function (e) {
                 e.preventDefault();
-                
+
                 if ($("#formid").valid()) {
                     $(".loadingImage").show();
                     var email = $("#UserEmail").val();
