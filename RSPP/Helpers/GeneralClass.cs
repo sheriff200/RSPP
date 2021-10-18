@@ -201,12 +201,12 @@ namespace RSPP.Helpers
             _mail.Body = msgBody;
             try
             {
-                client.Send(_mail);
+               client.Send(_mail);
                 result = "success";
             }
             catch (Exception ex)
             {
-                message = ex.Message;
+                message = ex.ToString();
                 result = "failed";
             }
             return result;
