@@ -56,7 +56,7 @@
                             "targets": 4,
                             "data": null,
                             "defaultContent":
-                                '<button id="Givevalue" class="btn btn-xs btn-success payment"><span class="glyphicon glyphicon-transfer"></span> Give Value</button>'
+                                '<button id="Givevalue" class="btn btn-xs btn-success payment"><i class="fa fa-send"></i> Give Value</button>'
                         }
                     ]
                 });
@@ -69,9 +69,10 @@
                     if (answer === true) {
                         $("#loadingImage").show('fast');
                         var data = table.row($(this).parents('tr')).data();
-                        var appid = data.ApplicationID;
-                        $.post("/Admin/GiveValue", { Appid: appid }, function (result) {
-                            if (result.Status === "success") {
+                        var appid = data.applicationId;
+                        $.post("/Admin/GiveValue", { "Appid": appid }, function (result) {
+                            debugger;
+                            if (result.status === "success") {
                                 $("#loadingImage").hide('fast');
                                 alert("Value Was Successfully Given to Application With the Reference No. " + "(" + appid + ")");
                                 window.location.href = "/Admin/GiveValueList";

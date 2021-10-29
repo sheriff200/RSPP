@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using RSPP.Job;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,14 @@ namespace RSPP
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+
+            var host = new WebHostBuilder()
+       .UseKestrel()
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseIISIntegration()
+            .UseStartup<Startup>()
+            .Build();
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -24,6 +33,8 @@ namespace RSPP
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+       
             //.ConfigureServices(services =>
             //       services.AddHostedService<PaymentConfirmationService>());
 

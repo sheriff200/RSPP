@@ -99,7 +99,7 @@
 
                 <label class="control-label col-md-2">Company Website</label>
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control CompanyWebsite", autocomplete = "off", required = "required" })
+                    @Html.TextBoxFor(model => model.CompanyWebsite, new { @class = "form-control CompanyWebsite", autocomplete = "off"})
                 </div>
             </div>
 
@@ -970,7 +970,6 @@
                     $("#Agencyid5").hide();
                     $("#Agencyid6").show();
                     $("#userportLineOfBusiness").val(categoryname);
-                    $("#userportAnyOtherInfo").attr("required", true);
                     $("#otherportLineOfBusiness").attr("required", false);
                     $("#VesselLinesRepresentedInNigeria").attr("required", false);
                     $("#CustomLicenseNum").attr("required", false);
@@ -1134,8 +1133,8 @@
 
             $('#addbtn').click(function (e) {
                 e.preventDefault();
-                var agencyID = $("#AgencyId").val();
-
+                var agencyID = Number($("#AgencyId").val());
+                debugger;
                  if (agencyID === 3) {
                     var StatusOfTerminal = $("#StatusOfTerminal").val();
                     var portoffdockCargoType = $("#portoffdockCargoType").val();

@@ -74,7 +74,10 @@ namespace RSPP
 
             });
 
-
+            services.Configure<IISOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<RSPPdbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RSPPConnectionString")));

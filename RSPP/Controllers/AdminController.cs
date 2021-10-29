@@ -1253,8 +1253,8 @@ namespace RSPP.Controllers
                     paymentLog.AppReceiptId = "Value Given";
                     paymentLog.TxnAmount = processFeeAmt + statutoryFeeAmt;
                     paymentLog.Arrears = 0;
-                    paymentLog.Account = _context.Configuration.Where(c => c.ParamId == "ACCOUNT").FirstOrDefault().ParamValue.ToString();
-                    paymentLog.BankCode = _context.Configuration.Where(c => c.ParamId == "BANKCODE").FirstOrDefault().ParamValue.ToString();
+                    paymentLog.Account = generalClass.AccountNumber;
+                    paymentLog.BankCode = generalClass.BankCode;
                     paymentLog.RetryCount = 0;
                     paymentLog.ActionBy = _helpersController.getSessionEmail();
                     paymentLog.Status = "AUTH";
@@ -1262,23 +1262,19 @@ namespace RSPP.Controllers
                     _context.PaymentLog.Add(paymentLog);
                     _context.SaveChanges();
                     log.Info("Added Payment Log to Table");
-
-
                     status = "success";
-
                     log.Info("Saved it Successfully");
                 }
                 else
                 {
                     paylog.Status = "AUTH";
-                    _context.SaveChanges();
+                    _context.SaveChanges();                    
+                    status = "success";
                 }
 
                 if (appRequest != null)
                 {
-
-
-                    ResponseWrapper responseWrapper = _workflowHelper.processAction(Appid, "Submit", appRequest.CompanyEmail, "Application was successfully sumbited after value given");
+                    ResponseWrapper responseWrapper = _workflowHelper.processAction(Appid, "GenerateRRR", appRequest.CompanyEmail, "Application has moved to document upload after value given");
                 }
 
 
