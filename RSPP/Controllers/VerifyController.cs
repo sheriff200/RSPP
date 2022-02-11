@@ -42,17 +42,17 @@ namespace RSPP.Controllers
                                    join u in _context.UserMaster on a.CompanyEmail equals u.UserEmail
                                    join f in _context.PaymentLog on a.ApplicationId equals f.ApplicationId
                                    where a.ApplicationId == id
-                                   select new { f.TxnAmount, a.CompanyEmail, a.ApplicationId, a.LicenseReference, a.AgencyName, a.PostalAddress, a.LicenseExpiryDate, a.LicenseIssuedDate }).FirstOrDefault();
-
+                                   select new { f.TxnAmount, a.CompanyEmail, a.ApplicationId, a.LicenseReference, a.AgencyName, a.PostalAddress, a.LicenseExpiryDate, a.LicenseIssuedDate, u.CompanyName, a.CompanyAddress }).FirstOrDefault();
                     
-                    permit.CompanyName = details.CompanyEmail;
-                    permit.CompanyIdentity = details.PostalAddress;
+                    permit.CompanyName = details.CompanyName;
+                    permit.LocationAddress = details.PostalAddress;
                     permit.LicenseNumber = details.LicenseReference;
-                    permit.RegisteredAddress = details.AgencyName;
+                    permit.RegisteredAddress = details.CompanyAddress;
                     permit.Expiry = Convert.ToDateTime(details.LicenseExpiryDate);
                     permit.AmountToWord = generalClass.NumberToWords(Convert.ToInt64(details.TxnAmount));
                     permit.DateIssued = Convert.ToDateTime(details.LicenseIssuedDate);
                     permit.ApprefNo = details.ApplicationId;
+                    permit.Amountpaid = Convert.ToDecimal(details.TxnAmount);
 
             }
             return View(permit);

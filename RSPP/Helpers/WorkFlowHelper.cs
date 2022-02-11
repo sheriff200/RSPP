@@ -100,7 +100,11 @@ namespace RSPP.Helper
                     if (Action == "Accept" && mainWkflowNavigation.ActionRole == "REGISTRAR")
                     {
                         appmaster.Status = "Approved";
-                    }else if(Action == "Reject")
+                        var subject = "Application Approved";
+                        string content = "Application with the reference number " + ApplicationId + " has been approved successfully.";
+                        var sendemail = generalClass.SendStaffEmailMessage(NextProcessor, subject, content);
+                    }
+                    else if(Action == "Reject")
                     {
                         appmaster.Status = "Rejected";
                     }

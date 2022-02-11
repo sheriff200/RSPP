@@ -18,7 +18,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.ApplicationTypeId)
+        @Html.HiddenFor(model => model.ApplicationTypeId, new { @class= "ApplicationTypeId" })
         @Html.HiddenFor(model => model.ApplicationId)
         @Html.HiddenFor(model => model.Status)
         @Html.HiddenFor(model => model.AgencyName)
@@ -263,12 +263,12 @@
                         </div>
                         <div class="col-md-4">
                             <b>Status of Terminal</b>
-                            <input type="text" class="form-control" id="StatusOfTerminal" name="StatusOfTerminal" />
+                            <input type="text" class="form-control StatusOfTerminal" id="StatusOfTerminal" name="StatusOfTerminal" />
 
                         </div>
                         <div class="col-md-4">
                             <b>Cargo Type</b>
-                            <input type="text" class="form-control" id="portoffdockCargoType" name="portoffdockCargoType" />
+                            <input type="text" class="form-control portoffdockCargoType" id="portoffdockCargoType" name="portoffdockCargoType" />
 
                         </div>
                     </div>
@@ -604,14 +604,15 @@
             $("#CompanyEmail").val('@ViewBag.AgencyEmail');
 
             $("#AppType").change(function () {
+                debugger;
                 var selectedvalue = $("#AppType option:selected").text();
 
                 if (selectedvalue === "RENEW") {
-                    $("#ApplicationTypeId").val('RENEW');
+                    $(".ApplicationTypeId").val('RENEW');
                     $("#hidecertnum").show();
                     $("#txtcertnum").attr("required", true);
-                } else {
-                    $("#ApplicationTypeId").val('NEW');
+                } else if (selectedvalue === "NEW") {
+                    $(".ApplicationTypeId").val('NEW');
                     $("#hidecertnum").hide();
                     $("#txtcertnum").attr("required", false);
                 }
@@ -620,14 +621,13 @@
 
             $("#txtcertnum").change(function () {
                 var selectedvalue = $("#txtcertnum option:selected").text();
-
+               
                 $.post("/Company/CertificateRenewal", { "CertificateNumber": selectedvalue }, function (response) {
-
+                    debugger;
                     if (response != null) {
                         $("#txtagency").html("");
-
                         $.each(response, function (key, data) {
-
+                            debugger;
                             var dateofEstablishment = new Date(data.dateofEstablishment),
                                 yr = dateofEstablishment.getFullYear(),
                                 month = dateofEstablishment.getMonth() < 10 ? '0' + dateofEstablishment.getMonth() : dateofEstablishment.getMonth(),
@@ -635,7 +635,7 @@
                                 dateofEstablishmentnewDate = day + '/' + month + '/' + yr;
 
                             $("#AgencyId").val(data.agencyId);
-                            $("#ApplicationTypeId").val('RENEW');
+                            $(".ApplicationTypeId").val('RENEW');
                             $("#AgencyName").val(data.agencyName);
                             $("#AgencyId").val(data.agencyId);
                             $("#txtagency").append('<option value="' + data.agencyName + '">' + data.agencyName + '</option>');
@@ -722,18 +722,20 @@
                                 $("#Agencyid6").hide();
 
                             } else if (data.agencyId === 3) {
-
+                                debugger;
+                                var html = "";
                                 $("#portoffdockradiobtnhide").hide();
                                 $("#portoffdockhide").show();
-                                $("#portoffdockLineOfBusiness").val(data.lineOfBusiness);
-                                $("#StatusOfTerminal").val(data.statusOfTerminal);
-                                $("#portoffdockCargoType").val(data.cargoType);
-                                $("#portoffdockAnyOtherInfo").val(data.anyOtherInfo);
+                                
                                 $("#portoffdockLineOfBusiness").attr("readonly", true);
-                                $("#StatusOfTerminal").attr("readonly", true);
-                                $("#portoffdockCargoType").attr("readonly", true);
+                                $(".StatusOfTerminal").attr("readonly", true);
+                                $(".portoffdockCargoType").attr("readonly", true);
 
-                                $.each(val.Tanks, function (keys, vals) {
+                                $.each(data.terminal, function (keys, vals) {
+                                    $("#portoffdockLineOfBusiness").val(vals.lineOfBusiness);
+                                    $(".StatusOfTerminal").val(vals.statusOfTerminal);
+                                    $(".portoffdockCargoType").val(vals.cargoType);
+                                    $("#portoffdockAnyOtherInfo").val(vals.anyOtherInfo);
                                     html += "<tr><td>" + vals.nameOfTerminal + "</td> <td>" + vals.locationOfTerminal + "</td></tr>";
                                 });
                                 $("#AppendTerminals").html(html);

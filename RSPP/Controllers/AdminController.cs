@@ -518,6 +518,11 @@ namespace RSPP.Controllers
                     ViewBag.OtherPortServiceProvider = _helpersController.OtherPortServiceProvider(applicationId);
 
                 }
+                else if (br.AgencyId == 6)
+                {
+                    ViewBag.UserOfPortService = _helpersController.UserOfPortService(applicationId);
+
+                }
             }
 
             return View(br);
@@ -2431,7 +2436,7 @@ namespace RSPP.Controllers
 
         public ActionResult ViewCertificate(string id)
         {
-            var Host = HttpContext.Request.Scheme + "//" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
+            var Host = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + "" + "" + HttpContext.Request.PathBase;
 
             return _helpersController.ViewCertificate(id, Host);
         }

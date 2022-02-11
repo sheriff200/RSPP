@@ -46,8 +46,11 @@
                     <input name="rrr" value="@ViewBag.RRR" type="hidden" />
                     <input name="responseurl" value="@ViewBag.BaseUrl/Company/PaymentReceipt?ApplicationId=@ViewBag.Applicationid" type="hidden" /><br>
                     <button name="submit_btn" type="submit" style="margin-left:300px" class="btn btn-success"><i class="fa fa-money"></i> <b>Pay Now</b></button>
-                   @*<input style="margin-left:300px" type="submit" name="submit_btn" class="btn btn-success" value="Pay Now">*@
+
+                    @*<input style="margin-left:300px" type="submit" name="submit_btn" class="btn btn-success" value="Pay Now">*@
                 </form>
+                <div name="bypassbtn" id="bypassbtn" onclick="ByPassPayment()" style="margin-left:300px" class="btn btn-success"><i class="fa fa-money"></i> <b>By Pass Payment</b></div>
+
             </div>
         </div>
     </div>
@@ -65,28 +68,33 @@
 
         $(document).ready(function () {
 
-            $('#bypassbtn').click(function (e) {
-                e.preventDefault();
-                debugger;
-                if ($("#formid").valid()) {
+            //$('#bypassbtn').click(function (e) {
+            //    e.preventDefault();
+            //    debugger;
 
-                    var Applicationid = $("#appid").val();
-                    var txtPaymentName = $("#txtPaymentName").val();
-                    var txtpaymentamount = $("#txtpaymentamount").val();
-
-                    $.post("/Company/ChargeSummary", { applicationid: Applicationid, PaymentName: txtPaymentName, paymentamount: txtpaymentamount }, function (data) {
-
-                        if (data.status === "success") {
-                            window.location = "/Company/DocumentUpload?ApplicationId=" + Applicationid;
-                        } else {
-                            alert(data.message);
-                        }
-
-                    });
-                }
-            });
+            //});
 
         });
+        function ByPassPayment() {
+
+            //if ($("#formid").valid()) {
+            debugger;
+                var Applicationid = '@ViewBag.Applicationid';
+                var txtPaymentName = '@ViewBag.AgencyName';
+                var txtpaymentamount = '@ViewBag.Amount';
+
+            $.post("/Company/ByPassPayment", { applicationid: Applicationid, PaymentName: txtPaymentName, paymentamount: txtpaymentamount }, function (data) {
+
+                    if (data.status === "success") {
+                        window.location = "/Company/DocumentUpload?ApplicationId=" + Applicationid;
+                    } else {
+                        alert(data.message);
+                    }
+
+                });
+            //}
+
+        }
 
         function printDiv() {
 

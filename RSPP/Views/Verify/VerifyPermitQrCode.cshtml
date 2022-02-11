@@ -39,20 +39,18 @@
                     <hr />
 
                     <div>
-                        <p><b style="color:darkred">Permit Number : </b> @Model.LicenseNumber</p>
+                        <p><b style="color:darkred">Certificate Number : </b> @Model.LicenseNumber</p>
                         <hr />
-
-                        <p><b style="color:darkred">Ref Number : </b> @Model.ApprefNo </p>
-                        <p><b style="color:darkred">Storage Capacity : </b>@Model.Capacity</p>
-                        <p><b style="color:darkred">Issued Date : </b> @Model.DateIssued</p>
-                        <p><b style="color:darkred">Expiry Date : </b>@Model.Expiry</p>
-
+                        <p><b style="color:darkred">Application Ref Number : </b> @Model.ApprefNo </p>
+                        <p><b style="color:darkred">Certificate Issued Date : </b> @Model.DateIssued</p>
+                        <p><b style="color:darkred">Certificate Expiry Date : </b>@Model.Expiry</p>
                         <hr />
-
-                        <p><b style="color:darkred">Company Identification Code : </b>@Model.CompanyIdentity </p>
+                        <p><b style="color:darkred">Application Category: </b> @Model.AgencyName</p>
                         <p><b style="color:darkred">Company Name : </b> @Model.CompanyName</p>
                         <p><b style="color:darkred">Company Address : </b> @Model.RegisteredAddress</p>
-                        <p><b style="color:darkred">Facility Address : </b> @Model.LocationAddress</p>
+                        <p><b style="color:darkred">Postal Address : </b> @Model.LocationAddress</p>
+                        <p><b style="color:darkred">Processing Fee : </b> @Model.AmountToWord &nbsp; (@Model.Amountpaid)</p>
+
                     </div>
 
                 </div>

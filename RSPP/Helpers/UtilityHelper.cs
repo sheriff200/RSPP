@@ -35,7 +35,7 @@ namespace RSPP.Helpers
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
-            request.AddHeader("Authorization", "remitaConsumerKey="+generalClass.merchantId+",remitaConsumerToken="+APIHash);
+            request.AddHeader("Authorization", "remitaConsumerKey="+generalClass.merchantIdLive+",remitaConsumerToken="+APIHash);
             var requestobj = JsonConvert.SerializeObject(model); 
             request.AddParameter("application/json", requestobj, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
@@ -61,11 +61,11 @@ namespace RSPP.Helpers
         {
             WebResponse webResponse = new WebResponse();
 
-            var client = new RestClient(generalClass.GetPaymentBaseUrl+ generalClass.merchantId+"/"+rrr+"/"+ APIHash+"/status.reg");
+            var client = new RestClient(generalClass.GetPaymentBaseUrl+ generalClass.merchantIdLive+"/"+rrr+"/"+ APIHash+"/status.reg");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
             request.AddHeader("Content-Type", "application/json");
-            request.AddHeader("Authorization", "remitaConsumerKey=" + generalClass.merchantId + ",remitaConsumerToken=" + APIHash);
+            request.AddHeader("Authorization", "remitaConsumerKey=" + generalClass.merchantIdLive + ",remitaConsumerToken=" + APIHash);
             IRestResponse response = client.Execute(request);
             if (response.IsSuccessful)
             {
@@ -95,8 +95,8 @@ namespace RSPP.Helpers
                     log.Info("RRR is Already Generated =>" + paymentLogs.Rrreference);
                     return paymentLogs.Rrreference;
                 }
-                
 
+                var servicetype = applicationdetails.ApplicationTypeId == "NEW" ? generalClass.ServiceIdNewLive : generalClass.ServiceIdRenewalLive;
                 paymentRequest.serviceTypeId = generalClass.ServiceId;
                 paymentRequest.orderId = Applicationid;
                 paymentRequest.amount = Decimal.ToInt32(paymentamonut).ToString();
@@ -104,7 +104,7 @@ namespace RSPP.Helpers
                 paymentRequest.payerEmail = applicationdetails.CompanyEmail;
                 paymentRequest.payerPhone = applicationdetails.PhoneNum;
                 paymentRequest.description = applicationdetails.AgencyName;
-                string AppkeyHash = generalClass.merchantId + generalClass.ServiceId + Applicationid + Decimal.ToInt32(paymentamonut).ToString() + generalClass.AppKey;
+                string AppkeyHash = generalClass.merchantIdLive + servicetype + Applicationid + Decimal.ToInt32(paymentamonut).ToString() + generalClass.AppKeyLive;//generalClass.merchantId + generalClass.ServiceId + Applicationid + Decimal.ToInt32(paymentamonut).ToString() + generalClass.AppKey;
                 string AppkeyHashed = generalClass.GenerateSHA512(AppkeyHash);
                 WebResponse webResponse = RemitaPayment(paymentRequest, AppkeyHashed);
 
@@ -149,11 +149,8 @@ namespace RSPP.Helpers
         public LineOfBusiness Fees(int Categoryid)
         {
             var details = (from a in _context.LineOfBusiness where a.LineOfBusinessId == Categoryid select a).FirstOrDefault();
-           
             return details;
         }
-
-
 
 
     }

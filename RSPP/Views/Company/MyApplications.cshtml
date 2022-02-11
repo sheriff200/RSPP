@@ -97,7 +97,7 @@
                             </td>
 
                             <td>
-                                @if (appmaster.Status != "Rejected" && appmaster.CurrentStageId <= 3)
+                                @if (appmaster.Status != "Rejected" && appmaster.CurrentStageId < 3)
                                 {
                                     <a class="btn btn-danger btn-xs round" href="#" onclick="javascript:MoveToDeleteAction('@appmaster.ApplicationId')">
                                         <span class="glyphicon glyphicon-trash"></span> Delete

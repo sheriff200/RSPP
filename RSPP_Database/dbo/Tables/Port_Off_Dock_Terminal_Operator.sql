@@ -8,6 +8,5 @@
     [Any_Other_Info]               VARCHAR (MAX) NULL,
     [ApplicationId]                VARCHAR (30)  NULL,
     CONSTRAINT [PK_Port_Off_Dock_Terminal_Operator] PRIMARY KEY CLUSTERED ([Port_Off_Terminal_OperatorId] ASC),
-    CONSTRAINT [FK_Port_Off_Dock_Terminal_Operator_ApplicationRequestForm] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[ApplicationRequestForm] ([ApplicationId])
 );
 

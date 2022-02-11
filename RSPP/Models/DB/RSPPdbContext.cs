@@ -44,10 +44,11 @@ namespace RSPP.Models.DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=NSC-REG-SERVER\\SQLEXPRESS;Database=RSPP_db;User Id=sa; Password=*123*brandonetech#;Trusted_Connection=True", options => options.EnableRetryOnFailure());
-                //optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True", options => options.EnableRetryOnFailure());
+                //optionsBuilder.UseSqlServer("Server=LAPTOP-N5F7SSUF\\SQLEXPRESS;Database=RSPPdb;Trusted_Connection=True;");
+                //optionsBuilder.UseSqlServer("Server=NSC-REG-SERVER\\SQLEXPRESS;Database=RSPP_db;User Id=sa; Password=*123*brandonetech#;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer("Server=tcp:staging-servers.database.windows.net,1433;Initial Catalog=RPRSPU_DB;Persist Security Info=False;User ID=serveradmin;Password=*123*brandonetech#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False");
+                optionsBuilder.UseSqlServer("Server=Server=NSC-REG-SERVER;Database=RSPPdb;Trusted_Connection=True;MultipleActiveResultSets=true");
 
-                optionsBuilder.UseSqlServer("Server=tcp:staging-servers.database.windows.net,1433;Initial Catalog=RPRSPU_DB;Persist Security Info=False;User ID=serveradmin;Password=*123*brandonetech#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False");
             }
         }
 
@@ -94,6 +95,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.ActionHistory)
                     .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_ActionHistory_ApplicationRequestForm");
             });
 
@@ -177,6 +179,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Agency)
                     .WithMany(p => p.ApplicationRequestForm)
                     .HasForeignKey(d => d.AgencyId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_ApplicationRequestForm_Agency");
             });
 
@@ -371,6 +374,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.LogisticsServiceProvider)
                     .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Logistics_Service_Provider_ApplicationRequestForm");
             });
 
@@ -386,7 +390,6 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.MissingDocuments)
                     .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MissingDocuments_ApplicationRequestForm");
             });
 
@@ -411,6 +414,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.OtherPortServiceProvider)
                     .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Other_Port_Service_Provider_ApplicationRequestForm");
             });
 
@@ -553,6 +557,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.PortOffDockTerminalOperator)
                     .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Port_Off_Dock_Terminal_Operator_ApplicationRequestForm");
             });
 
@@ -597,6 +602,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.ShippingAgency)
                     .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Shipping_Agency_ApplicationRequestForm");
             });
 
@@ -615,6 +621,7 @@ namespace RSPP.Models.DB
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.UploadedDocuments)
                     .HasForeignKey(d => d.ApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_UploadedDocuments_ApplicationRequestForm");
             });
 

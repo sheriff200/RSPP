@@ -681,12 +681,14 @@ namespace RSPP.Configurations
                           {
                               p.LineOfBusiness,
                               p.AnyOtherInfo,
+                              p.ApplicationId
                           }).ToList();
             foreach (var item in agency)
             {
                 otherportagency.Add(new OtherPortServiceProvider()
                 {
                     LineOfBusiness = item.LineOfBusiness,
+                    ApplicationId = item.ApplicationId,
                     AnyOtherInfo = item.AnyOtherInfo
                 });
             }
@@ -707,6 +709,7 @@ namespace RSPP.Configurations
                               p.LineOfBusiness,
                               p.LocationOfTerminal,
                               p.NameOfTerminal,
+                              p.ApplicationId,
                               p.StatusOfTerminal
                           }).ToList();
             foreach (var item in agency)
@@ -717,6 +720,7 @@ namespace RSPP.Configurations
                     AnyOtherInfo = item.AnyOtherInfo,
                     LineOfBusiness = item.LineOfBusiness,
                     LocationOfTerminal = item.LocationOfTerminal,
+                    ApplicationId = item.ApplicationId,
                     NameOfTerminal = item.NameOfTerminal,
                     StatusOfTerminal = item.StatusOfTerminal
                 });
@@ -738,6 +742,7 @@ namespace RSPP.Configurations
                               p.CargoType,
                               p.AnyOtherInfo,
                               p.LineOfBusiness,
+                              p.ApplicationId,
                               p.VesselLinesRepresentedInNigeria
                           }).ToList();
             foreach (var item in agency)
@@ -746,11 +751,37 @@ namespace RSPP.Configurations
                 {
                     CargoType = item.CargoType,
                     AnyOtherInfo = item.AnyOtherInfo,
+                    ApplicationId = item.ApplicationId,
                     LineOfBusiness = item.LineOfBusiness,
                     VesselLinesRepresentedInNigeria = item.VesselLinesRepresentedInNigeria
                 });
             }
             return shippingagency;
+        }
+
+        public List<UserOfPortService> UserOfPortService(string applicationId)
+        {
+            var userofportagency = new List<UserOfPortService>();
+            var agency = (from p in _context.UserOfPortService
+                          where p.ApplicationId == applicationId
+                          select new
+                          {
+                              p.ApplicationId,
+                              p.Category,
+                              p.NepcRegNo,
+                              p.AnyOtherInfo
+                          }).ToList();
+            foreach (var item in agency)
+            {
+                userofportagency.Add(new UserOfPortService()
+                {
+                    ApplicationId = item.ApplicationId,
+                    Category = item.Category,
+                    NepcRegNo = item.NepcRegNo,
+                    AnyOtherInfo = item.AnyOtherInfo
+                });
+            }
+            return userofportagency;
         }
 
 

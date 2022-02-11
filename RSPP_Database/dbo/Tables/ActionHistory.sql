@@ -11,7 +11,6 @@
     [TargetedToRole]  VARCHAR (150) NULL,
     [NextStateID]     SMALLINT      NULL,
     CONSTRAINT [PK_ActionHistory] PRIMARY KEY CLUSTERED ([ActionId] ASC),
-    CONSTRAINT [FK_ActionHistory_ApplicationRequestForm] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[ApplicationRequestForm] ([ApplicationId])
 );
 
 

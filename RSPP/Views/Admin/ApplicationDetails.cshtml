@@ -4,7 +4,7 @@
     ViewBag.Title = "Application Details";
     Layout = "~/Views/Shared/_ElaLayout.cshtml";
 
-  
+
 }
 
 
@@ -32,15 +32,15 @@
                 </tr>
             </thead>
             <tbody>
-                
-                    <tr>
-                        <td>@Model.ApplicationId</td>
-                        <td>@Model.AgencyName</td>
-                        <td>@Model.CompanyAddress</td>
-                        <td>@Model.CompanyEmail</td>
-                        <td>@Model.CompanyWebsite</td>
-                        <td>@Model.DateofEstablishment</td>
-                    </tr>
+
+                <tr>
+                    <td>@Model.ApplicationId</td>
+                    <td>@Model.AgencyName</td>
+                    <td>@Model.CompanyAddress</td>
+                    <td>@Model.CompanyEmail</td>
+                    <td>@Model.CompanyWebsite</td>
+                    <td>@Model.DateofEstablishment</td>
+                </tr>
 
             </tbody>
         </table>
@@ -58,12 +58,13 @@
                 <tr>
                     @if (ViewBag.MyAgencyId == 1)
                     {
-
+                        <th><strong>Application Ref No.</strong> </th>
                         <th><strong>Services Provided in Port</strong></th>
                         <th><strong>Any Other Relevant Info</strong> </th>
                     }
                     else if (ViewBag.MyAgencyId == 2)
                     {
+                        <th><strong>Application Ref No.</strong> </th>
                         <th><strong>CRFFN Registration No.</strong></th>
                         <th><strong>CRFFN Registraton Expiry Date</strong> </th>
                         <th><strong>Custom License Expiry Date</strong></th>
@@ -75,6 +76,7 @@
                     }
                     else if (ViewBag.MyAgencyId == 3)
                     {
+                        <th><strong>Application Ref No.</strong> </th>
                         <th><strong>Cargo Type</strong></th>
                         <th><strong>Line of Business</strong> </th>
                         <th><strong>Name of Terminal</strong></th>
@@ -84,6 +86,7 @@
                     }
                     else if (ViewBag.MyAgencyId == 4)
                     {
+                        <th><strong>Application Ref No.</strong> </th>
                         <th><strong>Cargo Type</strong></th>
                         <th><strong>Line of Business</strong> </th>
                         <th><strong>Vessel Lines Represented in Nigeria</strong></th>
@@ -91,7 +94,15 @@
                     }
                     else if (ViewBag.MyAgencyId == 5)
                     {
+                        <th><strong>Application Ref No.</strong> </th>
                         <th><strong>Line of Business</strong> </th>
+                        <th><strong>Any Other Info</strong></th>
+                    }
+                    else if (ViewBag.MyAgencyId == 6)
+                    {
+                        <th><strong>Application Ref No.</strong> </th>
+                        <th><strong>Application Category</strong></th>
+                        <th><strong>NEPC RegNo</strong> </th>
                         <th><strong>Any Other Info</strong></th>
                     }
                 </tr>
@@ -102,6 +113,7 @@
                     foreach (RSPP.Models.DB.GovernmentAgency g in ViewBag.Governmentagency)
                     {
                         <tr>
+                            <td>@g.ApplicationId</td>
                             <td>@g.ServicesProvidedInPort</td>
                             <td>@g.AnyOtherRelevantInfo</td>
                         </tr>
@@ -112,6 +124,7 @@
                     @foreach (RSPP.Models.DB.LogisticsServiceProvider l in ViewBag.LogisticsServiceProvider)
                     {
                         <tr>
+                            <td>@l.ApplicationId</td>
                             <td>@l.CrffnRegistrationNum</td>
                             <td>@l.CrffnRegistratonExpiryDate</td>
                             <td>@l.CustomLicenseExpiryDate</td>
@@ -129,6 +142,7 @@
                     {
 
                         <tr>
+                            <td>@p.ApplicationId</td>
                             <td>@p.CargoType</td>
                             <td>@p.LineOfBusiness</td>
                             <td>@p.NameOfTerminal</td>
@@ -144,6 +158,7 @@
                     @foreach (RSPP.Models.DB.ShippingAgency s in ViewBag.ShippingAgency)
                     {
                         <tr>
+                            <td>@s.ApplicationId</td>
                             <td>@s.CargoType</td>
                             <td>@s.LineOfBusiness</td>
                             <td>@s.VesselLinesRepresentedInNigeria</td>
@@ -158,8 +173,24 @@
                     @foreach (RSPP.Models.DB.OtherPortServiceProvider o in ViewBag.OtherPortServiceProvider)
                     {
                         <tr>
+                            <td>@o.ApplicationId</td>
                             <td>@o.LineOfBusiness</td>
                             <td>@o.LineOfBusiness</td>
+                        </tr>
+
+
+                    }
+                }
+
+                else if (ViewBag.MyAgencyId == 6)
+                {
+                    @foreach (RSPP.Models.DB.UserOfPortService o in ViewBag.UserOfPortService)
+                    {
+                        <tr>
+                            <td>@o.ApplicationId</td>
+                            <td>@o.Category</td>
+                            <td>@o.NepcRegNo</td>
+                            <td>@o.AnyOtherInfo</td>
                         </tr>
 
 

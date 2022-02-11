@@ -29,6 +29,7 @@
                         <th>Narration</th>
                         <th>Transaction Date</th>
                         <th>RRR Number</th>
+                        <th>Amount</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -41,6 +42,7 @@
                         <td>@paymentlog.TxnMessage</td>
                         <td>@paymentlog.TransactionDate.Value.ToString("dd-MMM-yyyy HH:mm")</td>
                         <td>@paymentlog.Rrreference</td>
+                        <td>@paymentlog.TxnAmount</td>
                         @if (paymentlog.Status.Contains("INIT"))
                         {
                             <td><span class="badge badge-warning">Payment Pending</span></td>
